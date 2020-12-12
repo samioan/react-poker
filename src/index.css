@@ -1,0 +1,49 @@
+#root {
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  height: 90vh;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.top-player {
+}
+
+.bottom-player {
+  margin-top: auto;
+}
+
+/* Board Component Styles */
+.board-row {
+  display: flex;
+}
+
+.status {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Game Component Styles */
+.game {
+  display: flex;
+  width: 400px;
+  margin: 50px auto;
+}
+
+.game-board {
+  margin-bottom: 20px;
+}
+
+.game-info {
+  margin-left: 20px;
+}
+
+.wrapper {
+  width: 400px;
+  padding: 0;
+  border-radius: 3px;
+}
