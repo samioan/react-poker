@@ -60,7 +60,8 @@ const isStraight = (hand) => {
 const isThreeOfAKind = (hand) => cardsDuplicates(hand).includes(3);
 
 //Check if we have two pairs
-const isTwoPair = (hand) => cardsDuplicates(hand)[2] === 2;
+const isTwoPair = (hand) =>
+  cardsDuplicates(hand)[2] === 2 && cardsDuplicates(hand).length === 3;
 
 //Check if we have a pair
 const isPair = (hand) => cardsDuplicates(hand).includes(2);
