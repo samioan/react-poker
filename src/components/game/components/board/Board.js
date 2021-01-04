@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Draw, Deck, Replace, Fold, Check, Raise } from "./components";
+import { Card, Deck, Replace, Fold, Check, Raise } from "./components";
 import handCheck from "lib/handCheck";
 import deckCreator from "lib/deckCreator";
 
@@ -10,11 +10,11 @@ class Board extends React.Component {
       deck: [],
       playerHand: [""],
       aiHand: [""],
-      playerTurn: true,
       playerMoney: 1000,
       aiMoney: 1000,
       playerBet: 0,
       aiBet: 0,
+      phase: 0,
     };
     this.state = this.initialState;
   }
@@ -25,89 +25,62 @@ class Board extends React.Component {
       const newPlayerHand = this.state.playerHand.slice();
       const newAiHand = this.state.aiHand.slice();
 
+      const newPlayerBet = this.state.playerBet;
+      const newAiBet = this.state.aiBet;
+      const bet = 100;
+
+      const newPhase = this.state.phase;
+
       newDeck.push(deckCreator());
       const newDeckFlat = newDeck.flat();
 
-      newPlayerHand.push(newDeckFlat[0]);
-      newPlayerHand.splice(0, 1);
-      newDeckFlat.splice(0, 1);
-      newPlayerHand.push(newDeckFlat[0]);
-      newDeckFlat.splice(0, 1);
-      newPlayerHand.push(newDeckFlat[0]);
-      newDeckFlat.splice(0, 1);
+      const newerPlayerHand = newPlayerHand.concat(newDeckFlat);
+      const newerAiHand = newAiHand.concat(newDeckFlat);
 
-      newAiHand.push(newDeckFlat[0]);
-      newAiHand.splice(0, 1);
-      newDeckFlat.splice(0, 1);
-      newAiHand.push(newDeckFlat[0]);
-      newDeckFlat.splice(0, 1);
-      newAiHand.push(newDeckFlat[0]);
-      newDeckFlat.splice(0, 1);
+      if (newPhase === 0) {
+        newerPlayerHand.splice(0, 1);
+        newerPlayerHand.splice(5);
+        newerAiHand.splice(0, 6);
+        newerAiHand.splice(5);
+        newDeckFlat.splice(0, 10);
 
-      this.setState({
-        deck: newDeckFlat,
-        playerHand: newPlayerHand,
-        aiHand: newAiHand,
-      });
+        this.setState({
+          deck: newDeckFlat,
+          playerHand: newerPlayerHand,
+          aiHand: newerAiHand,
+          playerBet: newPlayerBet + bet,
+          aiBet: newAiBet + bet,
+          phase: newPhase + 2,
+        });
+      } else {
+        this.setState({
+          phase: newPhase + 1,
+        });
+      }
     };
 
-    if (this.state.deck.length > 0) {
-      return;
-    }
-
-    return <Deck onClick={onClickHandler} />;
-  }
-
-  renderDrawCardButton() {
-    const onClickHandler = () => {
-      const newPlayerHand = this.state.playerHand.slice();
-      const newAiHand = this.state.aiHand.slice();
-      const newDeck = this.state.deck.slice();
-
-      newPlayerHand.push(newDeck[0]);
-      newDeck.splice(0, 1);
-
-      newAiHand.push(newDeck[0]);
-      newDeck.splice(0, 1);
-
-      this.setState({
-        playerHand: newPlayerHand,
-        aiHand: newAiHand,
-        deck: newDeck,
-      });
-    };
-
-    if (
-      (this.state.playerTurn && this.state.playerHand.length === 5) ||
-      (!this.state.playerTurn && this.state.aiHand.length === 5) ||
-      this.state.deck.length === 0
-    ) {
-      return;
-    }
-
-    return <Draw onClick={onClickHandler} />;
+    return this.state.phase >= 4 ? null : <Deck onClick={onClickHandler} />;
   }
 
   renderReplaceCardButton(handIndex) {
     const onClickHandler = () => {
       const newPlayerHand = this.state.playerHand.slice();
-      const newerPlayerHand = this.state.playerHand.slice();
       const newDeck = this.state.deck.slice();
+      const newPhase = this.state.phase;
 
-      if (newPlayerHand[handIndex] === newerPlayerHand[handIndex]) {
-        newPlayerHand.splice(handIndex, 1, newDeck[0]);
-        newDeck.splice(0, 1);
-      }
+      newPlayerHand.splice(handIndex, 1, newDeck[0]);
+      newDeck.splice(0, 1);
 
       if (newDeck.length > 39) {
         this.setState({
           playerHand: newPlayerHand,
           deck: newDeck,
+          phase: newPhase + 0.5,
         });
       }
     };
 
-    if (this.state.playerHand.length !== 5 || this.state.deck.length === 40) {
+    if (this.state.phase <= 2 || this.state.phase >= 4) {
       return;
     }
 
@@ -116,25 +89,22 @@ class Board extends React.Component {
 
   renderFoldButton() {
     const onClickHandler = () => {
-      let newPlayerMoney = this.state.playerMoney;
-      let newAiMoney = this.state.aiMoney;
+      const newPlayerMoney = this.state.playerMoney;
+      const newAiMoney = this.state.aiMoney;
       const newPlayerBet = this.state.playerBet;
       const newAiBet = this.state.aiBet;
 
       if (this.state.playerHand.length === 5) {
-        newPlayerMoney -= newPlayerBet;
-        newAiMoney += newAiBet;
-
         this.setState({
           ...this.initialState,
-          playerMoney: newPlayerMoney,
-          aiMoney: newAiMoney,
+          playerMoney: newPlayerMoney - newPlayerBet,
+          aiMoney: newAiMoney + (newAiBet + newPlayerBet),
         });
         alert("You lose!");
       }
     };
 
-    if (this.state.playerHand.length !== 5) {
+    if (this.state.phase !== 2 && this.state.phase < 4) {
       return;
     }
 
@@ -143,34 +113,40 @@ class Board extends React.Component {
 
   renderCheckButton() {
     const onClickHandler = () => {
-      let newPlayerMoney = this.state.playerMoney;
-      let newAiMoney = this.state.aiMoney;
+      const newPlayerMoney = this.state.playerMoney;
+      const newAiMoney = this.state.aiMoney;
       const newPlayerBet = this.state.playerBet;
       const newAiBet = this.state.aiBet;
 
       if (this.state.playerHand.length === 5) {
         if (handCheck(this.state.playerHand) > handCheck(this.state.aiHand)) {
-          newPlayerMoney += newPlayerBet;
-          newAiMoney -= newAiBet;
+          this.setState({
+            ...this.initialState,
+            playerMoney: newPlayerMoney + (newPlayerBet + newAiBet),
+            aiMoney: newAiMoney - newAiBet,
+          });
           alert("You win!");
         } else if (
           handCheck(this.state.playerHand) === handCheck(this.state.aiHand)
         ) {
+          this.setState({
+            ...this.initialState,
+            playerMoney: newPlayerMoney + newPlayerBet,
+            aiMoney: newAiMoney + newAiBet,
+          });
           alert("Tie!");
         } else {
-          newPlayerMoney -= newPlayerBet;
-          newAiMoney += newAiBet;
+          this.setState({
+            ...this.initialState,
+            playerMoney: newPlayerMoney - newPlayerBet,
+            aiMoney: newAiMoney + (newPlayerBet + newAiBet),
+          });
           alert("You lose!");
         }
       }
-      this.setState({
-        ...this.initialState,
-        playerMoney: newPlayerMoney,
-        aiMoney: newAiMoney,
-      });
     };
 
-    if (this.state.playerHand.length !== 5) {
+    if (this.state.phase !== 2 && this.state.phase < 4) {
       return;
     }
 
@@ -179,21 +155,19 @@ class Board extends React.Component {
 
   renderRaiseButton() {
     const onClickHandler = () => {
-      let newPlayerBet = this.state.playerBet;
-      let newAiBet = this.state.aiBet;
-
-      newPlayerBet += 100;
-      newAiBet += 100;
+      const newPlayerBet = this.state.playerBet;
+      const newAiBet = this.state.aiBet;
+      const bet = 100;
 
       this.setState({
-        playerBet: newPlayerBet,
-        aiBet: newAiBet,
+        playerBet: newPlayerBet + bet,
+        aiBet: newAiBet + bet,
       });
     };
 
     if (
-      this.state.playerMoney >= this.state.playerBet &&
-      (this.state.playerBet === 300 || this.state.playerHand.length !== 5)
+      this.state.playerMoney === this.state.playerBet ||
+      (this.state.phase !== 2 && this.state.phase < 4)
     ) {
       return;
     }
@@ -213,7 +187,6 @@ class Board extends React.Component {
             ))}
           </div>
           <div className="board-row">
-            {this.renderDrawCardButton()}
             {this.renderFoldButton()}
             {this.renderCheckButton()}
             {this.renderRaiseButton()}
@@ -256,16 +229,3 @@ class Board extends React.Component {
 }
 
 export default Board;
-
-//
-
-// ---------------------------------------------1. Create GitHub repo and upload the code
-// 2. Make class components to functional components
-//    - Change states usings hooks
-//    - Change lifecycle methods using hooks
-// 3. Do the the hook exersise
-// ---------------------------------------------4. Create a deck.js lib that will create a deck of 52 cards shuffled, so it can be used to deal cards to players
-// ---------------------------------------------5. Deal cards to players on the initial state using the deck library
-
-// 6. Do CSS Lessons..
-// ---------------------------------------------7. Create LastPass account on ioannis.siampalias@gmail.com
