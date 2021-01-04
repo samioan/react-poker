@@ -10,7 +10,6 @@ class Board extends React.Component {
       deck: [],
       playerHand: [""],
       aiHand: [""],
-      playerTurn: true,
       playerMoney: 1000,
       aiMoney: 1000,
       playerBet: 0,
@@ -25,83 +24,58 @@ class Board extends React.Component {
       const newDeck = this.state.deck.slice();
       const newPlayerHand = this.state.playerHand.slice();
       const newAiHand = this.state.aiHand.slice();
-      let newPlayerBet = this.state.playerBet;
-      let newAiBet = this.state.aiBet;
-      let newPhase = this.state.phase;
+
+      const newPlayerBet = this.state.playerBet;
+      const newAiBet = this.state.aiBet;
+      const bet = 100;
+
+      const newPhase = this.state.phase;
 
       newDeck.push(deckCreator());
       const newDeckFlat = newDeck.flat();
 
+      const newerPlayerHand = newPlayerHand.concat(newDeckFlat);
+      const newerAiHand = newAiHand.concat(newDeckFlat);
+
       if (newPhase === 0) {
-        newPlayerHand.push(newDeckFlat[0]);
-        newPlayerHand.splice(0, 1);
-        newDeckFlat.splice(0, 1);
-        newPlayerHand.push(newDeckFlat[0]);
-        newDeckFlat.splice(0, 1);
-        newPlayerHand.push(newDeckFlat[0]);
-        newDeckFlat.splice(0, 1);
-        newPlayerHand.push(newDeckFlat[0]);
-        newDeckFlat.splice(0, 1);
-        newPlayerHand.push(newDeckFlat[0]);
-        newDeckFlat.splice(0, 1);
+        newerPlayerHand.splice(0, 1);
+        newerPlayerHand.splice(5);
+        newerAiHand.splice(0, 6);
+        newerAiHand.splice(5);
+        newDeckFlat.splice(0, 10);
 
-        newAiHand.push(newDeckFlat[0]);
-        newAiHand.splice(0, 1);
-        newDeckFlat.splice(0, 1);
-        newAiHand.push(newDeckFlat[0]);
-        newDeckFlat.splice(0, 1);
-        newAiHand.push(newDeckFlat[0]);
-        newDeckFlat.splice(0, 1);
-        newAiHand.push(newDeckFlat[0]);
-        newDeckFlat.splice(0, 1);
-        newAiHand.push(newDeckFlat[0]);
-        newDeckFlat.splice(0, 1);
-
-        newPlayerBet += 100;
-        newAiBet += 100;
-        newPhase += 2;
-      } else if (newPhase === 2) {
-        newPhase += 1;
-      } else if (newPhase >= 3) {
-        newPhase += 1;
+        this.setState({
+          deck: newDeckFlat,
+          playerHand: newerPlayerHand,
+          aiHand: newerAiHand,
+          playerBet: newPlayerBet + bet,
+          aiBet: newAiBet + bet,
+          phase: newPhase + 2,
+        });
+      } else {
+        this.setState({
+          phase: newPhase + 1,
+        });
       }
-
-      this.setState({
-        deck: newDeckFlat,
-        playerHand: newPlayerHand,
-        aiHand: newAiHand,
-        playerBet: newPlayerBet,
-        aiBet: newAiBet,
-        phase: newPhase,
-      });
     };
 
-    if (
-      this.state.phase !== 0 &&
-      this.state.phase !== 2 &&
-      (this.state.phase < 3 || this.state.phase >= 4)
-    ) {
-      return;
-    }
-
-    return <Deck onClick={onClickHandler} />;
+    return this.state.phase >= 4 ? null : <Deck onClick={onClickHandler} />;
   }
 
   renderReplaceCardButton(handIndex) {
     const onClickHandler = () => {
       const newPlayerHand = this.state.playerHand.slice();
       const newDeck = this.state.deck.slice();
-      let newPhase = this.state.phase;
+      const newPhase = this.state.phase;
 
       newPlayerHand.splice(handIndex, 1, newDeck[0]);
       newDeck.splice(0, 1);
-      newPhase += 0.5;
 
       if (newDeck.length > 39) {
         this.setState({
           playerHand: newPlayerHand,
           deck: newDeck,
-          phase: newPhase,
+          phase: newPhase + 0.5,
         });
       }
     };
@@ -115,19 +89,16 @@ class Board extends React.Component {
 
   renderFoldButton() {
     const onClickHandler = () => {
-      let newPlayerMoney = this.state.playerMoney;
-      let newAiMoney = this.state.aiMoney;
+      const newPlayerMoney = this.state.playerMoney;
+      const newAiMoney = this.state.aiMoney;
       const newPlayerBet = this.state.playerBet;
       const newAiBet = this.state.aiBet;
 
       if (this.state.playerHand.length === 5) {
-        newPlayerMoney -= newPlayerBet;
-        newAiMoney += newAiBet + newPlayerBet;
-
         this.setState({
           ...this.initialState,
-          playerMoney: newPlayerMoney,
-          aiMoney: newAiMoney,
+          playerMoney: newPlayerMoney - newPlayerBet,
+          aiMoney: newAiMoney + (newAiBet + newPlayerBet),
         });
         alert("You lose!");
       }
@@ -142,33 +113,37 @@ class Board extends React.Component {
 
   renderCheckButton() {
     const onClickHandler = () => {
-      let newPlayerMoney = this.state.playerMoney;
-      let newAiMoney = this.state.aiMoney;
+      const newPlayerMoney = this.state.playerMoney;
+      const newAiMoney = this.state.aiMoney;
       const newPlayerBet = this.state.playerBet;
       const newAiBet = this.state.aiBet;
 
       if (this.state.playerHand.length === 5) {
         if (handCheck(this.state.playerHand) > handCheck(this.state.aiHand)) {
-          newPlayerMoney += newPlayerBet + newAiBet;
-          newAiMoney -= newAiBet;
+          this.setState({
+            ...this.initialState,
+            playerMoney: newPlayerMoney + (newPlayerBet + newAiBet),
+            aiMoney: newAiMoney - newAiBet,
+          });
           alert("You win!");
         } else if (
           handCheck(this.state.playerHand) === handCheck(this.state.aiHand)
         ) {
-          newPlayerMoney += newPlayerBet;
-          newAiMoney += newAiBet;
+          this.setState({
+            ...this.initialState,
+            playerMoney: newPlayerMoney + newPlayerBet,
+            aiMoney: newAiMoney + newAiBet,
+          });
           alert("Tie!");
         } else {
-          newPlayerMoney -= newPlayerBet;
-          newAiMoney += newAiBet + newPlayerBet;
+          this.setState({
+            ...this.initialState,
+            playerMoney: newPlayerMoney - newPlayerBet,
+            aiMoney: newAiMoney + (newPlayerBet + newAiBet),
+          });
           alert("You lose!");
         }
       }
-      this.setState({
-        ...this.initialState,
-        playerMoney: newPlayerMoney,
-        aiMoney: newAiMoney,
-      });
     };
 
     if (this.state.phase !== 2 && this.state.phase < 4) {
@@ -180,15 +155,13 @@ class Board extends React.Component {
 
   renderRaiseButton() {
     const onClickHandler = () => {
-      let newPlayerBet = this.state.playerBet;
-      let newAiBet = this.state.aiBet;
-
-      newPlayerBet += 100;
-      newAiBet += 100;
+      const newPlayerBet = this.state.playerBet;
+      const newAiBet = this.state.aiBet;
+      const bet = 100;
 
       this.setState({
-        playerBet: newPlayerBet,
-        aiBet: newAiBet,
+        playerBet: newPlayerBet + bet,
+        aiBet: newAiBet + bet,
       });
     };
 
