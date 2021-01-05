@@ -1,16 +1,14 @@
 import React from "react";
 import { Board } from "./components";
 
-class Game extends React.Component {
-  render() {
-    return (
-      <>
-        <h1>Poker App</h1>
+const Game = (props) => {
+  return (
+    <>
+      <h1>Poker App</h1>
 
-        <Board />
-      </>
-    );
-  }
-}
+      <Board />
+    </>
+  );
+};
 
 export default Game;
