@@ -2,7 +2,11 @@
 const cardNumber = (card) => card.slice(1, 3);
 
 //Detects a card's suite
-const cardSuitChar = (card) => card.charAt(0);
+const cardSuitChar = (card) => {
+  if (typeof card === "string") {
+    return card.charAt(0);
+  } else return undefined;
+};
 
 //Detects a card's strength
 const cardStrength = (card) => parseInt(cardNumber(card), 10);

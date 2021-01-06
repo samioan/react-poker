@@ -1,29 +1,33 @@
-import React, { useState } from "react";
+import React from "react";
 import { Card, Deck, Replace, Fold, Check, Raise } from "./components";
 import handCheck from "lib/handCheck";
 import deckCreator from "lib/deckCreator";
 
 const Board = (props) => {
-  const [deck, setDeck] = useState([]);
-  const [playerHand, setPlayerHand] = useState([""]);
-  const [aiHand, setAiHand] = useState([""]);
-  const [playerMoney, setPlayerMoney] = useState(1000);
-  const [aiMoney, setAiMoney] = useState(1000);
-  const [playerBet, setPlayerBet] = useState(0);
-  const [aiBet, setAiBet] = useState(0);
-  const [phase, setPhase] = useState(0);
+  const initialState = {
+    deck: [],
+    playerHand: [],
+    aiHand: [],
+    playerMoney: 1000,
+    aiMoney: 1000,
+    playerBet: 0,
+    aiBet: 0,
+    phase: 0,
+  };
+
+  const [state, setState] = React.useState(initialState);
 
   const renderBuildDeckButton = () => {
     const onClickHandler = () => {
-      const newDeck = deck.slice();
-      const newPlayerHand = playerHand.slice();
-      const newAiHand = aiHand.slice();
+      const newDeck = state.deck.slice();
+      const newPlayerHand = state.playerHand.slice();
+      const newAiHand = state.aiHand.slice();
 
-      const newPlayerBet = playerBet;
-      const newAiBet = aiBet;
+      const newPlayerBet = state.playerBet;
+      const newAiBet = state.aiBet;
       const bet = 100;
 
-      const newPhase = phase;
+      const newPhase = state.phase;
 
       newDeck.push(deckCreator());
       const newDeckFlat = newDeck.flat();
@@ -38,37 +42,43 @@ const Board = (props) => {
         newerAiHand.splice(5);
         newDeckFlat.splice(0, 10);
 
-        setDeck(newDeckFlat);
-        setPlayerHand(newerPlayerHand);
-        setAiHand(newerAiHand);
-        setPlayerBet(newPlayerBet + bet);
-        setAiBet(newAiBet + bet);
-        setPhase(newPhase + 2);
+        setState((prevState) => ({
+          ...prevState,
+          deck: newDeckFlat,
+          playerHand: newerPlayerHand,
+          aiHand: newerAiHand,
+          playerBet: newPlayerBet + bet,
+          aiBet: newAiBet + bet,
+          phase: newPhase + 2,
+        }));
       } else {
-        setPhase(newPhase + 1);
+        setState((prevState) => ({ ...prevState, phase: newPhase + 1 }));
       }
     };
 
-    return phase >= 4 ? null : <Deck onClick={onClickHandler} />;
+    return state.phase >= 4 ? null : <Deck onClick={onClickHandler} />;
   };
 
   const renderReplaceCardButton = (handIndex) => {
     const onClickHandler = () => {
-      const newPlayerHand = playerHand.slice();
-      const newDeck = deck.slice();
-      const newPhase = phase;
+      const newPlayerHand = state.playerHand.slice();
+      const newDeck = state.deck.slice();
+      const newPhase = state.phase;
 
       newPlayerHand.splice(handIndex, 1, newDeck[0]);
       newDeck.splice(0, 1);
 
       if (newDeck.length > 39) {
-        setPlayerHand(newPlayerHand);
-        setDeck(newDeck);
-        setPhase(newPhase + 0.5);
+        setState((prevState) => ({
+          ...prevState,
+          deck: newDeck,
+          playerHand: newPlayerHand,
+          phase: newPhase + 0.5,
+        }));
       }
     };
 
-    if (phase <= 2 || phase >= 4) {
+    if (state.phase <= 2 || state.phase >= 4) {
       return;
     }
 
@@ -77,27 +87,23 @@ const Board = (props) => {
 
   const renderFoldButton = () => {
     const onClickHandler = () => {
-      const newPlayerMoney = playerMoney;
-      const newAiMoney = aiMoney;
-      const newPlayerBet = playerBet;
-      const newAiBet = aiBet;
+      const newPlayerMoney = state.playerMoney;
+      const newAiMoney = state.aiMoney;
+      const newPlayerBet = state.playerBet;
+      const newAiBet = state.aiBet;
 
-      if (playerHand.length === 5) {
-        setDeck([]);
-        setPlayerHand([""]);
-        setAiHand([""]);
-        setPlayerBet(0);
-        setAiBet(0);
-        setPhase(0);
-
-        setPlayerMoney(newPlayerMoney - newPlayerBet);
-        setAiMoney(newAiMoney + (newAiBet + newPlayerBet));
+      if (state.playerHand.length === 5) {
+        setState(() => ({
+          ...initialState,
+          playerMoney: newPlayerMoney - newPlayerBet,
+          aiMoney: newAiMoney + (newAiBet + newPlayerBet),
+        }));
 
         alert("You lose!");
       }
     };
 
-    if (phase !== 2 && phase < 4) {
+    if (state.phase !== 2 && state.phase < 4) {
       return;
     }
 
@@ -106,53 +112,41 @@ const Board = (props) => {
 
   const renderCheckButton = () => {
     const onClickHandler = () => {
-      const newPlayerMoney = playerMoney;
-      const newAiMoney = aiMoney;
-      const newPlayerBet = playerBet;
-      const newAiBet = aiBet;
+      const newPlayerMoney = state.playerMoney;
+      const newAiMoney = state.aiMoney;
+      const newPlayerBet = state.playerBet;
+      const newAiBet = state.aiBet;
 
-      if (playerHand.length === 5) {
-        if (handCheck(playerHand) > handCheck(aiHand)) {
-          setDeck([]);
-          setPlayerHand([""]);
-          setAiHand([""]);
-          setPlayerBet(0);
-          setAiBet(0);
-          setPhase(0);
-
-          setPlayerMoney(newPlayerMoney + (newPlayerBet + newAiBet));
-          setAiMoney(newAiMoney - newAiBet);
+      if (state.playerHand.length === 5) {
+        if (handCheck(state.playerHand) > handCheck(state.aiHand)) {
+          setState(() => ({
+            ...initialState,
+            playerMoney: newPlayerMoney + (newPlayerBet + newAiBet),
+            aiMoney: newAiMoney - newAiBet,
+          }));
 
           alert("You win!");
-        } else if (handCheck(playerHand) === handCheck(aiHand)) {
-          setDeck([]);
-          setPlayerHand([""]);
-          setAiHand([""]);
-          setPlayerBet(0);
-          setAiBet(0);
-          setPhase(0);
-
-          setPlayerMoney(newPlayerMoney + newPlayerBet);
-          setAiMoney(newAiMoney + newAiBet);
+        } else if (handCheck(state.playerHand) === handCheck(state.aiHand)) {
+          setState(() => ({
+            ...initialState,
+            playerMoney: newPlayerMoney + newPlayerBet,
+            aiMoney: newAiMoney + newAiBet,
+          }));
 
           alert("Tie!");
         } else {
-          setDeck([]);
-          setPlayerHand([""]);
-          setAiHand([""]);
-          setPlayerBet(0);
-          setAiBet(0);
-          setPhase(0);
-
-          setPlayerMoney(newPlayerMoney - newPlayerBet);
-          setAiMoney(newAiMoney + (newPlayerBet + newAiBet));
+          setState(() => ({
+            ...initialState,
+            playerMoney: newPlayerMoney - newPlayerBet,
+            aiMoney: newAiMoney + (newPlayerBet + newAiBet),
+          }));
 
           alert("You lose!");
         }
       }
     };
 
-    if (phase !== 2 && phase < 4) {
+    if (state.phase !== 2 && state.phase < 4) {
       return;
     }
 
@@ -161,15 +155,21 @@ const Board = (props) => {
 
   const renderRaiseButton = () => {
     const onClickHandler = () => {
-      const newPlayerBet = playerBet;
-      const newAiBet = aiBet;
+      const newPlayerBet = state.playerBet;
+      const newAiBet = state.aiBet;
       const bet = 100;
 
-      setPlayerBet(newPlayerBet + bet);
-      setAiBet(newAiBet + bet);
+      setState((prevState) => ({
+        ...prevState,
+        playerBet: newPlayerBet + bet,
+        aiBet: newAiBet + bet,
+      }));
     };
 
-    if (playerMoney === playerBet || (phase !== 2 && phase < 4)) {
+    if (
+      state.playerMoney === state.playerBet ||
+      (state.phase !== 2 && state.phase < 4)
+    ) {
       return;
     }
 
@@ -180,9 +180,9 @@ const Board = (props) => {
     <div className="container">
       <div className="top-player">
         <div>{renderBuildDeckButton()}</div>
-        <h2>Deck: {deck}</h2>
+        <h2>Deck: {state.deck}</h2>
         <div className="board-row">
-          {deck.map((card) => (
+          {state.deck.map((card) => (
             <Card card={card} />
           ))}
         </div>
@@ -199,29 +199,29 @@ const Board = (props) => {
           {renderReplaceCardButton(4)}
         </div>
         <div className="board-row">
-          <h2>Player's Hand: {playerHand}</h2>
-          <h2>, Player's Money: {playerMoney}</h2>
-          <h2>, Player's Bet: {playerBet}</h2>
+          <h2>Player's Hand: {state.playerHand}</h2>
+          <h2>, Player's Money: {state.playerMoney}</h2>
+          <h2>, Player's Bet: {state.playerBet}</h2>
         </div>
         <div className="board-row">
-          {playerHand.map((card) => (
+          {state.playerHand.map((card) => (
             <Card card={card} />
           ))}
         </div>
-        <h2>Player's Strength: {handCheck(playerHand)}</h2>
+        <h2>Player's Strength: {handCheck(state.playerHand)}</h2>
       </div>
       <div className="bottom-player">
         <div className="board-row">
-          <h2>Opponent's Hand: {aiHand}</h2>
-          <h2>, Opponent's Money: {aiMoney}</h2>
-          <h2>, Opponent's Bet: {aiBet}</h2>
+          <h2>Opponent's Hand: {state.aiHand}</h2>
+          <h2>, Opponent's Money: {state.aiMoney}</h2>
+          <h2>, Opponent's Bet: {state.aiBet}</h2>
         </div>
         <div className="board-row">
-          {aiHand.map((card) => (
+          {state.aiHand.map((card) => (
             <Card card={card} />
           ))}
         </div>
-        <h2>Opponent's Strength: {handCheck(aiHand)}</h2>
+        <h2>Opponent's Strength: {handCheck(state.aiHand)}</h2>
       </div>
     </div>
   );
