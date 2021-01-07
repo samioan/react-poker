@@ -13,7 +13,7 @@ const Conditions = (props) => {
           {Math.round(props.responseObj.main.temp) <= 16 ? (
             <div>
               <p>
-                Grab some hot chocolate and play Poker because it's fucking cold
+                Grab some hot chocolate and play Poker because it's cold
                 outside!
               </p>
             </div>
@@ -49,7 +49,7 @@ const Forecast = () => {
   }
   return (
     <div>
-      <button onClick={getForecast}>What's the weather like bitch?</button>
+      <button onClick={getForecast}>What's the weather like?</button>
       <Conditions responseObj={responseObj} />
     </div>
   );
