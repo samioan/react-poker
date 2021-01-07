@@ -1,5 +1,13 @@
 import React from "react";
-import { Card, Deck, Replace, Fold, Check, Raise } from "./components";
+import {
+  Card,
+  Deck,
+  Replace,
+  Fold,
+  Check,
+  Raise,
+  Forecast,
+} from "./components";
 
 import handCheck from "lib/handCheck";
 import deckCreator from "lib/deckCreator";
@@ -180,6 +188,7 @@ const Board = (props) => {
   return (
     <div className="container">
       <div className="top-player">
+        <Forecast />
         <div>{renderBuildDeckButton()}</div>
         <h2>Deck: {state.deck}</h2>
         <div className="board-row">
