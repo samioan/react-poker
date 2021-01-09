@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 //Detects a card's number
 const cardNumber = (card) => card.slice(1, 3);
 
@@ -16,11 +18,7 @@ const cardsToNumbers = (hand) => hand.map((card) => cardStrength(card));
 
 //Check if a hand has cards of the same number
 const cardsDuplicates = (hand) => {
-  let counts = {};
-  cardsToNumbers(hand).forEach((x) => {
-    counts[x] = (counts[x] || 0) + 1;
-  });
-  return Object.values(counts);
+  return Object.values(_.groupBy(hand, cardNumber)).map((card) => card.length);
 };
 
 //Check if we have a royal flush
@@ -65,7 +63,7 @@ const isThreeOfAKind = (hand) => cardsDuplicates(hand).includes(3);
 
 //Check if we have two pairs
 const isTwoPair = (hand) =>
-  cardsDuplicates(hand)[2] === 2 && cardsDuplicates(hand).length === 3;
+  cardsDuplicates(hand).includes(2) && cardsDuplicates(hand).length === 3;
 
 //Check if we have a pair
 const isPair = (hand) => cardsDuplicates(hand).includes(2);
