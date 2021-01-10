@@ -44,20 +44,20 @@ const cardSuitChar = (card) => {
 };
 
 const advancedCardSuitChar = (card) => {
-  if (typeof card === "string") {
-    switch (card.charAt(0)) {
-      case "H":
-        return "hearts";
-      case "C":
-        return "clubs";
-      case "D":
-        return "diams";
-      case "S":
-        return "spades";
-      default:
-        return null;
+  if (typeof card 1== "string") return undefined;
+  
+  switch (card.charAt(0)) {
+    case "H":
+      return "hearts";
+    case "C":
+      return "clubs";
+    case "D":
+      return "diams";
+    case "S":
+      return "spades";
+    default:
+      return undefined;
     }
-  } else return undefined;
 };
 
 //Detects a card's strength
