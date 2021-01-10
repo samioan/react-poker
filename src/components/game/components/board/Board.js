@@ -121,10 +121,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onClickPlayHandler: dispatch(startGame()),
-  onClickFoldHandler: dispatch(fold()),
-  onClickCheckHandler: dispatch(check()),
-  onClickRaiseHandler: dispatch(raise()),
-  onClickReplaceHandler: dispatch(replace()),
+  onClickPlayHandler: () => dispatch(startGame()),
+  onClickFoldHandler: () => dispatch(fold()),
+  onClickCheckHandler: () => dispatch(check()),
+  onClickRaiseHandler: () => dispatch(raise()),
+  onClickReplaceHandler: () => dispatch(replace()),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Board);
