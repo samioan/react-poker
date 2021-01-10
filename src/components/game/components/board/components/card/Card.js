@@ -1,5 +1,10 @@
 import React from "react";
-import { cardSuitChar, cardNumber } from "lib/handCheck";
+import {
+  cardSuitChar,
+  cardNumber,
+  advancedCardNumber,
+  advancedCardSuitChar,
+} from "lib/handCheck";
 
 const suitCharToSymbol = (suitChar) => {
   switch (suitChar) {
@@ -16,11 +21,51 @@ const suitCharToSymbol = (suitChar) => {
   }
 };
 
+const suitNumtoRank = (suitRank) => {
+  switch (suitRank) {
+    case "02":
+      return <>2</>;
+    case "03":
+      return <>3</>;
+    case "04":
+      return <>4</>;
+    case "05":
+      return <>5</>;
+    case "06":
+      return <>6</>;
+    case "07":
+      return <>7</>;
+    case "08":
+      return <>8</>;
+    case "09":
+      return <>9</>;
+    case "10":
+      return <>10</>;
+    case "11":
+      return <>J</>;
+    case "12":
+      return <>Q</>;
+    case "13":
+      return <>K</>;
+    case "14":
+      return <>A</>;
+    default:
+      return null;
+  }
+};
+
 const Card = (props) => (
-  <div class="playingCards simpleCards">
-    <div class="card">
-      <span class="rank">{cardNumber(props.card)}</span>
-      <span class="suit">{suitCharToSymbol(cardSuitChar(props.card))}</span>
+  <div className="playingCards faceImages">
+    <div
+      className={
+        "card rank-" +
+        advancedCardNumber(cardNumber(props.card)) +
+        " " +
+        advancedCardSuitChar(props.card)
+      }
+    >
+      <span className="rank">{suitNumtoRank(cardNumber(props.card))}</span>
+      <span className="suit">{suitCharToSymbol(cardSuitChar(props.card))}</span>
     </div>
   </div>
 );

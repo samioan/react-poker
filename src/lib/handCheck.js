@@ -3,10 +3,60 @@ import _ from "lodash";
 //Detects a card's number
 const cardNumber = (card) => card.slice(1, 3);
 
+const advancedCardNumber = (card) => {
+  switch (card) {
+    case "02":
+      return "2";
+    case "03":
+      return "3";
+    case "04":
+      return "4";
+    case "05":
+      return "5";
+    case "06":
+      return "6";
+    case "07":
+      return "7";
+    case "08":
+      return "8";
+    case "09":
+      return "9";
+    case "10":
+      return "10";
+    case "11":
+      return "j";
+    case "12":
+      return "q";
+    case "13":
+      return "k";
+    case "14":
+      return "a";
+    default:
+      return null;
+  }
+};
+
 //Detects a card's suite
 const cardSuitChar = (card) => {
   if (typeof card === "string") {
     return card.charAt(0);
+  } else return undefined;
+};
+
+const advancedCardSuitChar = (card) => {
+  if (typeof card === "string") {
+    switch (card.charAt(0)) {
+      case "H":
+        return "hearts";
+      case "C":
+        return "clubs";
+      case "D":
+        return "diams";
+      case "S":
+        return "spades";
+      default:
+        return null;
+    }
   } else return undefined;
 };
 
@@ -102,7 +152,9 @@ const handCheck = (hand) => {
 
 export {
   cardNumber,
+  advancedCardNumber,
   cardSuitChar,
+  advancedCardSuitChar,
   cardStrength,
   cardsToNumbers,
   cardsDuplicates,
