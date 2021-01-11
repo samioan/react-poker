@@ -1,28 +1,31 @@
 import React from "react";
-import { cardSuitChar, cardNumber } from "lib/handCheck";
 
-const suitCharToSymbol = (suitChar) => {
-  switch (suitChar) {
-    case "H":
-      return <>&hearts;</>;
-    case "C":
-      return <>&clubs;</>;
-    case "D":
-      return <>&diams;</>;
-    case "S":
-      return <>&spades;</>;
-    default:
-      return null;
-  }
-};
+const Card = ({ rank, suit, id, selected }) => {
+  const [checked, setChecked] = React.useState(false);
 
-const Card = (props) => (
-  <div class="playingCards simpleCards">
-    <div class="card">
-      <span class="rank">{cardNumber(props.card)}</span>
-      <span class="suit">{suitCharToSymbol(cardSuitChar(props.card))}</span>
+  const rankLower = typeof rank === "string" ? rank.toLowerCase() : undefined;
+  const rankUpper = typeof rank === "string" ? rank.toUpperCase() : undefined;
+  const idUpperChar =
+    typeof id === "string" ? id.charAt(0).toUpperCase() : undefined;
+  return (
+    <div className="playingCards faceImages">
+      <label
+        for={"c-" + rankUpper + "" + idUpperChar}
+        className={"card rank-" + rankLower + " " + id}
+      >
+        <span className="rank">{rank}</span>
+        <span className="suit">{suit}</span>
+        <input
+          type="checkbox"
+          name={"c-" + rankLower + "" + idUpperChar}
+          id={"c-" + rankLower + "" + idUpperChar}
+          value="select"
+          onChange={() => setChecked(!checked)}
+          selected={checked ? true : false}
+        />
+      </label>
     </div>
-  </div>
-);
+  );
+};
 
 export default Card;

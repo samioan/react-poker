@@ -2,7 +2,7 @@ import React from "react";
 
 const Replace = (props) => (
   <button className="button" onClick={props.onClick}>
-    <div>Replace a card</div>
+    <div>Replace cards</div>
     {props.rankValue}
     {props.suitValue}
   </button>

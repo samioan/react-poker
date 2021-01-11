@@ -49,7 +49,9 @@ const Forecast = () => {
   }
   return (
     <div>
-      <button onClick={getForecast}>What's the weather like?</button>
+      <button className="button" onClick={getForecast}>
+        What's the weather like?
+      </button>
       <Conditions responseObj={responseObj} />
     </div>
   );

@@ -4,6 +4,6 @@ import Replace from "./replace";
 import Fold from "./fold";
 import Check from "./check";
 import Raise from "./raise";
-import Forecast from "./forecast";
+import Hand from "./hand";
 
-export { Card, Deck, Replace, Fold, Check, Raise, Forecast };
+export { Card, Deck, Replace, Fold, Check, Raise, Hand };
