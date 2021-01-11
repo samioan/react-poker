@@ -45,29 +45,32 @@ const gameReducer = (state = initialState, action) => {
           aiHand: newerAiHand,
           playerBet: newPlayerBet + bet,
           aiBet: newAiBet + bet,
-          phase: newPhase + 2,
+          phase: newPhase + 1,
         };
-      } else {
-        return { ...state, phase: newPhase + 1 };
-      }
-    }
-
-    case fold.type:
-      {
-        const newPlayerMoney = state.playerMoney;
-        const newAiMoney = state.aiMoney;
-        const newPlayerBet = state.playerBet;
-        const newAiBet = state.aiBet;
-
-        if (state.playerHand.length === 5) {
-          return {
-            ...state,
-            playerMoney: newPlayerMoney - newPlayerBet,
-            aiMoney: newAiMoney + (newAiBet + newPlayerBet),
-          };
-        }
       }
       break;
+    }
+
+    case fold.type: {
+      const newPlayerMoney = state.playerMoney;
+      const newAiMoney = state.aiMoney;
+      const newPlayerBet = state.playerBet;
+      const newAiBet = state.aiBet;
+
+      alert("Given up!");
+      return {
+        ...state,
+        deck: [],
+        playerHand: [],
+        aiHand: [],
+        playerBet: 0,
+        aiBet: 0,
+        phase: 0,
+        playerMoney: newPlayerMoney - newPlayerBet,
+        aiMoney: newAiMoney + (newAiBet + newPlayerBet),
+      };
+    }
+
     case raise.type: {
       const newPlayerBet = state.playerBet;
       const newAiBet = state.aiBet;
@@ -80,55 +83,68 @@ const gameReducer = (state = initialState, action) => {
       };
     }
     case replace.type: {
-      const cardReplacer = (handIndex) => {
-        const newPlayerHand = state.playerHand.slice();
-        const newDeck = state.deck.slice();
-        const newPhase = state.phase;
+      const newPlayerHand = state.playerHand.slice();
+      const newDeck = state.deck.slice();
+      //const newPhase = state.phase;
 
-        newPlayerHand.splice(handIndex, 1, newDeck[0]);
-        newDeck.splice(0, 1);
+      newPlayerHand.splice(0, 1, newDeck[0]);
+      newDeck.splice(0, 1);
 
-        if (newDeck.length > 39) {
-          return {
-            ...state,
-            deck: newDeck,
-            playerHand: newPlayerHand,
-            phase: newPhase + 0.5,
-          };
-        }
+      return {
+        ...state,
+        deck: newDeck,
+        playerHand: newPlayerHand,
+        //phase: newPhase + 0.5,
       };
-      return cardReplacer();
     }
-    case check.type:
-      {
-        const newPlayerMoney = state.playerMoney;
-        const newAiMoney = state.aiMoney;
-        const newPlayerBet = state.playerBet;
-        const newAiBet = state.aiBet;
+    case check.type: {
+      const newPlayerMoney = state.playerMoney;
+      const newAiMoney = state.aiMoney;
+      const newPlayerBet = state.playerBet;
+      const newAiBet = state.aiBet;
 
-        if (state.playerHand.length === 5) {
-          if (handCheck(state.playerHand) > handCheck(state.aiHand)) {
-            return {
-              ...state,
-              playerMoney: newPlayerMoney + (newPlayerBet + newAiBet),
-              aiMoney: newAiMoney - newAiBet,
-            };
-          } else if (handCheck(state.playerHand) === handCheck(state.aiHand)) {
-            return {
-              ...state,
-              playerMoney: newPlayerMoney + newPlayerBet,
-              aiMoney: newAiMoney + newAiBet,
-            };
-          } else {
-            return {
-              ...state,
-              playerMoney: newPlayerMoney - newPlayerBet,
-              aiMoney: newAiMoney + (newPlayerBet + newAiBet),
-            };
-          }
-        }
+      if (handCheck(state.playerHand) > handCheck(state.aiHand)) {
+        alert("You win!");
+        return {
+          ...state,
+          deck: [],
+          playerHand: [],
+          aiHand: [],
+          playerBet: 0,
+          aiBet: 0,
+          phase: 0,
+          playerMoney: newPlayerMoney + (newPlayerBet + newAiBet),
+          aiMoney: newAiMoney - newAiBet,
+        };
+      } else if (handCheck(state.playerHand) === handCheck(state.aiHand)) {
+        alert("Tie!");
+        return {
+          ...state,
+          deck: [],
+          playerHand: [],
+          aiHand: [],
+          playerBet: 0,
+          aiBet: 0,
+          phase: 0,
+          playerMoney: newPlayerMoney + newPlayerBet,
+          aiMoney: newAiMoney + newAiBet,
+        };
+      } else {
+        alert("You lose!");
+        return {
+          ...state,
+          deck: [],
+          playerHand: [],
+          aiHand: [],
+          playerBet: 0,
+          aiBet: 0,
+          phase: 0,
+          playerMoney: newPlayerMoney - newPlayerBet,
+          aiMoney: newAiMoney + (newPlayerBet + newAiBet),
+        };
       }
-      break;
+    }
+
     default:
       return state;
   }

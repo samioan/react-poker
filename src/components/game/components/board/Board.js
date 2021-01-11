@@ -31,48 +31,74 @@ const Board = ({
   onClickRaiseHandler,
 }) => {
   const renderBuildDeckButton = () => {
-    return phase >= 4 ? null : <Deck onClick={onClickPlayHandler} />;
+    return phase >= 1 ? null : <Deck onClick={onClickPlayHandler} />;
   };
 
   const renderReplaceCardButton = () => {
-    if (phase <= 2 || phase >= 4) {
-      return null;
-    } else return <Replace onClick={onClickReplaceHandler} />;
+    return deck.length > 40 ? (
+      <Replace onClick={onClickReplaceHandler} />
+    ) : null;
   };
 
   const renderFoldButton = () => {
-    if (phase !== 2 && phase < 4) {
-      return null;
-    } else return <Fold onClick={onClickFoldHandler} />;
+    return phase >= 1 ? <Fold onClick={onClickFoldHandler} /> : null;
   };
 
   const renderCheckButton = () => {
-    if (phase !== 2 && phase < 4) {
-      return null;
-    } else return <Check onClick={onClickCheckHandler} />;
+    return phase >= 1 ? <Check onClick={onClickCheckHandler} /> : null;
   };
 
   const renderRaiseButton = () => {
-    if (playerMoney === playerBet || (phase !== 2 && phase < 4)) {
-      return null;
-    } else return <Raise onClick={onClickRaiseHandler} />;
+    return phase >= 1 ? <Raise onClick={onClickRaiseHandler} /> : null;
   };
 
   return (
     <div className="container">
       <div className="top-player">
-        <div>{renderBuildDeckButton()}</div>
-        <h2>Deck: {deck}</h2>
         <div className="board-row">
-          {deck.map((card) => (
+          {aiHand.map((card) => (
             <Card card={card} />
           ))}
         </div>
+      </div>
+
+      <div className="buttons-row">
+        <div className="board-row">
+          <h2 className="text">Opponent's Money: {aiMoney}</h2>
+          <h2 className="text">Opponent's Bet: {aiBet}</h2>
+          <h2 className="text">Opponent's Strength: {handCheck(aiHand)}</h2>
+        </div>
+      </div>
+
+      <div className="bottom-player">
+        <div className="board-row">
+          {playerHand.map((card) => (
+            <Card card={card} />
+          ))}
+        </div>
+      </div>
+
+      <div className="buttons-row">
+        <div className="board-row">
+          <h2 className="text">Player's Money: {playerMoney}</h2>
+          <h2 className="text">Player's Bet: {playerBet}</h2>
+          <h2 className="text">Player's Strength: {handCheck(playerHand)}</h2>
+        </div>
+      </div>
+
+      <div className="buttons-row">
+        <div>{renderBuildDeckButton()}</div>
+      </div>
+
+      <div className="buttons-row">
         <div className="board-row">
           {renderFoldButton()}
           {renderCheckButton()}
           {renderRaiseButton()}
         </div>
+      </div>
+
+      <div className="buttons-row">
         <div className="board-row">
           {renderReplaceCardButton(0)}
           {renderReplaceCardButton(1)}
@@ -80,30 +106,6 @@ const Board = ({
           {renderReplaceCardButton(3)}
           {renderReplaceCardButton(4)}
         </div>
-        <div className="board-row">
-          <h2>Player's Hand: {playerHand}</h2>
-          <h2>, Player's Money: {playerMoney}</h2>
-          <h2>, Player's Bet: {playerBet}</h2>
-        </div>
-        <div className="board-row">
-          {playerHand.map((card) => (
-            <Card card={card} />
-          ))}
-        </div>
-        <h2>Player's Strength: {handCheck(playerHand)}</h2>
-      </div>
-      <div className="bottom-player">
-        <div className="board-row">
-          <h2>Opponent's Hand: {aiHand}</h2>
-          <h2>, Opponent's Money: {aiMoney}</h2>
-          <h2>, Opponent's Bet: {aiBet}</h2>
-        </div>
-        <div className="board-row">
-          {aiHand.map((card) => (
-            <Card card={card} />
-          ))}
-        </div>
-        <h2>Opponent's Strength: {handCheck(aiHand)}</h2>
       </div>
     </div>
   );

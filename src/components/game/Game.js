@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 const Game = (props) => {
   return (
     <>
-      <h1>Poker App</h1>
       <Router>
         <Switch>
           <Route exact path="/">

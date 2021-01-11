@@ -1,7 +1,7 @@
 import { phase } from "models/game/selectors";
 import React from "react";
-const phaseSelector = (phase) => {
-  switch (phase) {
+const getPhaseDescription = (phaseId) => {
+  switch (phaseId) {
     case 0:
       return "Start Game";
     case 2:
@@ -13,7 +13,7 @@ const phaseSelector = (phase) => {
 
 const Deck = (props) => (
   <button className="button" onClick={props.onClick}>
-    <div> {phaseSelector(phase)} </div>
+    <div> {getPhaseDescription(phase)} </div>
     {props.rankValue}
     {props.suitValue}
   </button>

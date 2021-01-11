@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  cardSuitChar,
-  cardNumber,
-  advancedCardNumber,
-  advancedCardSuitChar,
-} from "lib/handCheck";
+import { cardSuitChar, cardNumber } from "lib/handCheck";
 
 const suitCharToSymbol = (suitChar) => {
   switch (suitChar) {
@@ -21,52 +16,76 @@ const suitCharToSymbol = (suitChar) => {
   }
 };
 
-const suitNumtoRank = (suitRank) => {
-  switch (suitRank) {
-    case "02":
-      return <>2</>;
-    case "03":
-      return <>3</>;
-    case "04":
-      return <>4</>;
-    case "05":
-      return <>5</>;
-    case "06":
-      return <>6</>;
-    case "07":
-      return <>7</>;
-    case "08":
-      return <>8</>;
-    case "09":
-      return <>9</>;
-    case "10":
-      return <>10</>;
-    case "11":
-      return <>J</>;
-    case "12":
-      return <>Q</>;
-    case "13":
-      return <>K</>;
-    case "14":
-      return <>A</>;
+const suitCharToString = (suitChar) => {
+  switch (suitChar) {
+    case "H":
+      return "hearts";
+    case "C":
+      return "clubs";
+    case "D":
+      return "diams";
+    case "S":
+      return "spades";
     default:
       return null;
   }
 };
 
-const Card = (props) => (
+const cardNumtoRank = (suitRank) => {
+  if (suitRank <= 9) {
+    return suitRank.charAt(1).toString();
+  }
+  switch (suitRank) {
+    case "10":
+      return "10";
+    case "11":
+      return "J";
+    case "12":
+      return "Q";
+    case "13":
+      return "K";
+    case "14":
+      return "A";
+    default:
+      return null;
+  }
+};
+
+const Card = ({ card }) => (
   <div className="playingCards faceImages">
-    <div
+    <label
+      for={
+        "c-" +
+        cardNumtoRank(cardNumber(card)).toLowerCase() +
+        "" +
+        suitCharToString(cardSuitChar(card)).charAt(0).toUpperCase()
+      }
       className={
         "card rank-" +
-        advancedCardNumber(cardNumber(props.card)) +
+        cardNumtoRank(cardNumber(card)).toLowerCase() +
         " " +
-        advancedCardSuitChar(props.card)
+        suitCharToString(cardSuitChar(card))
       }
     >
-      <span className="rank">{suitNumtoRank(cardNumber(props.card))}</span>
-      <span className="suit">{suitCharToSymbol(cardSuitChar(props.card))}</span>
-    </div>
+      <span className="rank">{cardNumtoRank(cardNumber(card))}</span>
+      <span className="suit">{suitCharToSymbol(cardSuitChar(card))}</span>
+      <input
+        type="checkbox"
+        name={
+          "c-" +
+          cardNumtoRank(cardNumber(card)).toLowerCase() +
+          "" +
+          suitCharToString(cardSuitChar(card)).charAt(0).toUpperCase()
+        }
+        id={
+          "c-" +
+          cardNumtoRank(cardNumber(card)).toLowerCase() +
+          "" +
+          suitCharToString(cardSuitChar(card)).charAt(0).toUpperCase()
+        }
+        value="select"
+      />
+    </label>
   </div>
 );
 
