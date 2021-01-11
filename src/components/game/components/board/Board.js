@@ -1,8 +1,8 @@
 import React from "react";
-import { Card, Deck, Replace, Fold, Check, Raise } from "./components";
+import { Deck, Replace, Fold, Check, Raise, Hand } from "./components";
 import { connect } from "react-redux";
 
-import handCheck from "lib/handCheck";
+import { handCheckToMsg } from "lib/handCheck";
 import { check, fold, raise, replace, startGame } from "models/game/actions";
 import {
   aiBet,
@@ -56,33 +56,33 @@ const Board = ({
     <div className="container">
       <div className="top-player">
         <div className="board-row">
-          {aiHand.map((card) => (
-            <Card card={card} />
-          ))}
+          <Hand hand={aiHand} />
         </div>
       </div>
 
       <div className="buttons-row">
         <div className="board-row">
-          <h2 className="text">Opponent's Money: {aiMoney}</h2>
-          <h2 className="text">Opponent's Bet: {aiBet}</h2>
-          <h2 className="text">Opponent's Strength: {handCheck(aiHand)}</h2>
+          <h2 className="text">Money: {aiMoney}</h2>
+          <h2 className="text">Bid: {aiBet}</h2>
+          <h2 className="text">
+            Strength: {phase >= 1 ? handCheckToMsg(aiHand) : null}
+          </h2>
         </div>
       </div>
 
       <div className="bottom-player">
         <div className="board-row">
-          {playerHand.map((card) => (
-            <Card card={card} />
-          ))}
+          <Hand hand={playerHand} />
         </div>
       </div>
 
       <div className="buttons-row">
         <div className="board-row">
-          <h2 className="text">Player's Money: {playerMoney}</h2>
-          <h2 className="text">Player's Bet: {playerBet}</h2>
-          <h2 className="text">Player's Strength: {handCheck(playerHand)}</h2>
+          <h2 className="text">Money: {playerMoney}</h2>
+          <h2 className="text">Bid: {playerBet}</h2>
+          <h2 className="text">
+            Strength: {phase >= 1 ? handCheckToMsg(playerHand) : null}
+          </h2>
         </div>
       </div>
 

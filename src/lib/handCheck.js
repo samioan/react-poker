@@ -100,6 +100,31 @@ const handCheck = (hand) => {
   }
 };
 
+const handCheckToMsg = (hand) => {
+  switch (true) {
+    case isRoyalFlush(hand):
+      return "Royal Flush";
+    case isStraightFlush(hand):
+      return "Straight Flush";
+    case isFourOfAKind(hand):
+      return "Four of a kind";
+    case isFullHouse(hand):
+      return "Full House";
+    case isFlush(hand):
+      return "Flush";
+    case isStraight(hand):
+      return "Straight";
+    case isThreeOfAKind(hand):
+      return "Three of a kind";
+    case isTwoPair(hand):
+      return "Two Pair";
+    case isPair(hand):
+      return "One Pair";
+    default:
+      return "Nothing";
+  }
+};
+
 export {
   cardNumber,
   cardSuitChar,
@@ -117,6 +142,7 @@ export {
   isPair,
   lowCard,
   handCheck,
+  handCheckToMsg,
 };
 
 export default handCheck;

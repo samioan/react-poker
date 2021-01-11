@@ -1,92 +1,31 @@
 import React from "react";
-import { cardSuitChar, cardNumber } from "lib/handCheck";
 
-const suitCharToSymbol = (suitChar) => {
-  switch (suitChar) {
-    case "H":
-      return <>&hearts;</>;
-    case "C":
-      return <>&clubs;</>;
-    case "D":
-      return <>&diams;</>;
-    case "S":
-      return <>&spades;</>;
-    default:
-      return null;
-  }
+const Card = ({ rank, suit, id, selected }) => {
+  const [checked, setChecked] = React.useState(false);
+
+  const rankLower = typeof rank === "string" ? rank.toLowerCase() : undefined;
+  const rankUpper = typeof rank === "string" ? rank.toUpperCase() : undefined;
+  const idUpperChar =
+    typeof id === "string" ? id.charAt(0).toUpperCase() : undefined;
+  return (
+    <div className="playingCards faceImages">
+      <label
+        for={"c-" + rankUpper + "" + idUpperChar}
+        className={"card rank-" + rankLower + " " + id}
+      >
+        <span className="rank">{rank}</span>
+        <span className="suit">{suit}</span>
+        <input
+          type="checkbox"
+          name={"c-" + rankLower + "" + idUpperChar}
+          id={"c-" + rankLower + "" + idUpperChar}
+          value="select"
+          onChange={() => setChecked(!checked)}
+          selected={checked ? true : false}
+        />
+      </label>
+    </div>
+  );
 };
-
-const suitCharToString = (suitChar) => {
-  switch (suitChar) {
-    case "H":
-      return "hearts";
-    case "C":
-      return "clubs";
-    case "D":
-      return "diams";
-    case "S":
-      return "spades";
-    default:
-      return null;
-  }
-};
-
-const cardNumtoRank = (suitRank) => {
-  if (suitRank <= 9) {
-    return suitRank.charAt(1).toString();
-  }
-  switch (suitRank) {
-    case "10":
-      return "10";
-    case "11":
-      return "J";
-    case "12":
-      return "Q";
-    case "13":
-      return "K";
-    case "14":
-      return "A";
-    default:
-      return null;
-  }
-};
-
-const Card = ({ card }) => (
-  <div className="playingCards faceImages">
-    <label
-      for={
-        "c-" +
-        cardNumtoRank(cardNumber(card)).toLowerCase() +
-        "" +
-        suitCharToString(cardSuitChar(card)).charAt(0).toUpperCase()
-      }
-      className={
-        "card rank-" +
-        cardNumtoRank(cardNumber(card)).toLowerCase() +
-        " " +
-        suitCharToString(cardSuitChar(card))
-      }
-    >
-      <span className="rank">{cardNumtoRank(cardNumber(card))}</span>
-      <span className="suit">{suitCharToSymbol(cardSuitChar(card))}</span>
-      <input
-        type="checkbox"
-        name={
-          "c-" +
-          cardNumtoRank(cardNumber(card)).toLowerCase() +
-          "" +
-          suitCharToString(cardSuitChar(card)).charAt(0).toUpperCase()
-        }
-        id={
-          "c-" +
-          cardNumtoRank(cardNumber(card)).toLowerCase() +
-          "" +
-          suitCharToString(cardSuitChar(card)).charAt(0).toUpperCase()
-        }
-        value="select"
-      />
-    </label>
-  </div>
-);
 
 export default Card;
