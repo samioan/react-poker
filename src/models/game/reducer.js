@@ -82,12 +82,12 @@ const gameReducer = (state = initialState, action) => {
         aiBet: newAiBet + bet,
       };
     }
+
     case replace.type: {
       const newPlayerHand = state.playerHand.slice();
       const newDeck = state.deck.slice();
       //const newPhase = state.phase;
-      const i = 0;
-      newPlayerHand.splice(i, 1, newDeck[0]);
+      newPlayerHand.splice(0, 1, newDeck[0]);
       newDeck.splice(0, 1);
 
       return {
@@ -97,6 +97,7 @@ const gameReducer = (state = initialState, action) => {
         //phase: newPhase + 0.5,
       };
     }
+
     case check.type: {
       const newPlayerMoney = state.playerMoney;
       const newAiMoney = state.aiMoney;
@@ -144,7 +145,6 @@ const gameReducer = (state = initialState, action) => {
         };
       }
     }
-
     default:
       return state;
   }

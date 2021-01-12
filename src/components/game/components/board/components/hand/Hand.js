@@ -1,7 +1,9 @@
+import { React } from "react";
+
 import { cardNumber, cardSuitChar } from "lib/handCheck";
 import Card from "../card";
 
-const Hand = ({ hand }) => {
+const Hand = ({ hand, visible, onClick, isSelected }) => {
   const suitCharToSymbol = (suitChar) => {
     switch (suitChar) {
       case "H":
@@ -53,15 +55,17 @@ const Hand = ({ hand }) => {
   };
 
   return (
-    <div className="playingCards faceImages">
+    <div className="playingCards">
       <div className="board-row">
         {hand.map((card) => (
           <Card
             card={card}
             rank={cardNumtoRank(cardNumber(card))}
-            suit={suitCharToSymbol(cardSuitChar(card))}
-            id={suitCharToString(cardSuitChar(card))}
-            selected={card.selected ? true : false}
+            suitSymbol={suitCharToSymbol(cardSuitChar(card))}
+            suit={suitCharToString(cardSuitChar(card))}
+            selected={isSelected}
+            visible={visible}
+            onClick={() => onClick(card)}
           />
         ))}
       </div>
