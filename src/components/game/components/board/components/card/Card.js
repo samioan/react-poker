@@ -1,28 +1,27 @@
 import React from "react";
-import { cardSuitChar, cardNumber } from "lib/handCheck";
 
-const suitCharToSymbol = (suitChar) => {
-  switch (suitChar) {
-    case "H":
-      return <>&hearts;</>;
-    case "C":
-      return <>&clubs;</>;
-    case "D":
-      return <>&diams;</>;
-    case "S":
-      return <>&spades;</>;
-    default:
-      return null;
-  }
-};
-
-const Card = (props) => (
-  <div class="playingCards simpleCards">
-    <div class="card">
-      <span class="rank">{cardNumber(props.card)}</span>
-      <span class="suit">{suitCharToSymbol(cardSuitChar(props.card))}</span>
+const Card = ({ rank, suit, suitSymbol, visible, selected, onClick }) => {
+  return visible ? (
+    <div className="playingCards">
+      <a
+        style={
+          selected
+            ? { border: "5px solid black" }
+            : { border: "5px solid white" }
+        }
+        className={"card rank-" + rank.toLowerCase() + " " + suit}
+        onClick={onClick}
+        href="#"
+      >
+        <span className="rank">{rank}</span>
+        <span className="suit">{suitSymbol}</span>
+      </a>
     </div>
-  </div>
-);
+  ) : (
+    <div className="playingCards">
+      <div className="card back"></div>
+    </div>
+  );
+};
 
 export default Card;

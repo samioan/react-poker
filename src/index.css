@@ -1,3 +1,7 @@
+body {
+  background-color: #282c34;
+}
+
 #root {
   width: 100%;
 }
@@ -9,11 +13,35 @@
   justify-content: space-between;
 }
 
+.container2 {
+  display: flex;
+  height: 10vh;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .top-player {
+  margin-top: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .bottom-player {
   margin-top: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.buttons-row {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.buttons-row2 {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Board Component Styles */
@@ -46,4 +74,57 @@
   width: 400px;
   padding: 0;
   border-radius: 3px;
+}
+
+.textArea {
+  color: white;
+  text-align: center;
+  font-size: 32px;
+  text-decoration: none;
+}
+
+.button {
+  color: #0099cc;
+  background: transparent;
+  border: 2px solid #0099cc;
+  border-radius: 6px;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: white;
+  color: black;
+  border: 2px solid #008cba;
+}
+.button:hover {
+  background-color: #008cba;
+  color: white;
+}
+
+.text {
+  color: #0099cc;
+  background: transparent;
+  border: 2px solid #0099cc;
+  border-radius: 6px;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  display: inline;
+  font-size: 16px;
+  margin: 4px 2px;
+  margin: 0;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: white;
+  color: black;
+  border: 2px solid #008cba;
 }

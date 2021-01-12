@@ -1,16 +1,24 @@
 import React from "react";
-import { Board } from "./components";
+import { Board, Intro } from "./components";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-class Game extends React.Component {
-  render() {
-    return (
-      <>
-        <h1>Poker App</h1>
-
-        <Board />
-      </>
-    );
-  }
-}
+const Game = (props) => {
+  return (
+    <>
+      <Router>
+        <Switch>
+          <Route exact path="/">
+            <Intro />
+          </Route>
+        </Switch>
+        <Switch>
+          <Route path="/game">
+            <Board />
+          </Route>
+        </Switch>
+      </Router>
+    </>
+  );
+};
 
 export default Game;

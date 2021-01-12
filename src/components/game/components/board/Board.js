@@ -1,231 +1,130 @@
 import React from "react";
-import { Card, Deck, Replace, Fold, Check, Raise } from "./components";
-import handCheck from "lib/handCheck";
-import deckCreator from "lib/deckCreator";
+import { Deck, Replace, Fold, Check, Raise, Hand } from "./components";
+import { connect } from "react-redux";
 
-class Board extends React.Component {
-  constructor(props) {
-    super(props);
-    this.initialState = {
-      deck: [],
-      playerHand: [""],
-      aiHand: [""],
-      playerMoney: 1000,
-      aiMoney: 1000,
-      playerBet: 0,
-      aiBet: 0,
-      phase: 0,
-    };
-    this.state = this.initialState;
-  }
+import { handCheckToMsg } from "lib/handCheck";
+import { check, fold, raise, replace, startGame } from "models/game/actions";
+import {
+  aiBet,
+  aiHand,
+  aiMoney,
+  deck,
+  phase,
+  playerBet,
+  playerHand,
+  playerMoney,
+} from "models/game/selectors";
 
-  renderBuildDeckButton() {
-    const onClickHandler = () => {
-      const newDeck = this.state.deck.slice();
-      const newPlayerHand = this.state.playerHand.slice();
-      const newAiHand = this.state.aiHand.slice();
+const Board = ({
+  aiBet,
+  aiHand,
+  aiMoney,
+  deck,
+  phase,
+  playerBet,
+  playerHand,
+  playerMoney,
+  onClickPlayHandler,
+  onClickReplaceHandler,
+  onClickFoldHandler,
+  onClickCheckHandler,
+  onClickRaiseHandler,
+}) => {
+  const renderBuildDeckButton = () => {
+    return phase >= 1 ? null : <Deck onClick={onClickPlayHandler} />;
+  };
 
-      const newPlayerBet = this.state.playerBet;
-      const newAiBet = this.state.aiBet;
-      const bet = 100;
+  const renderReplaceCardButton = () => {
+    return deck.length > 40 ? (
+      <Replace onClick={onClickReplaceHandler} />
+    ) : null;
+  };
 
-      const newPhase = this.state.phase;
+  const renderFoldButton = () => {
+    return phase >= 1 ? <Fold onClick={onClickFoldHandler} /> : null;
+  };
 
-      newDeck.push(deckCreator());
-      const newDeckFlat = newDeck.flat();
+  const renderCheckButton = () => {
+    return phase >= 1 ? <Check onClick={onClickCheckHandler} /> : null;
+  };
 
-      const newerPlayerHand = newPlayerHand.concat(newDeckFlat);
-      const newerAiHand = newAiHand.concat(newDeckFlat);
+  const renderRaiseButton = () => {
+    return phase >= 1 ? <Raise onClick={onClickRaiseHandler} /> : null;
+  };
 
-      if (newPhase === 0) {
-        newerPlayerHand.splice(0, 1);
-        newerPlayerHand.splice(5);
-        newerAiHand.splice(0, 6);
-        newerAiHand.splice(5);
-        newDeckFlat.splice(0, 10);
-
-        this.setState({
-          deck: newDeckFlat,
-          playerHand: newerPlayerHand,
-          aiHand: newerAiHand,
-          playerBet: newPlayerBet + bet,
-          aiBet: newAiBet + bet,
-          phase: newPhase + 2,
-        });
-      } else {
-        this.setState({
-          phase: newPhase + 1,
-        });
-      }
-    };
-
-    return this.state.phase >= 4 ? null : <Deck onClick={onClickHandler} />;
-  }
-
-  renderReplaceCardButton(handIndex) {
-    const onClickHandler = () => {
-      const newPlayerHand = this.state.playerHand.slice();
-      const newDeck = this.state.deck.slice();
-      const newPhase = this.state.phase;
-
-      newPlayerHand.splice(handIndex, 1, newDeck[0]);
-      newDeck.splice(0, 1);
-
-      if (newDeck.length > 39) {
-        this.setState({
-          playerHand: newPlayerHand,
-          deck: newDeck,
-          phase: newPhase + 0.5,
-        });
-      }
-    };
-
-    if (this.state.phase <= 2 || this.state.phase >= 4) {
-      return;
-    }
-
-    return <Replace onClick={onClickHandler} />;
-  }
-
-  renderFoldButton() {
-    const onClickHandler = () => {
-      const newPlayerMoney = this.state.playerMoney;
-      const newAiMoney = this.state.aiMoney;
-      const newPlayerBet = this.state.playerBet;
-      const newAiBet = this.state.aiBet;
-
-      if (this.state.playerHand.length === 5) {
-        this.setState({
-          ...this.initialState,
-          playerMoney: newPlayerMoney - newPlayerBet,
-          aiMoney: newAiMoney + (newAiBet + newPlayerBet),
-        });
-        alert("You lose!");
-      }
-    };
-
-    if (this.state.phase !== 2 && this.state.phase < 4) {
-      return;
-    }
-
-    return <Fold onClick={onClickHandler} />;
-  }
-
-  renderCheckButton() {
-    const onClickHandler = () => {
-      const newPlayerMoney = this.state.playerMoney;
-      const newAiMoney = this.state.aiMoney;
-      const newPlayerBet = this.state.playerBet;
-      const newAiBet = this.state.aiBet;
-
-      if (this.state.playerHand.length === 5) {
-        if (handCheck(this.state.playerHand) > handCheck(this.state.aiHand)) {
-          this.setState({
-            ...this.initialState,
-            playerMoney: newPlayerMoney + (newPlayerBet + newAiBet),
-            aiMoney: newAiMoney - newAiBet,
-          });
-          alert("You win!");
-        } else if (
-          handCheck(this.state.playerHand) === handCheck(this.state.aiHand)
-        ) {
-          this.setState({
-            ...this.initialState,
-            playerMoney: newPlayerMoney + newPlayerBet,
-            aiMoney: newAiMoney + newAiBet,
-          });
-          alert("Tie!");
-        } else {
-          this.setState({
-            ...this.initialState,
-            playerMoney: newPlayerMoney - newPlayerBet,
-            aiMoney: newAiMoney + (newPlayerBet + newAiBet),
-          });
-          alert("You lose!");
-        }
-      }
-    };
-
-    if (this.state.phase !== 2 && this.state.phase < 4) {
-      return;
-    }
-
-    return <Check onClick={onClickHandler} />;
-  }
-
-  renderRaiseButton() {
-    const onClickHandler = () => {
-      const newPlayerBet = this.state.playerBet;
-      const newAiBet = this.state.aiBet;
-      const bet = 100;
-
-      this.setState({
-        playerBet: newPlayerBet + bet,
-        aiBet: newAiBet + bet,
-      });
-    };
-
-    if (
-      this.state.playerMoney === this.state.playerBet ||
-      (this.state.phase !== 2 && this.state.phase < 4)
-    ) {
-      return;
-    }
-
-    return <Raise onClick={onClickHandler} />;
-  }
-
-  render() {
-    return (
-      <div className="container">
-        <div className="top-player">
-          <div>{this.renderBuildDeckButton()}</div>
-          <h2>Deck: {this.state.deck}</h2>
-          <div className="board-row">
-            {this.state.deck.map((card) => (
-              <Card card={card} />
-            ))}
-          </div>
-          <div className="board-row">
-            {this.renderFoldButton()}
-            {this.renderCheckButton()}
-            {this.renderRaiseButton()}
-          </div>
-          <div className="board-row">
-            {this.renderReplaceCardButton(0)}
-            {this.renderReplaceCardButton(1)}
-            {this.renderReplaceCardButton(2)}
-            {this.renderReplaceCardButton(3)}
-            {this.renderReplaceCardButton(4)}
-          </div>
-          <div className="board-row">
-            <h2>Player's Hand: {this.state.playerHand}</h2>
-            <h2>, Player's Money: {this.state.playerMoney}</h2>
-            <h2>, Player's Bet: {this.state.playerBet}</h2>
-          </div>
-          <div className="board-row">
-            {this.state.playerHand.map((card) => (
-              <Card card={card} />
-            ))}
-          </div>
-          <h2>Player's Strength: {handCheck(this.state.playerHand)}</h2>
-        </div>
-        <div className="bottom-player">
-          <div className="board-row">
-            <h2>Opponent's Hand: {this.state.aiHand}</h2>
-            <h2>, Opponent's Money: {this.state.aiMoney}</h2>
-            <h2>, Opponent's Bet: {this.state.aiBet}</h2>
-          </div>
-          <div className="board-row">
-            {this.state.aiHand.map((card) => (
-              <Card card={card} />
-            ))}
-          </div>
-          <h2>Opponent's Strength: {handCheck(this.state.aiHand)}</h2>
+  return (
+    <div className="container">
+      <div className="top-player">
+        <div className="board-row">
+          <Hand hand={aiHand} visible={false} />
         </div>
       </div>
-    );
-  }
-}
 
-export default Board;
+      <div className="buttons-row">
+        <div className="board-row">
+          <h2 className="text">Money: {aiMoney}</h2>
+          <h2 className="text">Bid: {aiBet}</h2>
+          <h2 className="text">
+            Strength: {phase >= 1 ? handCheckToMsg(aiHand) : null}
+          </h2>
+        </div>
+      </div>
+
+      <div className="bottom-player">
+        <div className="board-row">
+          <Hand
+            hand={playerHand}
+            visible={true}
+            onClick={onClickReplaceHandler}
+          />
+        </div>
+      </div>
+
+      <div className="buttons-row">
+        <div className="board-row">
+          <h2 className="text">Money: {playerMoney}</h2>
+          <h2 className="text">Bid: {playerBet}</h2>
+          <h2 className="text">
+            Strength: {phase >= 1 ? handCheckToMsg(playerHand) : null}
+          </h2>
+        </div>
+      </div>
+
+      <div className="buttons-row">
+        <div>{renderBuildDeckButton()}</div>
+      </div>
+
+      <div className="buttons-row">
+        <div className="board-row">
+          {renderFoldButton()}
+          {renderCheckButton()}
+          {renderRaiseButton()}
+        </div>
+      </div>
+
+      <div className="buttons-row">
+        <div className="board-row">{renderReplaceCardButton()}</div>
+      </div>
+    </div>
+  );
+};
+
+const mapStateToProps = (state) => ({
+  aiBet: aiBet(state),
+  aiHand: aiHand(state),
+  aiMoney: aiMoney(state),
+  deck: deck(state),
+  phase: phase(state),
+  playerBet: playerBet(state),
+  playerHand: playerHand(state),
+  playerMoney: playerMoney(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onClickPlayHandler: () => dispatch(startGame()),
+  onClickFoldHandler: () => dispatch(fold()),
+  onClickCheckHandler: () => dispatch(check()),
+  onClickRaiseHandler: () => dispatch(raise()),
+  onClickReplaceHandler: () => dispatch(replace()),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Board);

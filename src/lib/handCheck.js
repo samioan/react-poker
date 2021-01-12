@@ -1,8 +1,14 @@
+import _ from "lodash";
+
 //Detects a card's number
 const cardNumber = (card) => card.slice(1, 3);
 
 //Detects a card's suite
-const cardSuitChar = (card) => card.charAt(0);
+const cardSuitChar = (card) => {
+  if (typeof card === "string") {
+    return card.charAt(0);
+  } else return undefined;
+};
 
 //Detects a card's strength
 const cardStrength = (card) => parseInt(cardNumber(card), 10);
@@ -12,11 +18,7 @@ const cardsToNumbers = (hand) => hand.map((card) => cardStrength(card));
 
 //Check if a hand has cards of the same number
 const cardsDuplicates = (hand) => {
-  let counts = {};
-  cardsToNumbers(hand).forEach((x) => {
-    counts[x] = (counts[x] || 0) + 1;
-  });
-  return Object.values(counts);
+  return Object.values(_.groupBy(hand, cardNumber)).map((card) => card.length);
 };
 
 //Check if we have a royal flush
@@ -61,7 +63,7 @@ const isThreeOfAKind = (hand) => cardsDuplicates(hand).includes(3);
 
 //Check if we have two pairs
 const isTwoPair = (hand) =>
-  cardsDuplicates(hand)[2] === 2 && cardsDuplicates(hand).length === 3;
+  cardsDuplicates(hand).includes(2) && cardsDuplicates(hand).length === 3;
 
 //Check if we have a pair
 const isPair = (hand) => cardsDuplicates(hand).includes(2);
@@ -98,6 +100,31 @@ const handCheck = (hand) => {
   }
 };
 
+const handCheckToMsg = (hand) => {
+  switch (true) {
+    case isRoyalFlush(hand):
+      return "Royal Flush";
+    case isStraightFlush(hand):
+      return "Straight Flush";
+    case isFourOfAKind(hand):
+      return "Four of a kind";
+    case isFullHouse(hand):
+      return "Full House";
+    case isFlush(hand):
+      return "Flush";
+    case isStraight(hand):
+      return "Straight";
+    case isThreeOfAKind(hand):
+      return "Three of a kind";
+    case isTwoPair(hand):
+      return "Two Pair";
+    case isPair(hand):
+      return "One Pair";
+    default:
+      return "Nothing";
+  }
+};
+
 export {
   cardNumber,
   cardSuitChar,
@@ -115,6 +142,7 @@ export {
   isPair,
   lowCard,
   handCheck,
+  handCheckToMsg,
 };
 
 export default handCheck;
