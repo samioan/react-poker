@@ -56,7 +56,7 @@ const Board = ({
     <div className="container">
       <div className="top-player">
         <div className="board-row">
-          <Hand hand={aiHand} />
+          <Hand hand={aiHand} visible={false} />
         </div>
       </div>
 
@@ -72,7 +72,11 @@ const Board = ({
 
       <div className="bottom-player">
         <div className="board-row">
-          <Hand hand={playerHand} />
+          <Hand
+            hand={playerHand}
+            visible={true}
+            onClick={onClickReplaceHandler}
+          />
         </div>
       </div>
 
@@ -99,13 +103,7 @@ const Board = ({
       </div>
 
       <div className="buttons-row">
-        <div className="board-row">
-          {renderReplaceCardButton(0)}
-          {renderReplaceCardButton(1)}
-          {renderReplaceCardButton(2)}
-          {renderReplaceCardButton(3)}
-          {renderReplaceCardButton(4)}
-        </div>
+        <div className="board-row">{renderReplaceCardButton()}</div>
       </div>
     </div>
   );

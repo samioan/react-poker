@@ -2,10 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Forecast } from "./components";
 
-const Intro = (props) => (
-  <>
+const Intro = () => (
+  <div className="container">
     <div className="buttons-row">
-      <h2>Welcome!</h2>
+      <h2 className="textArea">Welcome!</h2>
     </div>
     <div className="buttons-row">
       <Forecast />
@@ -15,6 +15,6 @@ const Intro = (props) => (
         <Link to="/game">Start the game!</Link>
       </button>
     </div>
-  </>
+  </div>
 );
 export default Intro;
