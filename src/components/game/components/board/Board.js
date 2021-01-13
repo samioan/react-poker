@@ -1,5 +1,5 @@
 import React from "react";
-import { Deck, Replace, Fold, Check, Raise, Hand } from "./components";
+import { Hand, Buttons } from "./components";
 import { connect } from "react-redux";
 
 import { handCheckToMsg } from "lib/handCheck";
@@ -30,28 +30,6 @@ const Board = ({
   onClickCheckHandler,
   onClickRaiseHandler,
 }) => {
-  const renderBuildDeckButton = () => {
-    return phase >= 1 ? null : <Deck onClick={onClickPlayHandler} />;
-  };
-
-  const renderReplaceCardButton = () => {
-    return deck.length > 40 ? (
-      <Replace onClick={onClickReplaceHandler} />
-    ) : null;
-  };
-
-  const renderFoldButton = () => {
-    return phase >= 1 ? <Fold onClick={onClickFoldHandler} /> : null;
-  };
-
-  const renderCheckButton = () => {
-    return phase >= 1 ? <Check onClick={onClickCheckHandler} /> : null;
-  };
-
-  const renderRaiseButton = () => {
-    return phase >= 1 ? <Raise onClick={onClickRaiseHandler} /> : null;
-  };
-
   return (
     <div className="container">
       <div className="top-player">
@@ -91,19 +69,21 @@ const Board = ({
       </div>
 
       <div className="buttons-row">
-        <div>{renderBuildDeckButton()}</div>
+      <Buttons id={"Play"} onClick={onClickPlayHandler} visible={phase >=1 ? false : true}/>
       </div>
 
       <div className="buttons-row">
         <div className="board-row">
-          {renderFoldButton()}
-          {renderCheckButton()}
-          {renderRaiseButton()}
+        <Buttons id={"Fold"} onClick={onClickFoldHandler} visible={phase >=1 ? true : false}/>
+        <Buttons id={"Check"} onClick={onClickCheckHandler} visible={phase >=1 ? true : false}/>
+        <Buttons id={"Raise"} onClick={onClickRaiseHandler} visible={phase >=1 ? true : false}/>
         </div>
       </div>
 
       <div className="buttons-row">
-        <div className="board-row">{renderReplaceCardButton()}</div>
+        <div className="board-row">
+        <Buttons id={"Replace Cards"} onClick={onClickReplaceHandler} visible={deck.length > 40 ? true : false}/>
+          </div>
       </div>
     </div>
   );

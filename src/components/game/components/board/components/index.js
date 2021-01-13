@@ -1,9 +1,5 @@
 import Card from "./card";
-import Deck from "./deck";
-import Replace from "./replace";
-import Fold from "./fold";
-import Check from "./check";
-import Raise from "./raise";
 import Hand from "./hand";
+import Buttons from "./buttons";
 
-export { Card, Deck, Replace, Fold, Check, Raise, Hand };
+export { Card, Hand, Buttons };
