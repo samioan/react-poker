@@ -1,25 +1,4 @@
-import _ from "lodash";
-
-//Detects a card's number
-const cardNumber = (card) => card.slice(1, 3);
-
-//Detects a card's suite
-const cardSuitChar = (card) => {
-  if (typeof card === "string") {
-    return card.charAt(0);
-  } else return undefined;
-};
-
-//Detects a card's strength
-const cardStrength = (card) => parseInt(cardNumber(card), 10);
-
-//Turns all cards into numbers
-const cardsToNumbers = (hand) => hand.map((card) => cardStrength(card));
-
-//Check if a hand has cards of the same number
-const cardsDuplicates = (hand) => {
-  return Object.values(_.groupBy(hand, cardNumber)).map((card) => card.length);
-};
+import { cardSuitChar, cardsToNumbers, cardsDuplicates } from "./cardFunctions";
 
 //Check if we have a royal flush
 const isRoyalFlush = (hand) =>
@@ -121,16 +100,11 @@ const handCheckToMsg = (hand) => {
     case isPair(hand):
       return "One Pair";
     default:
-      return "Nothing";
+      return "No Strength";
   }
 };
 
 export {
-  cardNumber,
-  cardSuitChar,
-  cardStrength,
-  cardsToNumbers,
-  cardsDuplicates,
   isRoyalFlush,
   isStraightFlush,
   isFourOfAKind,

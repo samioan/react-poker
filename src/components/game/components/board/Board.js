@@ -1,5 +1,5 @@
 import React from "react";
-import { Deck, Replace, Fold, Check, Raise, Hand } from "./components";
+import { Hand, Button, Stats } from "./components";
 import { connect } from "react-redux";
 
 import { handCheckToMsg } from "lib/handCheck";
@@ -30,28 +30,6 @@ const Board = ({
   onClickCheckHandler,
   onClickRaiseHandler,
 }) => {
-  const renderBuildDeckButton = () => {
-    return phase >= 1 ? null : <Deck onClick={onClickPlayHandler} />;
-  };
-
-  const renderReplaceCardButton = () => {
-    return deck.length > 40 ? (
-      <Replace onClick={onClickReplaceHandler} />
-    ) : null;
-  };
-
-  const renderFoldButton = () => {
-    return phase >= 1 ? <Fold onClick={onClickFoldHandler} /> : null;
-  };
-
-  const renderCheckButton = () => {
-    return phase >= 1 ? <Check onClick={onClickCheckHandler} /> : null;
-  };
-
-  const renderRaiseButton = () => {
-    return phase >= 1 ? <Raise onClick={onClickRaiseHandler} /> : null;
-  };
-
   return (
     <div className="container">
       <div className="top-player">
@@ -61,13 +39,11 @@ const Board = ({
       </div>
 
       <div className="buttons-row">
-        <div className="board-row">
-          <h2 className="text">Money: {aiMoney}</h2>
-          <h2 className="text">Bid: {aiBet}</h2>
-          <h2 className="text">
-            Strength: {phase >= 1 ? handCheckToMsg(aiHand) : null}
-          </h2>
-        </div>
+        <Stats
+          money={aiMoney}
+          bid={aiBet}
+          strength={phase >= 1 ? handCheckToMsg(aiHand) : "Nothing"}
+        />
       </div>
 
       <div className="bottom-player">
@@ -81,29 +57,31 @@ const Board = ({
       </div>
 
       <div className="buttons-row">
-        <div className="board-row">
-          <h2 className="text">Money: {playerMoney}</h2>
-          <h2 className="text">Bid: {playerBet}</h2>
-          <h2 className="text">
-            Strength: {phase >= 1 ? handCheckToMsg(playerHand) : null}
-          </h2>
-        </div>
+        <Stats
+          money={playerMoney}
+          bid={playerBet}
+          strength={phase >= 1 ? handCheckToMsg(playerHand) : "Nothing"}
+        />
       </div>
 
       <div className="buttons-row">
-        <div>{renderBuildDeckButton()}</div>
+        {phase === 0 && <Button id={"Play"} onClick={onClickPlayHandler} />}
       </div>
 
       <div className="buttons-row">
         <div className="board-row">
-          {renderFoldButton()}
-          {renderCheckButton()}
-          {renderRaiseButton()}
+          {phase >= 1 && <Button id={"Fold"} onClick={onClickFoldHandler} />}
+          {phase >= 1 && <Button id={"Check"} onClick={onClickCheckHandler} />}
+          {phase >= 1 && <Button id={"Raise"} onClick={onClickRaiseHandler} />}
         </div>
       </div>
 
       <div className="buttons-row">
-        <div className="board-row">{renderReplaceCardButton()}</div>
+        <div className="board-row">
+          {deck.length > 40 && (
+            <Button id={"Replace Cards"} onClick={onClickReplaceHandler} />
+          )}
+        </div>
       </div>
     </div>
   );

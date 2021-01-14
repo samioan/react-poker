@@ -1,4 +1,4 @@
-import React from "react";
+import { React } from "react";
 
 const Card = ({ rank, suit, suitSymbol, visible, selected, onClick }) => {
   return visible ? (
