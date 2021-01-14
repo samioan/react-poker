@@ -1,5 +1,6 @@
 import Card from "./card";
 import Hand from "./hand";
-import Buttons from "./buttons";
+import Button from "./button";
+import Stats from "./stats";
 
-export { Card, Hand, Buttons };
+export { Card, Hand, Button, Stats };

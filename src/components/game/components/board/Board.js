@@ -1,5 +1,5 @@
 import React from "react";
-import { Hand, Buttons } from "./components";
+import { Hand, Button, Stats } from "./components";
 import { connect } from "react-redux";
 
 import { handCheckToMsg } from "lib/handCheck";
@@ -39,13 +39,12 @@ const Board = ({
       </div>
 
       <div className="buttons-row">
-        <div className="board-row">
-          <h2 className="text">Money: {aiMoney}</h2>
-          <h2 className="text">Bid: {aiBet}</h2>
-          <h2 className="text">
-            Strength: {phase >= 1 ? handCheckToMsg(aiHand) : null}
-          </h2>
-        </div>
+        <Stats
+          money={aiMoney}
+          bid={aiBet}
+          strength={phase >= 1 ? handCheckToMsg(aiHand) : null}
+          visible={true}
+        />
       </div>
 
       <div className="bottom-player">
@@ -59,31 +58,32 @@ const Board = ({
       </div>
 
       <div className="buttons-row">
+        <Stats
+          money={playerMoney}
+          bid={playerBet}
+          strength={phase >= 1 ? handCheckToMsg(playerHand) : null}
+          visible={true}
+        />
+      </div>
+
+      <div className="buttons-row">
+        {phase === 0 && <Button id={"Play"} onClick={onClickPlayHandler} />}
+      </div>
+
+      <div className="buttons-row">
         <div className="board-row">
-          <h2 className="text">Money: {playerMoney}</h2>
-          <h2 className="text">Bid: {playerBet}</h2>
-          <h2 className="text">
-            Strength: {phase >= 1 ? handCheckToMsg(playerHand) : null}
-          </h2>
+          {phase >= 1 && <Button id={"Fold"} onClick={onClickFoldHandler} />}
+          {phase >= 1 && <Button id={"Check"} onClick={onClickCheckHandler} />}
+          {phase >= 1 && <Button id={"Raise"} onClick={onClickRaiseHandler} />}
         </div>
       </div>
 
       <div className="buttons-row">
-      <Buttons id={"Play"} onClick={onClickPlayHandler} visible={phase >=1 ? false : true}/>
-      </div>
-
-      <div className="buttons-row">
         <div className="board-row">
-        <Buttons id={"Fold"} onClick={onClickFoldHandler} visible={phase >=1 ? true : false}/>
-        <Buttons id={"Check"} onClick={onClickCheckHandler} visible={phase >=1 ? true : false}/>
-        <Buttons id={"Raise"} onClick={onClickRaiseHandler} visible={phase >=1 ? true : false}/>
+          {deck.length > 40 && (
+            <Button id={"Replace Cards"} onClick={onClickReplaceHandler} />
+          )}
         </div>
-      </div>
-
-      <div className="buttons-row">
-        <div className="board-row">
-        <Buttons id={"Replace Cards"} onClick={onClickReplaceHandler} visible={deck.length > 40 ? true : false}/>
-          </div>
       </div>
     </div>
   );

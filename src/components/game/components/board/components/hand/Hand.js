@@ -1,13 +1,15 @@
 import { React } from "react";
 
 import Card from "../card";
-import {suitCharToSymbol,suitCharToString,cardNumtoRank,cardSuitChar,cardNumber} from "lib/cardFunctions";
+import {
+  suitCharToSymbol,
+  suitCharToString,
+  cardNumtoRank,
+  cardSuitChar,
+  cardNumber,
+} from "lib/cardFunctions";
 
 const Hand = ({ hand, visible, onClick, isSelected }) => {
- 
-  const cardSelector = (value) => {
-  return !value
-  }
   return (
     <div className="playingCards">
       <div className="board-row">
