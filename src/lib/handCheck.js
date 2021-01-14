@@ -1,4 +1,4 @@
-import { cardSuitChar,cardsToNumbers,cardsDuplicates, } from "./cardFunctions";
+import { cardSuitChar, cardsToNumbers, cardsDuplicates } from "./cardFunctions";
 
 //Check if we have a royal flush
 const isRoyalFlush = (hand) =>
@@ -100,7 +100,7 @@ const handCheckToMsg = (hand) => {
     case isPair(hand):
       return "One Pair";
     default:
-      return "Nothing";
+      return "No Strength";
   }
 };
 

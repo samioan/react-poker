@@ -42,8 +42,7 @@ const Board = ({
         <Stats
           money={aiMoney}
           bid={aiBet}
-          strength={phase >= 1 ? handCheckToMsg(aiHand) : null}
-          visible={true}
+          strength={phase >= 1 ? handCheckToMsg(aiHand) : "Nothing"}
         />
       </div>
 
@@ -61,8 +60,7 @@ const Board = ({
         <Stats
           money={playerMoney}
           bid={playerBet}
-          strength={phase >= 1 ? handCheckToMsg(playerHand) : null}
-          visible={true}
+          strength={phase >= 1 ? handCheckToMsg(playerHand) : "Nothing"}
         />
       </div>
 

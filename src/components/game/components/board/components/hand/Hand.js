@@ -13,7 +13,7 @@ const Hand = ({ hand, visible, onClick, isSelected }) => {
   return (
     <div className="playingCards">
       <div className="board-row">
-        {hand.map((card) => (
+        {hand.map((card, index) => (
           <Card
             card={card}
             rank={cardNumtoRank(cardNumber(card))}
@@ -21,7 +21,7 @@ const Hand = ({ hand, visible, onClick, isSelected }) => {
             suit={suitCharToString(cardSuitChar(card))}
             selected={isSelected}
             visible={visible}
-            onClick={() => onClick(isSelected)}
+            onClick={onClick}
           />
         ))}
       </div>

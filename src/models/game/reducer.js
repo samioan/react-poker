@@ -5,6 +5,7 @@ import handCheck from "lib/handCheck";
 const initialState = {
   deck: [],
   playerHand: [],
+  selectedPlayerHand: [],
   aiHand: [],
   playerMoney: 1000,
   aiMoney: 1000,
@@ -87,7 +88,7 @@ const gameReducer = (state = initialState, action) => {
       const newPlayerHand = state.playerHand.slice();
       const newDeck = state.deck.slice();
       //const newPhase = state.phase;
-      newPlayerHand.splice(0, 1, newDeck[0]);
+      newPlayerHand.splice(2, 1, newDeck[0]);
       newDeck.splice(0, 1);
 
       return {
@@ -97,7 +98,6 @@ const gameReducer = (state = initialState, action) => {
         //phase: newPhase + 0.5,
       };
     }
-
     case check.type: {
       const newPlayerMoney = state.playerMoney;
       const newAiMoney = state.aiMoney;
