@@ -68,7 +68,7 @@ const gameReducer = (state = initialState, action) => {
         aiBet: 0,
         phase: 0,
         playerMoney: newPlayerMoney - newPlayerBet,
-        aiMoney: newAiMoney + (newAiBet + newPlayerBet),
+        aiMoney: newAiMoney + newPlayerBet,
       };
     }
 
@@ -88,7 +88,11 @@ const gameReducer = (state = initialState, action) => {
       const newPlayerHand = state.playerHand.slice();
       const newDeck = state.deck.slice();
       //const newPhase = state.phase;
-      newPlayerHand.splice(2, 1, newDeck[0]);
+      newPlayerHand.splice(
+        newPlayerHand.indexOf(action.payload),
+        1,
+        newDeck[0]
+      );
       newDeck.splice(0, 1);
 
       return {
