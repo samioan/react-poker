@@ -1,14 +1,15 @@
-import { check, fold, raise, replace, startGame } from "./actions";
+import { check, fold, raise, replace, startGame, nextPhase } from "./actions";
 import deckCreator from "lib/deckCreator";
 import handCheck from "lib/handCheck";
 
 const initialState = {
   deck: [],
   playerHand: [],
-  selectedPlayerHand: [],
+  changedPlayerHand: [],
   aiHand: [],
   playerMoney: 1000,
   aiMoney: 1000,
+  pot: 0,
   playerBet: 0,
   aiBet: 0,
   phase: 0,
@@ -21,11 +22,15 @@ const gameReducer = (state = initialState, action) => {
       const newPlayerHand = state.playerHand.slice();
       const newAiHand = state.aiHand.slice();
 
+      const bet = 100;
       const newPlayerBet = state.playerBet;
       const newAiBet = state.aiBet;
-      const bet = 100;
+      const newPot = state.pot;
 
-      const newPhase = state.phase;
+      const newAiMoney = state.aiMoney;
+      const newPlayerMoney = state.playerMoney;
+
+      const newPhase = 1;
 
       newDeck.push(deckCreator());
       const newDeckFlat = newDeck.flat();
@@ -33,42 +38,43 @@ const gameReducer = (state = initialState, action) => {
       const newerPlayerHand = newPlayerHand.concat(newDeckFlat);
       const newerAiHand = newAiHand.concat(newDeckFlat);
 
-      if (newPhase === 0) {
-        newerPlayerHand.splice(0, 1);
-        newerPlayerHand.splice(5);
-        newerAiHand.splice(0, 6);
-        newerAiHand.splice(5);
-        newDeckFlat.splice(0, 10);
-        return {
-          ...state,
-          deck: newDeckFlat,
-          playerHand: newerPlayerHand,
-          aiHand: newerAiHand,
-          playerBet: newPlayerBet + bet,
-          aiBet: newAiBet + bet,
-          phase: newPhase + 1,
-        };
-      }
-      break;
+      newerPlayerHand.splice(0, 1);
+      newerPlayerHand.splice(5);
+      newerAiHand.splice(0, 6);
+      newerAiHand.splice(5);
+      newDeckFlat.splice(0, 10);
+
+      return {
+        ...state,
+        deck: newDeckFlat,
+        playerHand: newerPlayerHand,
+        aiHand: newerAiHand,
+        changedPlayerHand: Array(5).fill(null),
+        playerBet: newPlayerBet + bet,
+        aiBet: newAiBet + bet,
+        pot: newPot + bet * 2,
+        playerMoney: newPlayerMoney - bet,
+        aiMoney: newAiMoney - bet,
+        phase: newPhase,
+      };
     }
 
     case fold.type: {
       const newPlayerMoney = state.playerMoney;
       const newAiMoney = state.aiMoney;
       const newPlayerBet = state.playerBet;
-      const newAiBet = state.aiBet;
+      const newPhase = 4;
 
       alert("Given up!");
       return {
         ...state,
-        deck: [],
-        playerHand: [],
-        aiHand: [],
+
         playerBet: 0,
         aiBet: 0,
-        phase: 0,
+        phase: newPhase,
+        pot: 0,
         playerMoney: newPlayerMoney - newPlayerBet,
-        aiMoney: newAiMoney + (newAiBet + newPlayerBet),
+        aiMoney: newAiMoney + newPlayerBet,
       };
     }
 
@@ -77,56 +83,87 @@ const gameReducer = (state = initialState, action) => {
       const newAiBet = state.aiBet;
       const bet = 100;
 
-      return {
-        ...state,
-        playerBet: newPlayerBet + bet,
-        aiBet: newAiBet + bet,
-      };
+      const newPlayerMoney = state.playerMoney;
+      const newAiMoney = state.aiMoney;
+      const newPot = state.pot;
+
+      if (newPlayerMoney > 0) {
+        return {
+          ...state,
+          playerMoney: newPlayerMoney - bet,
+          aiMoney: newAiMoney - bet,
+          pot: newPot + bet * 2,
+          playerBet: newPlayerBet + bet,
+          aiBet: newAiBet + bet,
+        };
+      } else if (newPlayerMoney <= 0) {
+        alert("You cannot bet anymore!");
+        return {
+          ...state,
+        };
+      }
+      break;
     }
 
     case replace.type: {
       const newPlayerHand = state.playerHand.slice();
       const newDeck = state.deck.slice();
-      //const newPhase = state.phase;
-      newPlayerHand.splice(2, 1, newDeck[0]);
-      newDeck.splice(0, 1);
+      const newChangedPlayerHand = state.changedPlayerHand.slice();
+
+      if (
+        newChangedPlayerHand[newPlayerHand.indexOf(action.payload)] === null
+      ) {
+        newChangedPlayerHand.splice(
+          newPlayerHand.indexOf(action.payload),
+          1,
+          newDeck[0]
+        );
+        newPlayerHand.splice(
+          newPlayerHand.indexOf(action.payload),
+          1,
+          newChangedPlayerHand[newPlayerHand.indexOf(action.payload)]
+        );
+        newDeck.splice(0, 1);
+      } else {
+      }
 
       return {
         ...state,
         deck: newDeck,
         playerHand: newPlayerHand,
-        //phase: newPhase + 0.5,
+        changedPlayerHand: newChangedPlayerHand,
       };
     }
+
     case check.type: {
       const newPlayerMoney = state.playerMoney;
       const newAiMoney = state.aiMoney;
       const newPlayerBet = state.playerBet;
       const newAiBet = state.aiBet;
+      const newPot = state.pot;
+      const newPhase = 4;
 
       if (handCheck(state.playerHand) > handCheck(state.aiHand)) {
         alert("You win!");
         return {
           ...state,
-          deck: [],
-          playerHand: [],
-          aiHand: [],
+
           playerBet: 0,
           aiBet: 0,
-          phase: 0,
-          playerMoney: newPlayerMoney + (newPlayerBet + newAiBet),
+          phase: newPhase,
+          pot: 0,
+          playerMoney: newPlayerMoney + newPot,
           aiMoney: newAiMoney - newAiBet,
         };
       } else if (handCheck(state.playerHand) === handCheck(state.aiHand)) {
         alert("Tie!");
         return {
           ...state,
-          deck: [],
-          playerHand: [],
-          aiHand: [],
+
           playerBet: 0,
           aiBet: 0,
-          phase: 0,
+          phase: newPhase,
+          pot: 0,
           playerMoney: newPlayerMoney + newPlayerBet,
           aiMoney: newAiMoney + newAiBet,
         };
@@ -134,17 +171,28 @@ const gameReducer = (state = initialState, action) => {
         alert("You lose!");
         return {
           ...state,
-          deck: [],
-          playerHand: [],
-          aiHand: [],
+
           playerBet: 0,
           aiBet: 0,
-          phase: 0,
+          phase: newPhase,
+          pot: 0,
           playerMoney: newPlayerMoney - newPlayerBet,
-          aiMoney: newAiMoney + (newPlayerBet + newAiBet),
+          aiMoney: newAiMoney + newPot,
         };
       }
     }
+    case nextPhase.type: {
+      const newPhase = state.phase;
+
+      if (newPhase === 1) {
+        alert("You can now replace up to 3 cards.");
+      }
+      return {
+        ...state,
+        phase: newPhase + 1,
+      };
+    }
+
     default:
       return state;
   }

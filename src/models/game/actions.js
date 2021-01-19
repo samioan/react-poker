@@ -13,3 +13,4 @@ export const play = Action("PLAY");
 export const fold = Action("FOLD");
 export const raise = Action("RAISE");
 export const replace = Action("REPLACE");
+export const nextPhase = Action("NEXT_PHASE");

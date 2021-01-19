@@ -1,7 +1,7 @@
 import { React } from "react";
 
-const Card = ({ rank, suit, suitSymbol, visible, selected, onClick }) => {
-  return visible ? (
+const Card = ({ rank, suit, suitSymbol, visible, selected, onClick }) =>
+  visible ? (
     <div className="playingCards">
       <a
         style={
@@ -22,6 +22,5 @@ const Card = ({ rank, suit, suitSymbol, visible, selected, onClick }) => {
       <div className="card back"></div>
     </div>
   );
-};
 
 export default Card;
