@@ -6,6 +6,8 @@ const aiMoney = (state) => state.game.aiMoney;
 const playerBet = (state) => state.game.playerBet;
 const aiBet = (state) => state.game.aiBet;
 const phase = (state) => state.game.phase;
+const pot = (state) => state.game.pot;
+const changedPlayerHand = (state) => state.game.changedPlayerHand;
 
 export {
   deck,
@@ -16,4 +18,6 @@ export {
   playerBet,
   aiBet,
   phase,
+  pot,
+  changedPlayerHand,
 };

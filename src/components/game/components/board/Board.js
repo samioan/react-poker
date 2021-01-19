@@ -8,6 +8,7 @@ const Board = ({
   playerHand,
   playerStats,
   aiStats,
+  gameStats,
   canReplaceCards,
   showPlayButton,
   showActionButtons,
@@ -16,11 +17,14 @@ const Board = ({
   onClickFoldHandler,
   onClickCheckHandler,
   onClickRaiseHandler,
+  showNextPhaseButton,
+  onClickNextPhaseHandler,
+  showAiCards,
 }) => (
   <div className="container">
     <div className="top-player">
       <div className="board-row">
-        <Hand hand={aiHand} visible={false} />
+        <Hand hand={aiHand} visible={showAiCards ? true : false} />
       </div>
     </div>
 
@@ -28,18 +32,16 @@ const Board = ({
       <Stats {...aiStats} />
     </div>
 
+    <div className="buttons-row">
+      <Stats {...gameStats} />
+    </div>
+
     <div className="bottom-player">
       <div className="board-row">
         <Hand
           hand={playerHand}
           visible={true}
-          onClick={
-            canReplaceCards
-              ? onClickReplaceHandler
-              : () => {
-                  alert("You cannot replace any more cards!");
-                }
-          }
+          onClick={canReplaceCards ? onClickReplaceHandler : () => {}}
         />
       </div>
     </div>
@@ -50,6 +52,9 @@ const Board = ({
 
     <div className="buttons-row">
       {showPlayButton && <Button id={"Play"} onClick={onClickPlayHandler} />}
+      {showNextPhaseButton && (
+        <Button id={"Next Turn"} onClick={onClickNextPhaseHandler} />
+      )}
     </div>
 
     <div className="buttons-row">

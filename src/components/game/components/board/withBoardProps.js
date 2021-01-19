@@ -3,7 +3,14 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 
 import { handCheckToMsg } from "lib/handCheck";
-import { check, fold, raise, replace, startGame } from "models/game/actions";
+import {
+  check,
+  fold,
+  raise,
+  replace,
+  startGame,
+  nextPhase,
+} from "models/game/actions";
 import {
   aiBet,
   aiHand,
@@ -13,6 +20,7 @@ import {
   playerBet,
   playerHand,
   playerMoney,
+  pot,
 } from "models/game/selectors";
 
 const withBoardProps = (Component) => (props) => {
@@ -24,6 +32,7 @@ const withBoardProps = (Component) => (props) => {
     playerBet,
     aiMoney,
     aiBet,
+    pot,
   } = props;
 
   const newProps = {
@@ -31,15 +40,20 @@ const withBoardProps = (Component) => (props) => {
     playerStats: {
       money: playerMoney,
       bid: playerBet,
-      strength: phase >= 1 ? handCheckToMsg(playerHand) : "Nothing",
+      strength: phase >= 1 ? handCheckToMsg(playerHand) : null,
     },
     aiStats: {
       money: aiMoney,
       bid: aiBet,
     },
-    canReplaceCards: deck.length > 39,
-    showPlayButton: phase === 0,
-    showActionButtons: phase >= 1,
+    gameStats: {
+      pot: pot,
+    },
+    canReplaceCards: deck.length > 39 && phase === 2,
+    showPlayButton: phase === 0 || phase === 4,
+    showActionButtons: phase === 1 || phase === 3,
+    showNextPhaseButton: phase >= 1 && phase < 3,
+    showAiCards: phase === 4,
   };
 
   return <Component {...newProps} />;
@@ -54,6 +68,7 @@ const mapStateToProps = (state) => ({
   playerBet: playerBet(state),
   playerHand: playerHand(state),
   playerMoney: playerMoney(state),
+  pot: pot(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -62,6 +77,7 @@ const mapDispatchToProps = (dispatch) => ({
   onClickCheckHandler: () => dispatch(check()),
   onClickRaiseHandler: () => dispatch(raise()),
   onClickReplaceHandler: (card) => dispatch(replace(card)),
+  onClickNextPhaseHandler: () => dispatch(nextPhase()),
 });
 
 export { withBoardProps };
