@@ -1,5 +1,5 @@
 import React from "react";
-import { Hand, Button, Stats } from "./components";
+import { Hand, Button, Stats, Log } from "./components";
 
 import withBoardProps from "./withBoardProps";
 
@@ -20,11 +20,16 @@ const Board = ({
   showNextPhaseButton,
   onClickNextPhaseHandler,
   showAiCards,
+  logStats,
 }) => (
   <div className="container">
     <div className="top-player">
       <div className="board-row">
-        <Hand hand={aiHand} visible={showAiCards ? true : false} />
+        <Hand
+          hand={aiHand}
+          visible={showAiCards ? true : false}
+          onClick={() => {}}
+        />
       </div>
     </div>
 
@@ -67,6 +72,9 @@ const Board = ({
           </>
         )}
       </div>
+    </div>
+    <div className="log-row">
+      <Log list={logStats.logger} />
     </div>
   </div>
 );

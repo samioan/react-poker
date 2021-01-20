@@ -124,9 +124,7 @@ const gameReducer = (state = initialState, action) => {
           newChangedPlayerHand[newPlayerHand.indexOf(action.payload)]
         );
         newDeck.splice(0, 1);
-      } else {
       }
-
       return {
         ...state,
         deck: newDeck,
@@ -147,7 +145,6 @@ const gameReducer = (state = initialState, action) => {
         alert("You win!");
         return {
           ...state,
-
           playerBet: 0,
           aiBet: 0,
           phase: newPhase,
@@ -159,7 +156,6 @@ const gameReducer = (state = initialState, action) => {
         alert("Tie!");
         return {
           ...state,
-
           playerBet: 0,
           aiBet: 0,
           phase: newPhase,
@@ -171,7 +167,6 @@ const gameReducer = (state = initialState, action) => {
         alert("You lose!");
         return {
           ...state,
-
           playerBet: 0,
           aiBet: 0,
           phase: newPhase,

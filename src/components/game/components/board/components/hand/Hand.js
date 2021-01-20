@@ -10,7 +10,7 @@ import {
 } from "lib/cardFunctions";
 
 const Hand = ({ hand, visible, onClick, isSelected }) => (
-  <div className="playingCards">
+  <div className="playingCards faceImages">
     <div className="board-row">
       {hand.map((card) => (
         <Card

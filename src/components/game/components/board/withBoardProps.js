@@ -22,6 +22,14 @@ import {
   playerMoney,
   pot,
 } from "models/game/selectors";
+import { logger } from "models/log/selectors";
+import {
+  checkLog,
+  foldLog,
+  raiseLog,
+  replaceLog,
+  startGameLog,
+} from "models/log/actions";
 
 const withBoardProps = (Component) => (props) => {
   const {
@@ -33,6 +41,7 @@ const withBoardProps = (Component) => (props) => {
     aiMoney,
     aiBet,
     pot,
+    logger,
   } = props;
 
   const newProps = {
@@ -48,6 +57,9 @@ const withBoardProps = (Component) => (props) => {
     },
     gameStats: {
       pot: pot,
+    },
+    logStats: {
+      logger: logger,
     },
     canReplaceCards: deck.length > 39 && phase === 2,
     showPlayButton: phase === 0 || phase === 4,
@@ -69,15 +81,33 @@ const mapStateToProps = (state) => ({
   playerHand: playerHand(state),
   playerMoney: playerMoney(state),
   pot: pot(state),
+  logger: logger(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onClickPlayHandler: () => dispatch(startGame()),
-  onClickFoldHandler: () => dispatch(fold()),
-  onClickCheckHandler: () => dispatch(check()),
-  onClickRaiseHandler: () => dispatch(raise()),
-  onClickReplaceHandler: (card) => dispatch(replace(card)),
-  onClickNextPhaseHandler: () => dispatch(nextPhase()),
+  onClickPlayHandler: () => {
+    dispatch(startGame());
+    dispatch(startGameLog());
+  },
+  onClickFoldHandler: () => {
+    dispatch(fold());
+    dispatch(foldLog());
+  },
+  onClickCheckHandler: () => {
+    dispatch(check());
+    dispatch(checkLog());
+  },
+  onClickRaiseHandler: () => {
+    dispatch(raise());
+    dispatch(raiseLog());
+  },
+  onClickReplaceHandler: (card) => {
+    dispatch(replace(card));
+    dispatch(replaceLog());
+  },
+  onClickNextPhaseHandler: () => {
+    dispatch(nextPhase());
+  },
 });
 
 export { withBoardProps };
