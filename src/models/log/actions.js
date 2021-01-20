@@ -7,9 +7,9 @@ const Action = (type) => {
   return actionCreator;
 };
 
-export const checkLog = Action("CHECK_LOG");
-export const startGameLog = Action("START_GAME_LOG");
-export const foldLog = Action("FOLD_LOG");
-export const raiseLog = Action("RAISE_LOG");
-export const replaceLog = Action("REPLACE_LOG");
-export const nextPhaseLog = Action("NEXT_PHASE_LOG");
+export const check = Action("CHECK");
+export const startGame = Action("START_GAME");
+export const fold = Action("FOLD");
+export const raise = Action("RAISE");
+export const replace = Action("REPLACE");
+export const nextPhase = Action("NEXT_PHASE");

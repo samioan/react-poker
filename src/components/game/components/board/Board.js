@@ -12,24 +12,20 @@ const Board = ({
   canReplaceCards,
   showPlayButton,
   showActionButtons,
+  showNextPhaseButton,
+  showAiCards,
   onClickPlayHandler,
   onClickReplaceHandler,
   onClickFoldHandler,
   onClickCheckHandler,
   onClickRaiseHandler,
-  showNextPhaseButton,
   onClickNextPhaseHandler,
-  showAiCards,
   logStats,
 }) => (
   <div className="container">
     <div className="top-player">
       <div className="board-row">
-        <Hand
-          hand={aiHand}
-          visible={showAiCards}
-          onClick={() => {}}
-        />
+        <Hand hand={aiHand} visible={showAiCards} onClick={() => {}} />
       </div>
     </div>
 

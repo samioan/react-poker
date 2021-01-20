@@ -1,63 +1,60 @@
-import {
-  checkLog,
-  foldLog,
-  raiseLog,
-  replaceLog,
-  startGameLog,
-} from "./actions";
+import { check, fold, raise, replace, startGame, nextPhase } from "./actions";
 
 const initialState = {
   logger: [],
 };
 
-const logReducer = (state = initialState, action) => {
+const gameReducer = (state = initialState, action) => {
   switch (action.type) {
-    case startGameLog.type: {
+    case startGame.type: {
       const newLogger = state.logger.slice();
-      newLogger.push("Game started!");
+      newLogger.push("Game started.");
 
       return {
-        ...state,
         logger: newLogger,
       };
     }
 
-    case foldLog.type: {
+    case fold.type: {
       const newLogger = state.logger.slice();
-      newLogger.push("Player has folded!");
+      newLogger.push("Player folds.");
 
       return {
-        ...state,
         logger: newLogger,
       };
     }
 
-    case raiseLog.type: {
+    case raise.type: {
       const newLogger = state.logger.slice();
-      newLogger.push("Player has raised their bid!");
+      newLogger.push("Player raises.");
 
       return {
-        ...state,
         logger: newLogger,
       };
     }
 
-    case replaceLog.type: {
+    case replace.type: {
       const newLogger = state.logger.slice();
-      newLogger.push("Player has traded a card!");
+      newLogger.push("Player trades a card.");
 
       return {
-        ...state,
         logger: newLogger,
       };
     }
 
-    case checkLog.type: {
+    case check.type: {
       const newLogger = state.logger.slice();
-      newLogger.push("Player has checked!");
+      newLogger.push("Player checks.");
 
       return {
-        ...state,
+        logger: newLogger,
+      };
+    }
+    case nextPhase.type: {
+      const newLogger = state.logger.slice();
+      newLogger.push("Next turn.");
+
+      return {
         logger: newLogger,
       };
     }
@@ -68,4 +65,4 @@ const logReducer = (state = initialState, action) => {
 };
 
 export { initialState };
-export default logReducer;
+export default gameReducer;

@@ -23,13 +23,6 @@ import {
   pot,
 } from "models/game/selectors";
 import { logger } from "models/log/selectors";
-import {
-  checkLog,
-  foldLog,
-  raiseLog,
-  replaceLog,
-  startGameLog,
-} from "models/log/actions";
 
 const withBoardProps = (Component) => (props) => {
   const {
@@ -85,29 +78,12 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onClickPlayHandler: () => {
-    dispatch(startGame());
-    dispatch(startGameLog());
-  },
-  onClickFoldHandler: () => {
-    dispatch(fold());
-    dispatch(foldLog());
-  },
-  onClickCheckHandler: () => {
-    dispatch(check());
-    dispatch(checkLog());
-  },
-  onClickRaiseHandler: () => {
-    dispatch(raise());
-    dispatch(raiseLog());
-  },
-  onClickReplaceHandler: (card) => {
-    dispatch(replace(card));
-    dispatch(replaceLog());
-  },
-  onClickNextPhaseHandler: () => {
-    dispatch(nextPhase());
-  },
+  onClickPlayHandler: () => dispatch(startGame()),
+  onClickFoldHandler: () => dispatch(fold()),
+  onClickCheckHandler: () => dispatch(check()),
+  onClickRaiseHandler: () => dispatch(raise()),
+  onClickReplaceHandler: (card) => dispatch(replace(card)),
+  onClickNextPhaseHandler: () => dispatch(nextPhase()),
 });
 
 export { withBoardProps };
