@@ -27,7 +27,7 @@ const Board = ({
       <div className="board-row">
         <Hand
           hand={aiHand}
-          visible={showAiCards ? true : false}
+          visible={showAiCards}
           onClick={() => {}}
         />
       </div>
