@@ -1,4 +1,5 @@
 import { initialState as gameInitialState } from "./game/reducer";
+import { initialState as logInitialState } from "./log/reducer";
 
 import rootReducer from "./rootReducer";
 import { createStore, compose } from "redux";
@@ -13,7 +14,7 @@ if (devToolsExtension && typeof devToolsExtension === "function") {
 
 const store = createStore(
   rootReducer,
-  { game: gameInitialState },
+  { game: gameInitialState, log: logInitialState },
   compose(...enhancers)
 );
 

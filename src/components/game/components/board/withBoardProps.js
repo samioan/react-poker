@@ -22,6 +22,7 @@ import {
   playerMoney,
   pot,
 } from "models/game/selectors";
+import { logger } from "models/log/selectors";
 
 const withBoardProps = (Component) => (props) => {
   const {
@@ -33,6 +34,7 @@ const withBoardProps = (Component) => (props) => {
     aiMoney,
     aiBet,
     pot,
+    logger,
   } = props;
 
   const newProps = {
@@ -48,6 +50,9 @@ const withBoardProps = (Component) => (props) => {
     },
     gameStats: {
       pot: pot,
+    },
+    logStats: {
+      logger,
     },
     canReplaceCards: deck.length > 39 && phase === 2,
     showPlayButton: phase === 0 || phase === 4,
@@ -69,6 +74,7 @@ const mapStateToProps = (state) => ({
   playerHand: playerHand(state),
   playerMoney: playerMoney(state),
   pot: pot(state),
+  logger: logger(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
