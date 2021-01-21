@@ -1,10 +1,17 @@
-import { check, fold, raise, replace, startGame, nextPhase } from "./actions";
+import {
+  check,
+  fold,
+  raise,
+  replace,
+  startGame,
+  nextPhase,
+} from "models/game/actions";
 
 const initialState = {
   logger: [],
 };
 
-const gameReducer = (state = initialState, action) => {
+const logReducer = (state = initialState, action) => {
   switch (action.type) {
     case startGame.type: {
       const newLogger = state.logger.slice();
@@ -65,4 +72,4 @@ const gameReducer = (state = initialState, action) => {
 };
 
 export { initialState };
-export default gameReducer;
+export default logReducer;
