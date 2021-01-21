@@ -52,7 +52,7 @@ const withBoardProps = (Component) => (props) => {
       pot: pot,
     },
     logStats: {
-      logger: logger,
+      logger,
     },
     canReplaceCards: deck.length > 39 && phase === 2,
     showPlayButton: phase === 0 || phase === 4,
