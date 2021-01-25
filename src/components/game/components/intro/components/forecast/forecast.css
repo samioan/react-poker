@@ -1,0 +1,6 @@
+.container-f {
+  display: flex;
+  height: 10vh;
+  flex-direction: column;
+  justify-content: space-between;
+}

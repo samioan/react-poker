@@ -3,6 +3,8 @@ import { Hand, Button, Stats, Log } from "./components";
 
 import withBoardProps from "./withBoardProps";
 
+import "./board.css";
+
 const Board = ({
   aiHand,
   playerHand,
@@ -25,7 +27,7 @@ const Board = ({
   <div className="container">
     <div className="top-player">
       <div className="board-row">
-        <Hand hand={aiHand} visible={showAiCards} onClick={() => {}} />
+        <Hand hand={aiHand} visible={showAiCards} />
       </div>
     </div>
 
