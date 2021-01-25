@@ -1,0 +1,17 @@
+.board-row {
+  display: flex;
+}
+
+.top-player {
+  margin-top: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.bottom-player {
+  margin-top: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}

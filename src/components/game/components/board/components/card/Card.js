@@ -1,14 +1,10 @@
 import { React } from "react";
+import "./card.css";
 
-const Card = ({ rank, suit, suitSymbol, visible, selected, onClick }) =>
+const Card = ({ rank, suit, suitSymbol, visible, onClick }) =>
   visible ? (
     <div className="playingCards">
       <a
-        style={
-          selected
-            ? { border: "5px solid black" }
-            : { border: "5px solid white" }
-        }
         className={"card rank-" + rank.toLowerCase() + " " + suit}
         onClick={onClick}
         href="#"

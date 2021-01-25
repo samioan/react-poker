@@ -1,22 +1,21 @@
+import { Button } from "components/game/components/board/components";
 import React, { useState } from "react";
+import "./forecast.css";
 
 const Conditions = (props) => {
   return (
     <div className="buttons-row">
       {props.responseObj.cod === 200 ? (
         <div className="buttons-row">
-          <p className="textArea">
+          <p className="text">
             Here in {props.responseObj.name} it is currently{" "}
             {Math.round(props.responseObj.main.temp)} degrees out with{" "}
             {props.responseObj.weather[0].description}.
           </p>
           {Math.round(props.responseObj.main.temp) <= 16 ? (
-            <div className="buttons-row">
-              <p className="textArea">
-                Grab some hot chocolate and play Poker because it's cold
-                outside!
-              </p>
-            </div>
+            <p className="text">
+              Grab some hot chocolate and play Poker because it's cold outside!
+            </p>
           ) : null}
         </div>
       ) : null}
@@ -48,11 +47,9 @@ const Forecast = () => {
       });
   }
   return (
-    <div className="container2">
+    <div className="container-f">
       <div className="buttons-row">
-        <button className="button" onClick={getForecast}>
-          What's the weather like?
-        </button>
+        <Button id={"Today's Weather Forecast"} onClick={getForecast} />
       </div>
       <div className="buttons-row">
         <Conditions responseObj={responseObj} />

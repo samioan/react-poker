@@ -9,8 +9,8 @@ import {
   cardNumber,
 } from "lib/cardFunctions";
 
-const Hand = ({ hand, visible, onClick, isSelected }) => (
-  <div className="playingCards faceImages">
+const Hand = ({ hand, visible, onClick }) => (
+  <div className="playingCards">
     <div className="board-row">
       {hand.map((card) => (
         <Card
@@ -19,9 +19,8 @@ const Hand = ({ hand, visible, onClick, isSelected }) => (
           rank={cardNumtoRank(cardNumber(card))}
           suitSymbol={suitCharToSymbol(cardSuitChar(card))}
           suit={suitCharToString(cardSuitChar(card))}
-          selected={isSelected}
           visible={visible}
-          onClick={() => onClick(card)}
+          onClick={() => onClick && onClick(card)}
         />
       ))}
     </div>
