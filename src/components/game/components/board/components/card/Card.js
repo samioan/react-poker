@@ -1,4 +1,4 @@
-import { React } from "react";
+import React from "react";
 import "./card.css";
 
 const Card = ({ rank, suit, suitSymbol, visible, onClick }) =>
@@ -19,4 +19,5 @@ const Card = ({ rank, suit, suitSymbol, visible, onClick }) =>
     </div>
   );
 
+export { Card };
 export default Card;

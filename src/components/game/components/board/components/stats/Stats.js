@@ -9,4 +9,5 @@ const Stats = ({ money, bid, strength, pot }) => (
   </div>
 );
 
+export { Stats };
 export default Stats;

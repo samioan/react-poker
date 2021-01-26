@@ -1,4 +1,4 @@
-import { React } from "react";
+import React from "react";
 
 import Card from "../card";
 import {
@@ -27,4 +27,5 @@ const Hand = ({ hand, visible, onClick }) => (
   </div>
 );
 
+export { Hand };
 export default Hand;
