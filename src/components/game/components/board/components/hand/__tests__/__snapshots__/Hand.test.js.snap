@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Card component renders correctly -- is hidden 1`] = `
+<div
+  className="playingCards"
+>
+  <div
+    className="board-row"
+  >
+    <Card
+      card="mock_card1"
+      key="mock_card1"
+      onClick={[Function]}
+      rank={null}
+      suit={null}
+      suitSymbol={null}
+      visible={false}
+    />
+    <Card
+      card="mock_card2"
+      key="mock_card2"
+      onClick={[Function]}
+      rank={null}
+      suit={null}
+      suitSymbol={null}
+      visible={false}
+    />
+    <Card
+      card="mock_card3"
+      key="mock_card3"
+      onClick={[Function]}
+      rank={null}
+      suit={null}
+      suitSymbol={null}
+      visible={false}
+    />
+    <Card
+      card="mock_card4"
+      key="mock_card4"
+      onClick={[Function]}
+      rank={null}
+      suit={null}
+      suitSymbol={null}
+      visible={false}
+    />
+    <Card
+      card="mock_card5"
+      key="mock_card5"
+      onClick={[Function]}
+      rank={null}
+      suit={null}
+      suitSymbol={null}
+      visible={false}
+    />
+  </div>
+</div>
+`;
+
+exports[`Card component renders correctly -- is visible 1`] = `
+<div
+  className="playingCards"
+>
+  <div
+    className="board-row"
+  >
+    <Card
+      card="mock_card1"
+      key="mock_card1"
+      onClick={[Function]}
+      rank={null}
+      suit={null}
+      suitSymbol={null}
+      visible={true}
+    />
+    <Card
+      card="mock_card2"
+      key="mock_card2"
+      onClick={[Function]}
+      rank={null}
+      suit={null}
+      suitSymbol={null}
+      visible={true}
+    />
+    <Card
+      card="mock_card3"
+      key="mock_card3"
+      onClick={[Function]}
+      rank={null}
+      suit={null}
+      suitSymbol={null}
+      visible={true}
+    />
+    <Card
+      card="mock_card4"
+      key="mock_card4"
+      onClick={[Function]}
+      rank={null}
+      suit={null}
+      suitSymbol={null}
+      visible={true}
+    />
+    <Card
+      card="mock_card5"
+      key="mock_card5"
+      onClick={[Function]}
+      rank={null}
+      suit={null}
+      suitSymbol={null}
+      visible={true}
+    />
+  </div>
+</div>
+`;

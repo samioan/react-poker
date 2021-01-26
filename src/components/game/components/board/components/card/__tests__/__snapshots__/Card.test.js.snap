@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Card component renders correctly -- is hidden 1`] = `
+<div
+  className="playingCards"
+>
+  <div
+    className="card back"
+  />
+</div>
+`;
+
+exports[`Card component renders correctly -- is visible 1`] = `
+<div
+  className="playingCards"
+>
+  <a
+    className="card rank-mock_rank mock_suit"
+    href="#"
+    onClick={[MockFunction]}
+  >
+    <span
+      className="rank"
+    >
+      mock_rank
+    </span>
+    <span
+      className="suit"
+    >
+      mock_symbol
+    </span>
+  </a>
+</div>
+`;
