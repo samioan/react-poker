@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Card component renders correctly -- is hidden 1`] = `
+exports[`Hand component renders correctly -- is hidden 1`] = `
 <div
   className="playingCards"
 >
@@ -56,7 +56,7 @@ exports[`Card component renders correctly -- is hidden 1`] = `
 </div>
 `;
 
-exports[`Card component renders correctly -- is visible 1`] = `
+exports[`Hand component renders correctly -- is visible 1`] = `
 <div
   className="playingCards"
 >

@@ -36,4 +36,5 @@ const deckCreator = () => {
   return deck;
 };
 
+export { deckCreator };
 export default deckCreator;
