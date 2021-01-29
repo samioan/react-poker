@@ -7,7 +7,7 @@ describe("isFlush function", () => {
     //WHEN
     const result = isFlush(hand);
     //THEN
-    expect(result).toEqual(true);
+    expect(result).toBeTruthy();
   });
   test("should return false", () => {
     //GIVEN
