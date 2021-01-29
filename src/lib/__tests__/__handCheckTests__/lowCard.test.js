@@ -7,6 +7,6 @@ describe("lowCard function", () => {
     //WHEN
     const result = lowCard(hand);
     //THEN
-    expect(result).toEqual(2);
+    expect(result).toBe(2);
   });
 });
