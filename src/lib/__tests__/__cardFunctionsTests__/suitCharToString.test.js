@@ -15,7 +15,7 @@ describe("suitCharToString function", () => {
     //WHEN
     const result = suitCharToString(suitChar);
     //THEN
-    expect(result).toEqual("clubs");
+    expect(result).toBe("clubs");
   });
   test("should return diams", () => {
     //GIVEN
