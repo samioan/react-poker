@@ -23,7 +23,7 @@ describe("isStraight function", () => {
     //WHEN
     const result = isStraight(hand);
     //THEN
-    expect(result).toEqual(true);
+    expect(result).toBeTruthy();
   });
   test("should return false", () => {
     //GIVEN
