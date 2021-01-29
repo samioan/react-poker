@@ -7,7 +7,7 @@ describe("isFullHouse function", () => {
     //WHEN
     const result = isFullHouse(hand);
     //THEN
-    expect(result).toEqual(true);
+    expect(result).toBeTruthy();
   });
   test("should return false", () => {
     //GIVEN
