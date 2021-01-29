@@ -23,7 +23,7 @@ describe("handCheck function", () => {
     //WHEN
     const result = handCheck(hand);
     //THEN
-    expect(result).toEqual(8);
+    expect(result).toBe(8);
   });
   test("should return 7", () => {
     //GIVEN
