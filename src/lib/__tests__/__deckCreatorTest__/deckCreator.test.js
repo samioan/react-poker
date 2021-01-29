@@ -61,6 +61,6 @@ describe("deckCreator function", () => {
       "C14"
     );
     //THEN
-    expect(result).toEqual(true);
+    expect(result).toBeTruthy();
   });
 });
