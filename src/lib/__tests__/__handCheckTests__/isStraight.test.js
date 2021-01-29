@@ -31,6 +31,6 @@ describe("isStraight function", () => {
     //WHEN
     const result = isStraight(hand);
     //THEN
-    expect(result).toEqual(false);
+    expect(result).toBeFalsy();
   });
 });
