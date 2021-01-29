@@ -39,6 +39,6 @@ describe("suitCharToString function", () => {
     //WHEN
     const result = suitCharToString(suitChar);
     //THEN
-    expect(result).toEqual(null);
+    expect(result).toBe(null);
   });
 });
