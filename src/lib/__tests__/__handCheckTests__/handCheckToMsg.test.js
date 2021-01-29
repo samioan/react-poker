@@ -31,7 +31,7 @@ describe("handCheckToMsg function", () => {
     //WHEN
     const result = handCheckToMsg(hand);
     //THEN
-    expect(result).toEqual("Full House");
+    expect(result).toBe("Full House");
   });
   test("should return Flush", () => {
     //GIVEN
