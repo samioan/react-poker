@@ -55,7 +55,7 @@ describe("handCheckToMsg function", () => {
     //WHEN
     const result = handCheckToMsg(hand);
     //THEN
-    expect(result).toEqual("Three of a kind");
+    expect(result).toBe("Three of a kind");
   });
   test("should return Two Pair", () => {
     //GIVEN
