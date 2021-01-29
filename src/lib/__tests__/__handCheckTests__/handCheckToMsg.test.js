@@ -71,7 +71,7 @@ describe("handCheckToMsg function", () => {
     //WHEN
     const result = handCheckToMsg(hand);
     //THEN
-    expect(result).toEqual("One Pair");
+    expect(result).toBe("One Pair");
   });
   test("should return No Strength", () => {
     //GIVEN
