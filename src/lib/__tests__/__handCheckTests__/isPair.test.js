@@ -23,6 +23,6 @@ describe("isPair function", () => {
     //WHEN
     const result = isPair(hand);
     //THEN
-    expect(result).toEqual(false);
+    expect(result).toBeFalsy();
   });
 });
