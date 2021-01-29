@@ -63,7 +63,7 @@ describe("handCheckToMsg function", () => {
     //WHEN
     const result = handCheckToMsg(hand);
     //THEN
-    expect(result).toEqual("Two Pair");
+    expect(result).toBe("Two Pair");
   });
   test("should return One Pair", () => {
     //GIVEN
