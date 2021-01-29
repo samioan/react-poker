@@ -39,7 +39,7 @@ describe("handCheckToMsg function", () => {
     //WHEN
     const result = handCheckToMsg(hand);
     //THEN
-    expect(result).toEqual("Flush");
+    expect(result).toBe("Flush");
   });
   test("should return Straight", () => {
     //GIVEN
