@@ -23,7 +23,7 @@ describe("suitCharToString function", () => {
     //WHEN
     const result = suitCharToString(suitChar);
     //THEN
-    expect(result).toEqual("diams");
+    expect(result).toBe("diams");
   });
   test("should return spades", () => {
     //GIVEN
