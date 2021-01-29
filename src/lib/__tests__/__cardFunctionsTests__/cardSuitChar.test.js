@@ -15,6 +15,6 @@ describe("cardSuitChar function", () => {
     //WHEN
     const result = cardSuitChar(card);
     //THEN
-    expect(result).toEqual(undefined);
+    expect(result).toBeUndefined();
   });
 });
