@@ -7,6 +7,6 @@ describe("cardStrength function", () => {
     //WHEN
     const result = cardStrength(card);
     //THEN
-    expect(result).toEqual(8);
+    expect(result).toBe(8);
   });
 });
