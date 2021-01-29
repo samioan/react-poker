@@ -103,6 +103,6 @@ describe("cardNumtoRank function", () => {
     //WHEN
     const result = cardNumtoRank(suitRank);
     //THEN
-    expect(result).toEqual("A");
+    expect(result).toBe("A");
   });
 });
