@@ -7,7 +7,7 @@ describe("suitCharToString function", () => {
     //WHEN
     const result = suitCharToString(suitChar);
     //THEN
-    expect(result).toEqual("hearts");
+    expect(result).toBe("hearts");
   });
   test("should return clubs", () => {
     //GIVEN
