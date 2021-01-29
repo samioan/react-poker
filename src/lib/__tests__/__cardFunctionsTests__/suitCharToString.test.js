@@ -31,7 +31,7 @@ describe("suitCharToString function", () => {
     //WHEN
     const result = suitCharToString(suitChar);
     //THEN
-    expect(result).toEqual("spades");
+    expect(result).toBe("spades");
   });
   test("should return null", () => {
     //GIVEN
