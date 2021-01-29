@@ -7,6 +7,6 @@ describe("cardNumber function", () => {
     //WHEN
     const result = cardNumber(card);
     //THEN
-    expect(result).toEqual("08");
+    expect(result).toBe("08");
   });
 });
