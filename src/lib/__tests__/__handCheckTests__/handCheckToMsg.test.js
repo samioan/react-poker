@@ -15,7 +15,7 @@ describe("handCheckToMsg function", () => {
     //WHEN
     const result = handCheckToMsg(hand);
     //THEN
-    expect(result).toEqual("Straight Flush");
+    expect(result).toBe("Straight Flush");
   });
   test("should return Four of a kind", () => {
     //GIVEN
