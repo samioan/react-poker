@@ -15,7 +15,7 @@ describe("isFourOfAKind function", () => {
     //WHEN
     const result = isFourOfAKind(hand);
     //THEN
-    expect(result).toEqual(false);
+    expect(result).toBeFalsy();
   });
   test("should return false", () => {
     //GIVEN
