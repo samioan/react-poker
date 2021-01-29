@@ -7,7 +7,7 @@ describe("cardSuitChar function", () => {
     //WHEN
     const result = cardSuitChar(card);
     //THEN
-    expect(result).toEqual("C");
+    expect(result).toBe("C");
   });
   test("should return undefined", () => {
     //GIVEN
