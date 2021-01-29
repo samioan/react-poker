@@ -23,7 +23,7 @@ describe("handCheckToMsg function", () => {
     //WHEN
     const result = handCheckToMsg(hand);
     //THEN
-    expect(result).toEqual("Four of a kind");
+    expect(result).toBe("Four of a kind");
   });
   test("should return Full House", () => {
     //GIVEN
