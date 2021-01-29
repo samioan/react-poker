@@ -39,6 +39,6 @@ describe("suitCharToSymbol function", () => {
     //WHEN
     const result = suitCharToSymbol(suitChar);
     //THEN
-    expect(result).toEqual(null);
+    expect(result).toBeNull();
   });
 });
