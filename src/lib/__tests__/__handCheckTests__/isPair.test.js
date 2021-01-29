@@ -7,7 +7,7 @@ describe("isPair function", () => {
     //WHEN
     const result = isPair(hand);
     //THEN
-    expect(result).toEqual(true);
+    expect(result).toBeTruthy();
   });
   test("should return false", () => {
     //GIVEN
