@@ -7,7 +7,7 @@ describe("isThreeOfAKind function", () => {
     //WHEN
     const result = isThreeOfAKind(hand);
     //THEN
-    expect(result).toEqual(true);
+    expect(result).toBeTruthy();
   });
   test("should return false", () => {
     //GIVEN
