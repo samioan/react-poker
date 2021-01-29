@@ -7,7 +7,7 @@ describe("handCheckToMsg function", () => {
     //WHEN
     const result = handCheckToMsg(hand);
     //THEN
-    expect(result).toEqual("Royal Flush");
+    expect(result).toBe("Royal Flush");
   });
   test("should return Straight Flush", () => {
     //GIVEN
