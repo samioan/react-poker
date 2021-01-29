@@ -47,7 +47,7 @@ describe("handCheck function", () => {
     //WHEN
     const result = handCheck(hand);
     //THEN
-    expect(result).toEqual(5);
+    expect(result).toBe(5);
   });
   test("should return 4", () => {
     //GIVEN
