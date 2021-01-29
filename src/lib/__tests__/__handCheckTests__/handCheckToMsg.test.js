@@ -47,7 +47,7 @@ describe("handCheckToMsg function", () => {
     //WHEN
     const result = handCheckToMsg(hand);
     //THEN
-    expect(result).toEqual("Straight");
+    expect(result).toBe("Straight");
   });
   test("should return Three of a kind", () => {
     //GIVEN
