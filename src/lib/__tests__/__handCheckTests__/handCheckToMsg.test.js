@@ -79,6 +79,6 @@ describe("handCheckToMsg function", () => {
     //WHEN
     const result = handCheckToMsg(hand);
     //THEN
-    expect(result).toEqual("No Strength");
+    expect(result).toBe("No Strength");
   });
 });
