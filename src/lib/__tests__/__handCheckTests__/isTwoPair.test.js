@@ -23,6 +23,6 @@ describe("isTwoPair function", () => {
     //WHEN
     const result = isTwoPair(hand);
     //THEN
-    expect(result).toEqual(false);
+    expect(result).toBeFalsy();
   });
 });
