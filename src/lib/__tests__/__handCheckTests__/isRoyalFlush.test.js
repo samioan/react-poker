@@ -23,6 +23,6 @@ describe("isRoyalFlush function", () => {
     //WHEN
     const result = isRoyalFlush(hand);
     //THEN
-    expect(result).toEqual(false);
+    expect(result).toBeFalsy();
   });
 });
