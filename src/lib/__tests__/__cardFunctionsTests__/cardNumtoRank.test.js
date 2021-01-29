@@ -87,7 +87,7 @@ describe("cardNumtoRank function", () => {
     //WHEN
     const result = cardNumtoRank(suitRank);
     //THEN
-    expect(result).toEqual("Q");
+    expect(result).toBe("Q");
   });
   test("should return K", () => {
     //GIVEN
