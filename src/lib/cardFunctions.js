@@ -23,66 +23,64 @@ const cardsDuplicates = (hand) => {
 
 //Displays the card's suit symbol
 const suitCharToSymbol = (suitChar) => {
-    switch (suitChar) {
-      case "H":
-        return <>&hearts;</>;
-      case "C":
-        return <>&clubs;</>;
-      case "D":
-        return <>&diams;</>;
-      case "S":
-        return <>&spades;</>;
-      default:
-        return null;
-    }
-  };
-
-  //Displays the card's suit in a string
-  const suitCharToString = (suitChar) => {
-    switch (suitChar) {
-      case "H":
-        return "hearts";
-      case "C":
-        return "clubs";
-      case "D":
-        return "diams";
-      case "S":
-        return "spades";
-      default:
-        return null;
-    }
-  };
-
-  //Displays the card's rank in a string
-  const cardNumtoRank = (suitRank) => {
-    if (suitRank <= 9) {
-      return suitRank.charAt(1).toString();
-    }
-    switch (suitRank) {
-      case "10":
-        return "10";
-      case "11":
-        return "J";
-      case "12":
-        return "Q";
-      case "13":
-        return "K";
-      case "14":
-        return "A";
-      default:
-        return null;
-    }
-  };
-
-  export {
-    cardNumber,
-    cardSuitChar,
-    cardStrength,
-    cardsToNumbers,
-    cardsDuplicates,
-    suitCharToSymbol,
-    suitCharToString,
-    cardNumtoRank,
+  switch (suitChar) {
+    case "H":
+      return <>&hearts;</>;
+    case "C":
+      return <>&clubs;</>;
+    case "D":
+      return <>&diams;</>;
+    case "S":
+      return <>&spades;</>;
+    default:
+      return null;
+  }
 };
 
-  
+//Displays the card's suit in a string
+const suitCharToString = (suitChar) => {
+  switch (suitChar) {
+    case "H":
+      return "hearts";
+    case "C":
+      return "clubs";
+    case "D":
+      return "diams";
+    case "S":
+      return "spades";
+    default:
+      return null;
+  }
+};
+
+//Displays the card's rank in a string
+const cardNumtoRank = (suitRank) => {
+  if (suitRank <= 9) {
+    return suitRank.charAt(1).toString();
+  }
+  switch (suitRank) {
+    case "10":
+      return "10";
+    case "11":
+      return "J";
+    case "12":
+      return "Q";
+    case "13":
+      return "K";
+    case "14":
+      return "A";
+    default:
+      return null;
+  }
+};
+
+export {
+  cardNumber,
+  cardSuitChar,
+  cardStrength,
+  cardsToNumbers,
+  cardsDuplicates,
+  suitCharToSymbol,
+  suitCharToString,
+  cardNumtoRank,
+};
