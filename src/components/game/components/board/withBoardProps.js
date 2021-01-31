@@ -57,7 +57,7 @@ const withBoardProps = (Component) => (props) => {
     canReplaceCards: deck.length > 39 && phase === 2,
     showPlayButton: phase === 0 || phase === 4,
     showActionButtons: phase === 1 || phase === 3,
-    showNextPhaseButton: phase >= 1 && phase < 3,
+    showNextPhaseButton: phase >= 2 && phase < 3,
     showAiCards: phase === 4,
   };
 

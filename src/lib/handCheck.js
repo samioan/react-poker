@@ -96,7 +96,7 @@ const handCheckToMsg = (hand) => {
     case isThreeOfAKind(hand):
       return "Three of a kind";
     case isTwoPair(hand):
-      return "Two Pair";
+      return "Two Pairs";
     case isPair(hand):
       return "One Pair";
     default:
