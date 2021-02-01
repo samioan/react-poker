@@ -1,11 +1,11 @@
 import {
-  gameChecked,
-  gameWin,
-  gameLose,
-  gameTie,
+  playerChecked,
+  playerWon,
+  playerLost,
+  playerTied,
   cardReplaced,
   gameStarted,
-  gameFolded,
+  playerFolded,
   betRaised,
   phaseAdvanced,
 } from "./actions";
@@ -32,7 +32,7 @@ const gameReducer = (state = initialState, action) => {
       };
     }
 
-    case gameFolded.type: {
+    case playerFolded.type: {
       return {
         ...state,
         ...action.payload,
@@ -52,25 +52,25 @@ const gameReducer = (state = initialState, action) => {
         ...action.payload,
       };
     }
-    case gameChecked.type: {
+    case playerChecked.type: {
       return {
         ...state,
         ...action.payload,
       };
     }
-    case gameWin.type: {
+    case playerWon.type: {
       return {
         ...state,
         ...action.payload,
       };
     }
-    case gameLose.type: {
+    case playerLost.type: {
       return {
         ...state,
         ...action.payload,
       };
     }
-    case gameTie.type: {
+    case playerTied.type: {
       return {
         ...state,
         ...action.payload,
