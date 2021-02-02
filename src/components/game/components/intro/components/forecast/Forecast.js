@@ -10,7 +10,7 @@ import "./forecast.css";
 const Forecast = ({ name, temp, description, onClickForecastHandler }) => (
   <div>
     <div>
-      <Button id={"Weather Forecast"} onClick={onClickForecastHandler} />
+      <Button id="Weather Forecast" onClick={onClickForecastHandler} />
     </div>
     <div>
       <p className="text">{name}</p>
