@@ -1,5 +1,6 @@
 import { initialState as gameInitialState } from "./game/reducer";
 import { initialState as logInitialState } from "./log/reducer";
+import { initialState as forecastInitialState } from "./forecast/reducer";
 
 import rootEpic from "./rootEpic";
 import rootReducer from "./rootReducer";
@@ -18,7 +19,11 @@ if (devToolsExtension && typeof devToolsExtension === "function") {
 
 const store = createStore(
   rootReducer,
-  { game: gameInitialState, log: logInitialState },
+  {
+    game: gameInitialState,
+    log: logInitialState,
+    forecast: forecastInitialState,
+  },
   compose(applyMiddleware(...middleware), ...enhancers)
 );
 

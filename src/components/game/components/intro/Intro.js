@@ -7,7 +7,7 @@ import { Forecast } from "./components";
 import "./intro.css";
 
 const Intro = () => (
-  <div className="container">
+  <div className="intro-container">
     <div className="header-row">
       <h2 className="textArea">React Poker App</h2>
       <p className="text">Poker app made in React.js.</p>
@@ -39,6 +39,9 @@ const Intro = () => (
           <Button id={"Youtube"} />
         </Link>
       </div>
+    </div>
+    <div className="buttons-row">
+      <img className="logo-image" />
     </div>
     <div className="buttons-row">
       <Link to="/game">

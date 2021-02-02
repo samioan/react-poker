@@ -34,15 +34,20 @@
 
 .playingCards a.card {
   text-decoration: none;
+  transition: transform 0.2s linear;
 }
 /* selected and hover state */
 .playingCards a.card:hover,
-.playingCards a.card:active,
 .playingCards a.card:focus,
 .playingCards label.card:hover,
 .playingCards strong .card {
-  bottom: 1em;
+  transform: translateY(-25px);
 }
+
+.playingCards a.card:active {
+  transform: translateY(0px);
+}
+
 .playingCards label.card {
   cursor: pointer;
 }

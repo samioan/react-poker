@@ -37,7 +37,7 @@ const startGameEpic = (action$, state$) =>
   action$.pipe(
     ofType(startGame.type),
     map(() => {
-      const newDeck = deck(state$.value).slice();
+      const newDeck = [deckCreator()];
       const newPlayerHand = playerHand(state$.value).slice();
       const newAiHand = aiHand(state$.value).slice();
 
@@ -51,7 +51,6 @@ const startGameEpic = (action$, state$) =>
 
       const newPhase = 1;
 
-      newDeck.push(deckCreator());
       const newDeckFlat = newDeck.flat();
 
       const newerPlayerHand = newPlayerHand.concat(newDeckFlat);
