@@ -4,3 +4,27 @@
   margin-left: auto;
   margin-right: auto;
 }
+.intro-container {
+  display: flex;
+  height: 90vh;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+.intro-container:before {
+  z-index: -1;
+  position: absolute;
+  left: 0vh;
+  right: 0vh;
+  top: 0vh;
+  bottom: -8vh;
+  overflow: hidden;
+  content: url("bg.jpg");
+  opacity: 0.1;
+}
+.logo-image {
+  width: 480px;
+  height: 480px;
+  content: url("icon.png");
+}

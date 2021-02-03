@@ -1,6 +1,24 @@
 import { Button } from "components/game/components/board/components";
 import React, { useState } from "react";
+
+import withForecastProps from "./withForecastProps";
+
+//import { name, temp, description } from "models/forecast/selectors";
+
 import "./forecast.css";
+
+//const Forecast = ({ name, temp, description, onClickForecastHandler }) => (
+//  <div>
+//    <div>
+//      <Button id={"Weather Forecast"} onClick={onClickForecastHandler} />
+//    </div>
+//    <div>
+//      <p className="text">{name}</p>
+//      <p className="text">{temp}</p>
+//      <p className="text">{description}</p>
+//    </div>
+//  </div>
+//);
 
 const Conditions = (props) => {
   return (
@@ -57,4 +75,6 @@ const Forecast = () => {
     </div>
   );
 };
-export default Forecast;
+
+export { Forecast };
+export default withForecastProps(Forecast);
