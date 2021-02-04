@@ -57,13 +57,13 @@ describe("handCheckToMsg function", () => {
     //THEN
     expect(result).toBe("Three of a kind");
   });
-  test("should return Two Pair", () => {
+  test("should return Two Pairs", () => {
     //GIVEN
     const hand = ["C10", "H10", "C14", "D14", "S08"];
     //WHEN
     const result = handCheckToMsg(hand);
     //THEN
-    expect(result).toBe("Two Pair");
+    expect(result).toBe("Two Pairs");
   });
   test("should return One Pair", () => {
     //GIVEN

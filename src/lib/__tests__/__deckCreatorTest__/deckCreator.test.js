@@ -13,13 +13,9 @@ describe("deckCreator function", () => {
           : stringifiedNumber;
       });
 
-    const mock_deck = [];
-
-    for (let i = 0; i < mock_ranks.length; i++) {
-      for (let y = 0; y < mock_suits.length; y++) {
-        mock_deck.push(mock_suits[y] + mock_ranks[i]);
-      }
-    }
+    const mock_deck = [
+      ...mock_ranks.map((x) => mock_suits.map((y) => y + x)),
+    ].flat();
 
     //WHEN
     const result = mock_deck.every((i) => deckCreator().includes(i));
