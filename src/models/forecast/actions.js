@@ -1,11 +1,6 @@
-const Action = (type) => {
-  const actionCreator = (payload) => ({
-    type,
-    payload,
-  });
-  actionCreator.type = type;
-  return actionCreator;
-};
+import ActionCreator from "aa-minimal-core-lib/models/actions/ActionCreator";
 
-export const getForecast = Action("GET_FORECAST");
-export const forecastLoaded = Action("FORECAST_LOADED");
+const namespacedActionCreator = ActionCreator("//FORECAST");
+
+export const getForecast = namespacedActionCreator("GET_FORECAST");
+export const forecastLoaded = namespacedActionCreator("FORECAST_LOADED");

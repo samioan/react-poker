@@ -1,27 +1,16 @@
-import { map } from "rxjs/operators";
 import { combineEpics, ofType } from "redux-observable";
-import { name, temp, description } from "./selectors";
-import { getForecast, forecastLoaded } from "./actions";
+import { getForecast } from "./actions";
 import { effect } from "aa-minimal-core-lib/models/epics";
+import { getForecastService } from "services";
 
-const forecastEpic = (action$, state$) =>
+const getForecastEpic = (action$) =>
   action$.pipe(
     ofType(getForecast.type),
-    effect(() => {
-      fetch(
-        "https://community-open-weather-map.p.rapidapi.com/weather?q=Athens%2Cgr&units=metric",
-        {
-          method: "GET",
-          headers: {
-            "x-rapidapi-key":
-              "7f268e1e4amsh5918349f7b2b61bp1e32b3jsnf97c9be51f24",
-            "x-rapidapi-host": "community-open-weather-map.p.rapidapi.com",
-          },
-        }
-      ).then((response) => response.json());
-    }, getForecast)
+    effect(getForecastService, getForecast)
   );
 
-export default combineEpics(forecastEpic);
+// TODO: getForecastSucceededEpic
 
-export { forecastEpic };
+export default combineEpics(getForecastEpic);
+
+export { getForecastEpic };

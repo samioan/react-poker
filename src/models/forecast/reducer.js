@@ -1,4 +1,4 @@
-import { forecastLoaded } from "./actions";
+import { forecastLoaded, getForecast } from "./actions";
 
 const initialState = {
   name: "",
@@ -12,6 +12,13 @@ const forecastReducer = (state = initialState, action) => {
       return {
         ...state,
         ...action.payload,
+      };
+    }
+
+    case getForecast.succeeded.type: {
+      return {
+        ...state,
+        // TODO: The reducer way
       };
     }
 

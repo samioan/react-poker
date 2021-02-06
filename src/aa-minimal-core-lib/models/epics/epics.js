@@ -2,7 +2,7 @@ import { from } from "rxjs";
 import { catchError, mergeMap } from "rxjs/operators";
 import { ofType } from "redux-observable";
 
-import { effect } from "../actions";
+import { effect } from "../actions/";
 
 const effectEpic = (action$) =>
   action$.pipe(
