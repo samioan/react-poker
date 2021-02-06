@@ -159,9 +159,7 @@ const checkEpic = (action$, state$) =>
         aiHand: newAiHand,
       };
       if (newPhase === 1) {
-        return playerChecked({
-          phase: newPhase + 1,
-        });
+        return playerChecked(newPhase + 1);
       } else if (newPhase !== 1) {
         if (handCheck(newPlayerHand) > handCheck(newAiHand)) {
           return playerWon({
@@ -191,9 +189,7 @@ const nextPhaseEpic = (action$, state$) =>
     map(() => {
       const newPhase = phase(state$.value);
 
-      return phaseAdvanced({
-        phase: newPhase + 1,
-      });
+      return phaseAdvanced(newPhase + 1);
     })
   );
 export default combineEpics(

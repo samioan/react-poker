@@ -55,7 +55,7 @@ const gameReducer = (state = initialState, action) => {
     case playerChecked.type: {
       return {
         ...state,
-        ...action.payload,
+        phase: action.payload,
       };
     }
     case playerWon.type: {
@@ -79,7 +79,7 @@ const gameReducer = (state = initialState, action) => {
     case phaseAdvanced.type: {
       return {
         ...state,
-        ...action.payload,
+        phase: action.payload,
       };
     }
 
