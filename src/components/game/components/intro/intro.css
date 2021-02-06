@@ -19,12 +19,16 @@
   right: 0vh;
   top: 0vh;
   bottom: -8vh;
+  width: auto;
+  height: auto;
   overflow: hidden;
-  content: url("bg.jpg");
+  content: "";
+  background: url("bg.jpg") no-repeat fixed center;
+  background-size: cover;
   opacity: 0.1;
 }
 .logo-image {
-  width: 480px;
-  height: 480px;
+  width: 25em;
+  height: 25em;
   content: url("icon.png");
 }

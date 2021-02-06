@@ -12,6 +12,8 @@ const withForecastProps = (Component) => (props) => {
 
   const newProps = {
     ...props,
+    showMessage:
+      temp < 16 ? "It's gonna be a cold day!" : "A nice and warm day!",
   };
 
   return <Component {...newProps} />;

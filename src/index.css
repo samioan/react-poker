@@ -12,7 +12,6 @@
   --buttonColor: #ff873f;
   --logColor: #a2503d;
 }
-
 body {
   font-family: "Chakra Petch", sans-serif;
   background-color: var(--bgColor);

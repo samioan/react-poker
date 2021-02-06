@@ -15,13 +15,6 @@ const forecastReducer = (state = initialState, action) => {
       };
     }
 
-    case getForecast.succeeded.type: {
-      return {
-        ...state,
-        // TODO: The reducer way
-      };
-    }
-
     default:
       return state;
   }

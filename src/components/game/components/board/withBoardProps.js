@@ -65,31 +65,24 @@ const withBoardProps = (Component) => (props) => {
   return <Component {...newProps} />;
 };
 
-const mapStateToProps = (state) => ({
-  aiHand: aiHand(state),
-  aiMoney: aiMoney(state),
-  deck: deck(state),
-  phase: phase(state),
-  playerBet: playerBet(state),
-  playerHand: playerHand(state),
-  playerMoney: playerMoney(state),
-  pot: pot(state),
-  logger: logger(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onClickFoldHandler: () => dispatch(fold()),
-  onClickCheckHandler: () => dispatch(check()),
-  onClickRaiseHandler: () => dispatch(raise()),
-  onClickNextPhaseHandler: () => dispatch(nextPhase()),
-});
-
 export { withBoardProps };
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
   withModelProps({
     aiBet,
+    aiHand,
+    aiMoney,
+    deck,
+    phase,
+    playerBet,
+    playerHand,
+    playerMoney,
+    pot,
+    logger,
     onClickPlayHandler: startGame,
+    onClickFoldHandler: fold,
+    onClickCheckHandler: check,
+    onClickRaiseHandler: raise,
+    onClickNextPhaseHandler: nextPhase,
     onClickReplaceHandler: replace,
   }),
   withBoardProps
