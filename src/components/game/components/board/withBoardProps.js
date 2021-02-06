@@ -23,6 +23,7 @@ import {
   pot,
 } from "models/game/selectors";
 import { logger } from "models/log/selectors";
+import { withModelProps } from "aa-minimal-core-lib/components/model-props";
 
 const withBoardProps = (Component) => (props) => {
   const {
@@ -65,7 +66,6 @@ const withBoardProps = (Component) => (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  aiBet: aiBet(state),
   aiHand: aiHand(state),
   aiMoney: aiMoney(state),
   deck: deck(state),
@@ -78,16 +78,19 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onClickPlayHandler: () => dispatch(startGame()),
   onClickFoldHandler: () => dispatch(fold()),
   onClickCheckHandler: () => dispatch(check()),
   onClickRaiseHandler: () => dispatch(raise()),
-  onClickReplaceHandler: (card) => dispatch(replace(card)),
   onClickNextPhaseHandler: () => dispatch(nextPhase()),
 });
 
 export { withBoardProps };
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
+  withModelProps({
+    aiBet,
+    onClickPlayHandler: startGame,
+    onClickReplaceHandler: replace,
+  }),
   withBoardProps
 );
