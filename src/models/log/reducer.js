@@ -9,7 +9,7 @@ const logReducer = (state = initialState, action) => {
     case addMessage.type: {
       return {
         ...state,
-        ...action.payload,
+        logger: [...state.logger, ...action.payload],
       };
     }
 

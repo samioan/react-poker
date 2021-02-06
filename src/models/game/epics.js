@@ -37,9 +37,10 @@ const startGameEpic = (action$, state$) =>
   action$.pipe(
     ofType(startGame.type),
     map(() => {
-      const newDeck = [deckCreator()].flat();
-      const newPlayerHand = playerHand(state$.value).slice();
-      const newAiHand = aiHand(state$.value).slice();
+      const originalDeck = deckCreator();
+      const newPlayerHand = originalDeck.slice(0, 5);
+      const newAiHand = originalDeck.slice(5, 10);
+      const updatedDeck = originalDeck.slice(0, 10);
       const newPlayerBet = playerBet(state$.value);
       const newAiBet = aiBet(state$.value);
       const newPot = pot(state$.value);
@@ -49,19 +50,10 @@ const startGameEpic = (action$, state$) =>
       const bet = 100;
       const newPhase = 1;
 
-      const newerPlayerHand = newPlayerHand.concat(newDeck);
-      const newerAiHand = newAiHand.concat(newDeck);
-
-      newerPlayerHand.splice(0, 1);
-      newerPlayerHand.splice(5);
-      newerAiHand.splice(0, 6);
-      newerAiHand.splice(5);
-      newDeck.splice(0, 10);
-
       return gameStarted({
-        deck: newDeck,
-        playerHand: newerPlayerHand,
-        aiHand: newerAiHand,
+        deck: updatedDeck,
+        playerHand: newPlayerHand,
+        aiHand: newAiHand,
         changedPlayerHand: Array(5).fill(null),
         playerBet: newPlayerBet + bet,
         aiBet: newAiBet + bet,

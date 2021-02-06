@@ -1,7 +1,9 @@
 import React, { useRef, useEffect } from "react";
 
 import "./log.css";
-
+const logSeparation = (str) => {
+  return str.split(".");
+};
 const Log = ({ list = [] }) => {
   const listEndRef = useRef(null);
   const scrollToBottom = () => {
@@ -12,7 +14,9 @@ const Log = ({ list = [] }) => {
     <>
       <div className="Log-List">
         {list.map((log) => (
-          <p className="logText">{log}</p>
+          <p className="logText" key={logSeparation(log)[0]}>
+            {logSeparation(log)[1]}
+          </p>
         ))}
         <div ref={listEndRef} />
       </div>
