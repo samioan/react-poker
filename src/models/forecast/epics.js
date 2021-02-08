@@ -11,7 +11,6 @@ const getForecastEpic = (action$) =>
     effect(getForecastService, getForecast)
   );
 
-// TODO: getForecastSucceededEpic
 const getForecastSucceededEpic = (action$) =>
   action$.pipe(
     ofType(getForecast.succeeded.type),

@@ -1,8 +1,9 @@
 .header-row {
   margin-bottom: auto;
-  display: block;
   margin-left: auto;
   margin-right: auto;
+  display: flex;
+  flex-direction: column;
 }
 .intro-container {
   display: flex;
