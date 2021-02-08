@@ -9,6 +9,7 @@
   text-align: center;
   display: inline-block;
   font-size: 16px;
+  font-weight: bold;
   margin: 4px 2px;
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;
@@ -16,7 +17,7 @@
   text-decoration: none;
   text-transform: uppercase;
   background-color: var(--buttonColor);
-  color: var(--textColor);
+  color: var(--extraButtonColor);
   border: 2px solid var(--borderColor);
 }
 .button:hover {

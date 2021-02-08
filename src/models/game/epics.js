@@ -40,7 +40,7 @@ const startGameEpic = (action$, state$) =>
       const originalDeck = deckCreator();
       const newPlayerHand = originalDeck.slice(0, 5);
       const newAiHand = originalDeck.slice(5, 10);
-      const updatedDeck = originalDeck.slice(0, 10);
+      const updatedDeck = originalDeck.slice(10, originalDeck.length);
       const newPlayerBet = playerBet(state$.value);
       const newAiBet = aiBet(state$.value);
       const newPot = pot(state$.value);

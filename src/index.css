@@ -11,6 +11,7 @@
   --textColor: #f9bf71;
   --buttonColor: #ff873f;
   --logColor: #a2503d;
+  --extraButtonColor: #633025;
 }
 body {
   font-family: "Chakra Petch", sans-serif;
@@ -19,11 +20,11 @@ body {
 
 body:before {
   z-index: -1;
-  position: absolute;
-  left: 0vh;
-  right: 0vh;
-  top: 0vh;
-  bottom: 0vh;
+  position: fixed;
+  left: 0vw;
+  right: 0vw;
+  top: 0vw;
+  bottom: 0vw;
   width: auto;
   height: auto;
   overflow: hidden;

@@ -26,7 +26,6 @@ const withForecastProps = (Component) => (props) => {
         ? "A pretty hot day!"
         : "Have a good day!",
   };
-
   return <Component {...newProps} />;
 };
 
