@@ -113,7 +113,6 @@ const playerWonLogEpic = (action$, state$) =>
           handCheckToMsg(aiHand(state$.value)) +
           ".",
         `${uuid()}.` + "You have " + playerMoney(state$.value) + " euros.",
-        `${uuid()}.` + "Opponent has " + aiMoney(state$.value) + " euros.",
       ];
 
       return addMessage(newLogger);
@@ -134,7 +133,6 @@ const playerLostLogEpic = (action$, state$) =>
           handCheckToMsg(aiHand(state$.value)) +
           ".",
         `${uuid()}.` + "You have " + playerMoney(state$.value) + " euros.",
-        `${uuid()}.` + "Opponent has " + aiMoney(state$.value) + " euros.",
       ];
 
       return addMessage(newLogger);
@@ -155,7 +153,6 @@ const playerTiedLogEpic = (action$, state$) =>
           handCheckToMsg(aiHand(state$.value)) +
           ".",
         `${uuid()}.` + "You have " + playerMoney(state$.value) + " euros.",
-        `${uuid()}.` + "Opponent has " + aiMoney(state$.value) + " euros.",
       ];
 
       return addMessage(newLogger);

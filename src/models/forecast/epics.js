@@ -14,7 +14,7 @@ const getForecastEpic = (action$) =>
 // TODO: getForecastSucceededEpic
 const getForecastSucceededEpic = (action$) =>
   action$.pipe(
-    ofType("//FORECAST/GET_FORECAST_SUCCEEDED"),
+    ofType(getForecast.succeeded.type),
     map(({ payload }) => {
       return forecastLoaded({
         name: payload.name,
@@ -26,4 +26,4 @@ const getForecastSucceededEpic = (action$) =>
 
 export default combineEpics(getForecastEpic, getForecastSucceededEpic);
 
-export { getForecastEpic };
+export { getForecastEpic, getForecastSucceededEpic };

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import withForecastProps from "./withForecastProps";
 
@@ -6,16 +6,7 @@ import { name, temp, description } from "models/forecast/selectors";
 
 import "./forecast.css";
 
-const Forecast = ({
-  name,
-  temp,
-  description,
-  onClickForecastHandler,
-  showMessage,
-}) => {
-  useEffect(() => {
-    onClickForecastHandler();
-  }, []);
+const Forecast = ({ name, temp, description, showMessage }) => {
   return (
     <div>
       <div className="container-f">
@@ -23,7 +14,7 @@ const Forecast = ({
         <p className="text-f">{name.toUpperCase()}</p>
         <img className="temp-icon image" />{" "}
         <p className="text-f">
-          {temp}
+          {~~temp}
           &deg;C
         </p>
         <img className="weather-icon image" />{" "}
