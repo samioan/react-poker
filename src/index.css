@@ -12,12 +12,26 @@
   --buttonColor: #ff873f;
   --logColor: #a2503d;
 }
-
 body {
   font-family: "Chakra Petch", sans-serif;
   background-color: var(--bgColor);
 }
 
+body:before {
+  z-index: -1;
+  position: absolute;
+  left: 0vh;
+  right: 0vh;
+  top: 0vh;
+  bottom: 0vh;
+  width: auto;
+  height: auto;
+  overflow: hidden;
+  content: "";
+  background: url("bg.jpg") no-repeat fixed center;
+  background-size: cover;
+  opacity: 0.1;
+}
 .container {
   display: flex;
   height: 90vh;

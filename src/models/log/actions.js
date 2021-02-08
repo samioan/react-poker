@@ -1,10 +1,5 @@
-const Action = (type) => {
-  const actionCreator = (payload) => ({
-    type,
-    payload,
-  });
-  actionCreator.type = type;
-  return actionCreator;
-};
+import ActionCreator from "aa-minimal-core-lib/models/actions/ActionCreator";
 
-export const addMessage = Action("ADD_MESSAGE");
+const namespacedActionCreator = ActionCreator("//LOG");
+
+export const addMessage = namespacedActionCreator("ADD_MESSAGE");

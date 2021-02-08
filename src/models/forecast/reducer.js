@@ -1,4 +1,4 @@
-import { forecastLoaded } from "./actions";
+import { forecastLoaded, getForecast } from "./actions";
 
 const initialState = {
   name: "",
