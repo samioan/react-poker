@@ -1,5 +1,4 @@
 import {
-  playerChecked,
   playerWon,
   playerLost,
   playerTied,
@@ -7,7 +6,10 @@ import {
   gameStarted,
   playerFolded,
   betRaised,
-  phaseAdvanced,
+  advancePhase,
+  deckCreated,
+  cardsDealt,
+  betsPlaced,
 } from "./actions";
 
 const initialState = {
@@ -17,7 +19,6 @@ const initialState = {
   aiHand: [],
   playerMoney: 1000,
   aiMoney: 1000,
-  pot: 0,
   playerBet: 0,
   aiBet: 0,
   phase: 0,
@@ -28,6 +29,25 @@ const gameReducer = (state = initialState, action) => {
     case gameStarted.type: {
       return {
         ...state,
+        phase: (state.phase = 1),
+      };
+    }
+    case deckCreated.type: {
+      return {
+        ...state,
+        ...action.payload,
+      };
+    }
+    case cardsDealt.type: {
+      return {
+        ...state,
+        ...action.payload,
+      };
+    }
+
+    case betsPlaced.type: {
+      return {
+        ...state,
         ...action.payload,
       };
     }
@@ -35,7 +55,8 @@ const gameReducer = (state = initialState, action) => {
     case playerFolded.type: {
       return {
         ...state,
-        ...action.payload,
+        phase: (state.phase = 4),
+        aiMoney: state.aiMoney + (state.playerBet + state.aiBet),
       };
     }
 
@@ -52,34 +73,29 @@ const gameReducer = (state = initialState, action) => {
         ...action.payload,
       };
     }
-    case playerChecked.type: {
-      return {
-        ...state,
-        phase: action.payload,
-      };
-    }
     case playerWon.type: {
       return {
         ...state,
-        ...action.payload,
+        playerMoney: state.playerMoney + (state.playerBet + state.aiBet),
       };
     }
     case playerLost.type: {
       return {
         ...state,
-        ...action.payload,
+        aiMoney: state.aiMoney + (state.playerBet + state.aiBet),
       };
     }
     case playerTied.type: {
       return {
         ...state,
-        ...action.payload,
+        playerMoney: state.playerMoney + state.playerBet,
+        aiMoney: state.aiMoney + state.aiBet,
       };
     }
-    case phaseAdvanced.type: {
+    case advancePhase.type: {
       return {
         ...state,
-        phase: action.payload,
+        phase: state.phase + 1,
       };
     }
 

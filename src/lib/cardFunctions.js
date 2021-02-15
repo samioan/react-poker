@@ -21,38 +21,15 @@ const cardsDuplicates = (hand) => {
   return Object.values(_.groupBy(hand, cardNumber)).map((card) => card.length);
 };
 
-//Displays the card's suit symbol
-const suitCharToSymbol = (suitChar) => {
-  switch (suitChar) {
-    case "H":
-      return <>&hearts;</>;
-    case "C":
-      return <>&clubs;</>;
-    case "D":
-      return <>&diams;</>;
-    case "S":
-      return <>&spades;</>;
-    default:
-      return null;
-  }
+const suitChar = (suitChar) => {
+  const suits = {
+    H: { symbol: <>&hearts;</>, string: "hearts" },
+    C: { symbol: <>&clubs;</>, string: "clubs" },
+    D: { symbol: <>&diams;</>, string: "diams" },
+    S: { symbol: <>&spades;</>, string: "spades" },
+  };
+  return suits[suitChar] || {};
 };
-
-//Displays the card's suit in a string
-const suitCharToString = (suitChar) => {
-  switch (suitChar) {
-    case "H":
-      return "hearts";
-    case "C":
-      return "clubs";
-    case "D":
-      return "diams";
-    case "S":
-      return "spades";
-    default:
-      return null;
-  }
-};
-
 //Displays the card's rank in a string
 const cardNumtoRank = (suitRank) => {
   if (suitRank <= 9) {
@@ -75,12 +52,11 @@ const cardNumtoRank = (suitRank) => {
 };
 
 export {
+  suitChar,
   cardNumber,
   cardSuitChar,
   cardStrength,
   cardsToNumbers,
   cardsDuplicates,
-  suitCharToSymbol,
-  suitCharToString,
   cardNumtoRank,
 };

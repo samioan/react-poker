@@ -1,4 +1,4 @@
-import { map } from "rxjs/operators";
+import { filter, map, mergeMap } from "rxjs/operators";
 import { combineEpics, ofType } from "redux-observable";
 import { uuid } from "uuidv4";
 
@@ -6,9 +6,9 @@ import {
   playerHand,
   aiHand,
   playerBet,
-  aiMoney,
   playerMoney,
   pot,
+  phase,
 } from "models/game/selectors";
 import {
   gameStarted,
@@ -18,12 +18,50 @@ import {
   playerWon,
   playerLost,
   playerTied,
-  phaseAdvanced,
-  playerChecked,
+  advancePhase,
+  check,
 } from "models/game/actions";
-import { logger } from "./selectors";
-import { addMessage } from "./actions";
-import { handCheckToMsg } from "lib/handCheck";
+
+import {
+  addMessage,
+  addGameEndMessage,
+  addPlayerMoneyMessage,
+} from "./actions";
+import { handCheck } from "lib/handCheck";
+
+const gameEndLogEpic = (action$, state$) =>
+  action$.pipe(
+    ofType(check.type),
+    filter(() => phase(state$.value) === 4),
+    map(() => {
+      const newLogger = [
+        `${uuid()}.` +
+          "You had " +
+          handCheck(playerHand(state$.value))[1] +
+          ".",
+        `${uuid()}.` +
+          "Opponent had " +
+          handCheck(aiHand(state$.value))[1] +
+          ".",
+        `${uuid()}.` + "You have " + playerMoney(state$.value) + " euros.",
+      ];
+
+      return addGameEndMessage(newLogger);
+    })
+  );
+
+const playerMoneyLogEpic = (action$, state$) =>
+  action$.pipe(
+    ofType(gameStarted.type, betRaised.type),
+    map(() => {
+      const newLogger = [
+        `${uuid()}.` + "You have " + playerMoney(state$.value) + " euros.",
+        `${uuid()}.` + "Your bet is " + playerBet(state$.value) + " euros.",
+      ];
+
+      return addPlayerMoneyMessage(newLogger);
+    })
+  );
 
 const startGameLogEpic = (action$, state$) =>
   action$.pipe(
@@ -31,11 +69,9 @@ const startGameLogEpic = (action$, state$) =>
     map(() => {
       const newLogger = [
         `${uuid()}.` + "GAME STARTED.",
-        `${uuid()}.` + "You have " + playerMoney(state$.value) + " euros.",
-        `${uuid()}.` + "Your bet is " + playerBet(state$.value) + " euros.",
         `${uuid()}.` +
           "You have " +
-          handCheckToMsg(playerHand(state$.value)) +
+          handCheck(playerHand(state$.value))[1] +
           ".",
       ];
 
@@ -62,8 +98,6 @@ const raiseLogEpic = (action$, state$) =>
     map(() => {
       const newLogger = [
         `${uuid()}.` + "PLAYER RAISES.",
-        `${uuid()}.` + "You have " + playerMoney(state$.value) + " euros.",
-        `${uuid()}.` + "Your bet is " + playerBet(state$.value) + " euros.",
         `${uuid()}.` + "Pot is " + pot(state$.value) + " euros.",
       ];
 
@@ -79,16 +113,17 @@ const replaceLogEpic = (action$, state$) =>
         `${uuid()}.` + "PLAYER TRADES A CARD.",
         `${uuid()}.` +
           "You now have " +
-          handCheckToMsg(playerHand(state$.value)) +
+          handCheck(playerHand(state$.value))[1] +
           ".",
       ];
 
       return addMessage(newLogger);
     })
   );
-const checkLogEpic = (action$, state$) =>
+const phase1CheckLogEpic = (action$, state$) =>
   action$.pipe(
-    ofType(playerChecked.type),
+    ofType(advancePhase.type),
+    filter(() => phase(state$.value) === 2),
     map(() => {
       const newLogger = [
         `${uuid()}.` + "PLAYER CHECKS.",
@@ -102,18 +137,7 @@ const playerWonLogEpic = (action$, state$) =>
   action$.pipe(
     ofType(playerWon.type),
     map(() => {
-      const newLogger = [
-        `${uuid()}.` + "PLAYER WINS.",
-        `${uuid()}.` +
-          "You had " +
-          handCheckToMsg(playerHand(state$.value)) +
-          ".",
-        `${uuid()}.` +
-          "Opponent had " +
-          handCheckToMsg(aiHand(state$.value)) +
-          ".",
-        `${uuid()}.` + "You have " + playerMoney(state$.value) + " euros.",
-      ];
+      const newLogger = [`${uuid()}.` + "PLAYER WINS."];
 
       return addMessage(newLogger);
     })
@@ -122,18 +146,7 @@ const playerLostLogEpic = (action$, state$) =>
   action$.pipe(
     ofType(playerLost.type),
     map(() => {
-      const newLogger = [
-        `${uuid()}.` + "PLAYER LOSES.",
-        `${uuid()}.` +
-          "You had " +
-          handCheckToMsg(playerHand(state$.value)) +
-          ".",
-        `${uuid()}.` +
-          "Opponent had " +
-          handCheckToMsg(aiHand(state$.value)) +
-          ".",
-        `${uuid()}.` + "You have " + playerMoney(state$.value) + " euros.",
-      ];
+      const newLogger = [`${uuid()}.` + "PLAYER LOSES."];
 
       return addMessage(newLogger);
     })
@@ -142,25 +155,15 @@ const playerTiedLogEpic = (action$, state$) =>
   action$.pipe(
     ofType(playerTied.type),
     map(() => {
-      const newLogger = [
-        `${uuid()}.` + "TIE.",
-        `${uuid()}.` +
-          "You had " +
-          handCheckToMsg(playerHand(state$.value)) +
-          ".",
-        `${uuid()}.` +
-          "Opponent had " +
-          handCheckToMsg(aiHand(state$.value)) +
-          ".",
-        `${uuid()}.` + "You have " + playerMoney(state$.value) + " euros.",
-      ];
+      const newLogger = [`${uuid()}.` + "TIE."];
 
       return addMessage(newLogger);
     })
   );
 const nextPhaseLogEpic = (action$, state$) =>
   action$.pipe(
-    ofType(phaseAdvanced.type),
+    ofType(advancePhase.type),
+    filter(() => phase(state$.value) === 3),
     map(() => {
       const newLogger = [`${uuid()}.` + "NEXT TURN."];
 
@@ -172,11 +175,13 @@ export default combineEpics(
   foldLogEpic,
   raiseLogEpic,
   replaceLogEpic,
-  checkLogEpic,
+  phase1CheckLogEpic,
   nextPhaseLogEpic,
   playerWonLogEpic,
   playerLostLogEpic,
-  playerTiedLogEpic
+  playerTiedLogEpic,
+  gameEndLogEpic,
+  playerMoneyLogEpic
 );
 
 export {
@@ -184,9 +189,11 @@ export {
   foldLogEpic,
   raiseLogEpic,
   replaceLogEpic,
-  checkLogEpic,
+  phase1CheckLogEpic,
   nextPhaseLogEpic,
   playerWonLogEpic,
   playerLostLogEpic,
   playerTiedLogEpic,
+  gameEndLogEpic,
+  playerMoneyLogEpic,
 };

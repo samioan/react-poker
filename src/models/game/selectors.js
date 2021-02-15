@@ -6,7 +6,7 @@ const aiMoney = (state) => state.game.aiMoney;
 const playerBet = (state) => state.game.playerBet;
 const aiBet = (state) => state.game.aiBet;
 const phase = (state) => state.game.phase;
-const pot = (state) => state.game.pot;
+const pot = (state) => state.game.playerBet + state.game.aiBet;
 const changedPlayerHand = (state) => state.game.changedPlayerHand;
 
 export {
