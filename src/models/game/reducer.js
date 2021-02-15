@@ -29,7 +29,7 @@ const gameReducer = (state = initialState, action) => {
     case gameStarted.type: {
       return {
         ...state,
-        phase: (state.phase = 1),
+        phase: 1,
       };
     }
     case deckCreated.type: {
@@ -55,7 +55,7 @@ const gameReducer = (state = initialState, action) => {
     case playerFolded.type: {
       return {
         ...state,
-        phase: (state.phase = 4),
+        phase: 4,
         aiMoney: state.aiMoney + (state.playerBet + state.aiBet),
       };
     }

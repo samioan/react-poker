@@ -88,12 +88,7 @@ const startGameEpic = (action$, state$) =>
   action$.pipe(ofType(betsPlaced.type), map(gameStarted));
 
 const foldEpic = (action$, state$) =>
-  action$.pipe(
-    ofType(fold.type),
-    map(() => {
-      return playerFolded();
-    })
-  );
+  action$.pipe(ofType(fold.type), map(playerFolded));
 
 const raiseEpic = (action$, state$) =>
   action$.pipe(
