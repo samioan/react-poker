@@ -1,4 +1,4 @@
-import { map, filter } from "rxjs/operators";
+import { map, filter, mergeMap } from "rxjs/operators";
 import { combineEpics, ofType } from "redux-observable";
 
 import {
@@ -11,7 +11,6 @@ import {
   playerMoney,
   changedPlayerHand,
   phase,
-  pot,
 } from "./selectors";
 import {
   startGame,
@@ -26,84 +25,89 @@ import {
   playerWon,
   playerLost,
   playerTied,
-  nextPhase,
-  phaseAdvanced,
-  playerChecked,
+  advancePhase,
+  nextTurn,
+  deckCreated,
+  cardsDealt,
+  betsPlaced,
 } from "./actions";
 import deckCreator from "lib/deckCreator";
-import handCheck from "lib/handCheck";
+import compareHands from "./utils/compareHands";
 
-const startGameEpic = (action$, state$) =>
+const createDeckEpic = (action$, state$) =>
   action$.pipe(
     ofType(startGame.type),
     map(() => {
       const originalDeck = deckCreator();
-      const newPlayerHand = originalDeck.slice(0, 5);
-      const newAiHand = originalDeck.slice(5, 10);
-      const updatedDeck = originalDeck.slice(10, originalDeck.length);
-      const newPlayerBet = playerBet(state$.value);
-      const newAiBet = aiBet(state$.value);
-      const newPot = pot(state$.value);
-      const newAiMoney = aiMoney(state$.value);
-      const newPlayerMoney = playerMoney(state$.value);
 
-      const bet = 100;
-      const newPhase = 1;
+      return deckCreated({
+        deck: originalDeck,
+      });
+    })
+  );
 
-      return gameStarted({
+const dealCardsEpic = (action$, state$) =>
+  action$.pipe(
+    ofType(deckCreated.type),
+    map(() => {
+      const newPlayerHand = deck(state$.value).slice(0, 5);
+      const newAiHand = deck(state$.value).slice(5, 10);
+      const updatedDeck = deck(state$.value).slice(
+        10,
+        deck(state$.value).length
+      );
+
+      return cardsDealt({
         deck: updatedDeck,
         playerHand: newPlayerHand,
         aiHand: newAiHand,
         changedPlayerHand: Array(5).fill(null),
-        playerBet: newPlayerBet + bet,
-        aiBet: newAiBet + bet,
-        pot: newPot + bet * 2,
-        playerMoney: newPlayerMoney - bet,
-        aiMoney: newAiMoney - bet,
-        phase: newPhase,
       });
     })
   );
+
+const placeBetsEpic = (action$, state$) =>
+  action$.pipe(
+    ofType(cardsDealt.type),
+    map(() => {
+      const newAiMoney = aiMoney(state$.value);
+      const newPlayerMoney = playerMoney(state$.value);
+
+      const OPENING_BET = 100;
+
+      return betsPlaced({
+        playerBet: OPENING_BET,
+        aiBet: OPENING_BET,
+        playerMoney: newPlayerMoney - OPENING_BET,
+        aiMoney: newAiMoney - OPENING_BET,
+      });
+    })
+  );
+
+const startGameEpic = (action$, state$) =>
+  action$.pipe(ofType(betsPlaced.type), map(gameStarted));
 
 const foldEpic = (action$, state$) =>
-  action$.pipe(
-    ofType(fold.type),
-    map(() => {
-      const newPlayerMoney = playerMoney(state$.value);
-      const newAiMoney = aiMoney(state$.value);
-      const newPhase = 4;
-      const newPot = pot(state$.value);
-
-      return playerFolded({
-        playerBet: 0,
-        aiBet: 0,
-        phase: newPhase,
-        pot: 0,
-        playerMoney: newPlayerMoney,
-        aiMoney: newAiMoney + newPot,
-      });
-    })
-  );
+  action$.pipe(ofType(fold.type), map(playerFolded));
 
 const raiseEpic = (action$, state$) =>
   action$.pipe(
     ofType(raise.type),
     filter(() => playerMoney(state$.value) > 0),
     map(() => {
+      const STANDARD_BET_RAISE = 100;
+
       const newPlayerBet = playerBet(state$.value);
       const newAiBet = aiBet(state$.value);
-      const bet = 100;
 
       const newPlayerMoney = playerMoney(state$.value);
       const newAiMoney = aiMoney(state$.value);
-      const newPot = pot(state$.value);
 
       return betRaised({
-        playerMoney: newPlayerMoney - bet,
-        aiMoney: newAiMoney - bet,
-        pot: newPot + bet * 2,
-        playerBet: newPlayerBet + bet,
-        aiBet: newAiBet + bet,
+        playerMoney: newPlayerMoney - STANDARD_BET_RAISE,
+        aiMoney: newAiMoney - STANDARD_BET_RAISE,
+        playerBet: newPlayerBet + STANDARD_BET_RAISE,
+        aiBet: newAiBet + STANDARD_BET_RAISE,
       });
     })
   );
@@ -122,7 +126,7 @@ const replaceEpic = (action$, state$) =>
       const newDeck = deck(state$.value).slice();
       const newChangedPlayerHand = changedPlayerHand(state$.value).slice();
       const drawnCardIndex = newPlayerHand.indexOf(payload);
-
+      //TODO: Replace splice functions, use lodash if needed
       newChangedPlayerHand.splice(drawnCardIndex, 1, newDeck[0]);
       newPlayerHand.splice(
         drawnCardIndex,
@@ -137,68 +141,54 @@ const replaceEpic = (action$, state$) =>
       });
     })
   );
-const checkEpic = (action$, state$) =>
+
+const phase1CheckEpic = (action$, state$) =>
   action$.pipe(
     ofType(check.type),
-    map(() => {
-      const newPlayerMoney = playerMoney(state$.value);
-      const newAiMoney = aiMoney(state$.value);
-      const newPlayerBet = playerBet(state$.value);
-      const newAiBet = aiBet(state$.value);
-      const newPot = pot(state$.value);
-      const newPhase = phase(state$.value);
-      const newPlayerHand = playerHand(state$.value).slice();
-      const newAiHand = aiHand(state$.value).slice();
-
-      const commonPayload = {
-        playerBet: 0,
-        aiBet: 0,
-        phase: newPhase + 1,
-        pot: 0,
-        playerHand: newPlayerHand,
-        aiHand: newAiHand,
-      };
-      if (newPhase === 1) {
-        return playerChecked(newPhase + 1);
-      } else if (newPhase !== 1) {
-        if (handCheck(newPlayerHand) > handCheck(newAiHand)) {
-          return playerWon({
-            ...commonPayload,
-            playerMoney: newPlayerMoney + newPot,
-            aiMoney: newAiMoney,
-          });
-        } else if (handCheck(newPlayerHand) === handCheck(newAiHand)) {
-          return playerTied({
-            ...commonPayload,
-            playerMoney: newPlayerMoney + newPlayerBet,
-            aiMoney: newAiMoney + newAiBet,
-          });
-        } else {
-          return playerLost({
-            ...commonPayload,
-            playerMoney: newPlayerMoney,
-            aiMoney: newAiMoney + newPot,
-          });
-        }
-      }
-    })
+    filter(() => phase(state$.value) === 1),
+    map(advancePhase)
   );
-const nextPhaseEpic = (action$, state$) =>
+
+const phase3CheckEpic = (action$, state$) =>
   action$.pipe(
-    ofType(nextPhase.type),
-    map(() => {
-      const newPhase = phase(state$.value);
+    ofType(check.type),
+    filter(() => phase(state$.value) === 3),
+    mergeMap(() => {
+      const comparisonResult = compareHands(
+        playerHand(state$.value),
+        aiHand(state$.value)
+      );
+      const actions = [advancePhase()];
 
-      return phaseAdvanced(newPhase + 1);
+      switch (comparisonResult) {
+        case 1:
+          actions.push(playerWon());
+          break;
+        case 2:
+          actions.push(playerLost());
+          break;
+        default:
+          actions.push(playerTied());
+      }
+
+      return actions;
     })
   );
+
+const nextTurnEpic = (action$, state$) =>
+  action$.pipe(ofType(nextTurn.type), map(advancePhase));
+
 export default combineEpics(
   startGameEpic,
   foldEpic,
   raiseEpic,
   replaceEpic,
-  checkEpic,
-  nextPhaseEpic
+  phase1CheckEpic,
+  phase3CheckEpic,
+  nextTurnEpic,
+  createDeckEpic,
+  dealCardsEpic,
+  placeBetsEpic
 );
 
 export {
@@ -206,6 +196,10 @@ export {
   foldEpic,
   raiseEpic,
   replaceEpic,
-  checkEpic,
-  nextPhaseEpic,
+  phase1CheckEpic,
+  phase3CheckEpic,
+  nextTurnEpic,
+  createDeckEpic,
+  dealCardsEpic,
+  placeBetsEpic,
 };

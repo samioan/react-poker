@@ -2,11 +2,10 @@ import React from "react";
 
 import Card from "../card";
 import {
-  suitCharToSymbol,
-  suitCharToString,
   cardNumtoRank,
   cardSuitChar,
   cardNumber,
+  suitChar,
 } from "lib/cardFunctions";
 
 const Hand = ({ hand, visible, onClick }) => (
@@ -17,8 +16,8 @@ const Hand = ({ hand, visible, onClick }) => (
           key={card}
           card={card}
           rank={cardNumtoRank(cardNumber(card))}
-          suitSymbol={suitCharToSymbol(cardSuitChar(card))}
-          suit={suitCharToString(cardSuitChar(card))}
+          suitSymbol={suitChar(cardSuitChar(card)).symbol}
+          suit={suitChar(cardSuitChar(card)).string}
           visible={visible}
           onClick={() => onClick && onClick(card)}
         />

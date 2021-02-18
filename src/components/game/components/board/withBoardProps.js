@@ -1,14 +1,14 @@
 import React from "react";
 import { compose } from "redux";
 
-import { handCheckToMsg } from "lib/handCheck";
+import { handCheck } from "lib/handCheck";
 import {
   check,
   fold,
   raise,
   replace,
   startGame,
-  nextPhase,
+  advancePhase,
 } from "models/game/actions";
 import {
   aiBet,
@@ -42,7 +42,7 @@ const withBoardProps = (Component) => (props) => {
     playerStats: {
       money: playerMoney,
       bid: playerBet,
-      strength: phase >= 1 ? handCheckToMsg(playerHand) : null,
+      strength: phase >= 1 ? handCheck(playerHand)[1] : null,
     },
     aiStats: {
       money: aiMoney,
@@ -81,7 +81,7 @@ export default compose(
     onClickFoldHandler: fold,
     onClickCheckHandler: check,
     onClickRaiseHandler: raise,
-    onClickNextPhaseHandler: nextPhase,
+    onClickNextPhaseHandler: advancePhase,
     onClickReplaceHandler: replace,
   }),
   withBoardProps
