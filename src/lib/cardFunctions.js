@@ -32,23 +32,16 @@ const suitChar = (suitChar) => {
 };
 //Displays the card's rank in a string
 const cardNumtoRank = (suitRank) => {
+  const characters = ["10", "J", "Q", "K", "A"];
+  const suitRankNumber = parseInt(suitRank);
+
   if (suitRank <= 9) {
     return suitRank.charAt(1).toString();
   }
-  switch (suitRank) {
-    case "10":
-      return "10";
-    case "11":
-      return "J";
-    case "12":
-      return "Q";
-    case "13":
-      return "K";
-    case "14":
-      return "A";
-    default:
-      return null;
+  if (suitRank > 9 && suitRank < 15) {
+    return characters[suitRankNumber - 10];
   }
+  return null;
 };
 
 export {

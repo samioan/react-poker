@@ -10,6 +10,7 @@ import {
   deckCreated,
   cardsDealt,
   betsPlaced,
+  betsReset,
 } from "./actions";
 
 const initialState = {
@@ -99,6 +100,13 @@ const gameReducer = (state = initialState, action) => {
       };
     }
 
+    case betsReset.type: {
+      return {
+        ...state,
+        playerBet: 0,
+        aiBet: 0,
+      };
+    }
     default:
       return state;
   }
