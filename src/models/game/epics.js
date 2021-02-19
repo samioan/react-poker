@@ -1,5 +1,6 @@
 import { map, filter, mergeMap } from "rxjs/operators";
 import { combineEpics, ofType } from "redux-observable";
+import { cloneDeep } from "lodash";
 
 import {
   deck,
@@ -30,6 +31,7 @@ import {
   deckCreated,
   cardsDealt,
   betsPlaced,
+  betsReset,
 } from "./actions";
 import deckCreator from "lib/deckCreator";
 import compareHands from "./utils/compareHands";
@@ -88,7 +90,12 @@ const startGameEpic = (action$, state$) =>
   action$.pipe(ofType(betsPlaced.type), map(gameStarted));
 
 const foldEpic = (action$, state$) =>
-  action$.pipe(ofType(fold.type), map(playerFolded));
+  action$.pipe(
+    ofType(fold.type),
+    mergeMap(() => {
+      return [playerFolded(), betsReset()];
+    })
+  );
 
 const raiseEpic = (action$, state$) =>
   action$.pipe(
@@ -122,11 +129,11 @@ const replaceEpic = (action$, state$) =>
         ] === null
     ),
     map(({ payload }) => {
-      const newPlayerHand = playerHand(state$.value).slice();
-      const newDeck = deck(state$.value).slice();
-      const newChangedPlayerHand = changedPlayerHand(state$.value).slice();
+      const newPlayerHand = cloneDeep(playerHand(state$.value));
+      const newDeck = cloneDeep(deck(state$.value));
+      const newChangedPlayerHand = cloneDeep(changedPlayerHand(state$.value));
       const drawnCardIndex = newPlayerHand.indexOf(payload);
-      //TODO: Replace splice functions, use lodash if needed
+
       newChangedPlayerHand.splice(drawnCardIndex, 1, newDeck[0]);
       newPlayerHand.splice(
         drawnCardIndex,
@@ -162,13 +169,13 @@ const phase3CheckEpic = (action$, state$) =>
 
       switch (comparisonResult) {
         case 1:
-          actions.push(playerWon());
+          actions.push(playerWon(), betsReset());
           break;
         case 2:
-          actions.push(playerLost());
+          actions.push(playerLost(), betsReset());
           break;
         default:
-          actions.push(playerTied());
+          actions.push(playerTied(), betsReset());
       }
 
       return actions;

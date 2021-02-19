@@ -12,12 +12,12 @@ import {
   playerWon,
   playerLost,
   playerTied,
-  phaseAdvanced,
   advancePhase,
   nextTurn,
   deckCreated,
   cardsDealt,
   betsPlaced,
+  betsReset,
 } from "./actions";
 
 import {
@@ -47,12 +47,12 @@ export {
   playerWon,
   playerLost,
   playerTied,
-  phaseAdvanced,
   advancePhase,
   nextTurn,
   deckCreated,
   cardsDealt,
   betsPlaced,
+  betsReset,
   aiBet,
   aiHand,
   aiMoney,

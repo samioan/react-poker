@@ -19,5 +19,5 @@ export const betRaised = namespacedActionCreator("BET_RAISED");
 export const replace = namespacedActionCreator("REPLACE");
 export const cardReplaced = namespacedActionCreator("CARD_REPLACED");
 export const nextTurn = namespacedActionCreator("NEXT_TURN");
-export const phaseAdvanced = namespacedActionCreator("PHASE_ADVANCED");
 export const advancePhase = namespacedActionCreator("ADVANCE_PHASE");
+export const betsReset = namespacedActionCreator("BETS_RESET");
