@@ -7,7 +7,7 @@ describe("suitChar function", () => {
     //WHEN
     const result = suitChar(suitCharacter);
     //THEN
-    expect(result).toStrictEqual({ symbol: <>&hearts;</>, string: "hearts" });
+    expect(result).toEqual({ symbol: <>&hearts;</>, string: "hearts" });
   });
   test("should return symbol: <>&clubs;</>, string: clubs ", () => {
     //GIVEN
@@ -15,7 +15,7 @@ describe("suitChar function", () => {
     //WHEN
     const result = suitChar(suitCharacter);
     //THEN
-    expect(result).toStrictEqual({ symbol: <>&clubs;</>, string: "clubs" });
+    expect(result).toEqual({ symbol: <>&clubs;</>, string: "clubs" });
   });
   test("should return symbol: <>&diams;</>, string: diams ", () => {
     //GIVEN
@@ -23,7 +23,7 @@ describe("suitChar function", () => {
     //WHEN
     const result = suitChar(suitCharacter);
     //THEN
-    expect(result).toStrictEqual({ symbol: <>&diams;</>, string: "diams" });
+    expect(result).toEqual({ symbol: <>&diams;</>, string: "diams" });
   });
   test("should return symbol: <>&spades;</>, string: spades ", () => {
     //GIVEN
@@ -31,7 +31,7 @@ describe("suitChar function", () => {
     //WHEN
     const result = suitChar(suitCharacter);
     //THEN
-    expect(result).toStrictEqual({ symbol: <>&spades;</>, string: "spades" });
+    expect(result).toEqual({ symbol: <>&spades;</>, string: "spades" });
   });
   test("should return an empty object", () => {
     //GIVEN
@@ -39,6 +39,6 @@ describe("suitChar function", () => {
     //WHEN
     const result = suitChar(suitCharacter);
     //THEN
-    expect(result).toStrictEqual({});
+    expect(result).toEqual({});
   });
 });

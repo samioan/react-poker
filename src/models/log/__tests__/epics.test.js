@@ -29,7 +29,16 @@ import {
   check,
 } from "models/game/actions";
 
+import * as uuidModule from "uuidv4";
+
 describe("Game epics", () => {
+  let uuidSpy;
+  beforeEach(() => {
+    uuidSpy = jest.spyOn(uuidModule, "uuid").mockImplementation(() => "");
+  });
+  afterEach(() => {
+    uuidSpy.mockRestore();
+  });
   describe("gameEndLogEpic", () => {
     test("should emit addGameEndMessage action", () => {
       // GIVEN
@@ -50,9 +59,11 @@ describe("Game epics", () => {
       // THEN
       expect(epicEmissions.length).toBe(1);
       expect(epicEmissions[0]).toEqual(
-        addGameEndMessage({
-          logger: [],
-        })
+        addGameEndMessage([
+          ".You had Royal Flush.",
+          ".Opponent had Straight Flush.",
+          ".You have 0 euros.",
+        ])
       );
     });
   });
@@ -75,9 +86,7 @@ describe("Game epics", () => {
       // THEN
       expect(epicEmissions.length).toBe(1);
       expect(epicEmissions[0]).toEqual(
-        addGameEndMessage({
-          logger: [],
-        })
+        addPlayerMoneyMessage([".You have 0 euros.", ".Your bet is 0 euros."])
       );
     });
 
@@ -98,9 +107,7 @@ describe("Game epics", () => {
       // THEN
       expect(epicEmissions.length).toBe(1);
       expect(epicEmissions[0]).toEqual(
-        addGameEndMessage({
-          logger: [],
-        })
+        addPlayerMoneyMessage([".You have 0 euros.", ".Your bet is 0 euros."])
       );
     });
   });
@@ -122,9 +129,7 @@ describe("Game epics", () => {
       // THEN
       expect(epicEmissions.length).toBe(1);
       expect(epicEmissions[0]).toEqual(
-        addMessage({
-          logger: [],
-        })
+        addMessage([".GAME STARTED.", ".You have Royal Flush."])
       );
     });
   });
@@ -146,9 +151,7 @@ describe("Game epics", () => {
       // THEN
       expect(epicEmissions.length).toBe(1);
       expect(epicEmissions[0]).toEqual(
-        addMessage({
-          logger: [],
-        })
+        addMessage([".PLAYER FOLDS.", ".You have 0 euros."])
       );
     });
   });
@@ -158,7 +161,12 @@ describe("Game epics", () => {
       // GIVEN
 
       const inputAction = betRaised();
-      const { epicEmissions, emitAction } = testEpic(raiseLogEpic, {});
+      const { epicEmissions, emitAction } = testEpic(raiseLogEpic, {
+        game: {
+          playerBet: 100,
+          aiBet: 100,
+        },
+      });
 
       // WHEN
       emitAction(inputAction);
@@ -166,9 +174,7 @@ describe("Game epics", () => {
       // THEN
       expect(epicEmissions.length).toBe(1);
       expect(epicEmissions[0]).toEqual(
-        addMessage({
-          logger: [],
-        })
+        addMessage([".PLAYER RAISES.", ".Pot is 200 euros."])
       );
     });
   });
@@ -178,7 +184,13 @@ describe("Game epics", () => {
       // GIVEN
 
       const inputAction = cardReplaced();
-      const { epicEmissions, emitAction } = testEpic(replaceLogEpic, {});
+      const { epicEmissions, emitAction } = testEpic(replaceLogEpic, {
+        game: {
+          deck: Array(52).fill("C14"),
+          playerHand: ["S09", "C03", "D04", "H05", "S02"],
+          changedPlayerHand: Array(5).fill(null),
+        },
+      });
 
       // WHEN
       emitAction(inputAction);
@@ -186,9 +198,7 @@ describe("Game epics", () => {
       // THEN
       expect(epicEmissions.length).toBe(1);
       expect(epicEmissions[0]).toEqual(
-        addMessage({
-          logger: [],
-        })
+        addMessage([".PLAYER TRADES A CARD.", ".You now have No Strength."])
       );
     });
   });
@@ -210,9 +220,7 @@ describe("Game epics", () => {
       // THEN
       expect(epicEmissions.length).toBe(1);
       expect(epicEmissions[0]).toEqual(
-        addMessage({
-          logger: [],
-        })
+        addMessage([".PLAYER CHECKS.", ".You can now replace up to 3 cards."])
       );
     });
 
@@ -246,11 +254,7 @@ describe("Game epics", () => {
 
       // THEN
       expect(epicEmissions.length).toBe(1);
-      expect(epicEmissions[0]).toEqual(
-        addMessage({
-          logger: [],
-        })
-      );
+      expect(epicEmissions[0]).toEqual(addMessage([".PLAYER WINS."]));
     });
   });
 
@@ -266,11 +270,7 @@ describe("Game epics", () => {
 
       // THEN
       expect(epicEmissions.length).toBe(1);
-      expect(epicEmissions[0]).toEqual(
-        addMessage({
-          logger: [],
-        })
-      );
+      expect(epicEmissions[0]).toEqual(addMessage([".PLAYER LOSES."]));
     });
   });
 
@@ -286,11 +286,7 @@ describe("Game epics", () => {
 
       // THEN
       expect(epicEmissions.length).toBe(1);
-      expect(epicEmissions[0]).toEqual(
-        addMessage({
-          logger: [],
-        })
-      );
+      expect(epicEmissions[0]).toEqual(addMessage([".TIE."]));
     });
   });
 
@@ -310,11 +306,7 @@ describe("Game epics", () => {
 
       // THEN
       expect(epicEmissions.length).toBe(1);
-      expect(epicEmissions[0]).toEqual(
-        addMessage({
-          logger: [],
-        })
-      );
+      expect(epicEmissions[0]).toEqual(addMessage([".NEXT TURN."]));
     });
 
     test("should NOT emit addMessage action", () => {

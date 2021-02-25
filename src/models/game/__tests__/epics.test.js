@@ -227,9 +227,9 @@ describe("Game epics", () => {
       const inputAction = replace();
       const { epicEmissions, emitAction } = testEpic(replaceEpic, {
         game: {
-          deck: ["C14"],
-          playerHand: ["S01", "C03", "D04", "H05", "S02"],
-          changedPlayerHand: [null, null, null, null, null],
+          deck: Array(52).fill("C14"),
+          playerHand: ["S09", "C03", "D04", "H05", "S02"],
+          changedPlayerHand: Array(5).fill(null),
         },
       });
 

@@ -7,7 +7,7 @@ describe("handCheck function", () => {
     //WHEN
     const result = handCheck(hand);
     //THEN
-    expect(result).toStrictEqual([10, "Royal Flush"]);
+    expect(result).toEqual([10, "Royal Flush"]);
   });
   test("should return 9, Straight Flush", () => {
     //GIVEN
@@ -15,7 +15,7 @@ describe("handCheck function", () => {
     //WHEN
     const result = handCheck(hand);
     //THEN
-    expect(result).toStrictEqual([9, "Straight Flush"]);
+    expect(result).toEqual([9, "Straight Flush"]);
   });
   test("should return 8, Four of a kind", () => {
     //GIVEN
@@ -23,7 +23,7 @@ describe("handCheck function", () => {
     //WHEN
     const result = handCheck(hand);
     //THEN
-    expect(result).toStrictEqual([8, "Four of a kind"]);
+    expect(result).toEqual([8, "Four of a kind"]);
   });
   test("should return 7, Full House", () => {
     //GIVEN
@@ -31,7 +31,7 @@ describe("handCheck function", () => {
     //WHEN
     const result = handCheck(hand);
     //THEN
-    expect(result).toStrictEqual([7, "Full House"]);
+    expect(result).toEqual([7, "Full House"]);
   });
   test("should return 6, Flush", () => {
     //GIVEN
@@ -39,7 +39,7 @@ describe("handCheck function", () => {
     //WHEN
     const result = handCheck(hand);
     //THEN
-    expect(result).toStrictEqual([6, "Flush"]);
+    expect(result).toEqual([6, "Flush"]);
   });
   test("should return 5, Straight", () => {
     //GIVEN
@@ -47,7 +47,7 @@ describe("handCheck function", () => {
     //WHEN
     const result = handCheck(hand);
     //THEN
-    expect(result).toStrictEqual([5, "Straight"]);
+    expect(result).toEqual([5, "Straight"]);
   });
   test("should return 4, Three of a kind", () => {
     //GIVEN
@@ -55,7 +55,7 @@ describe("handCheck function", () => {
     //WHEN
     const result = handCheck(hand);
     //THEN
-    expect(result).toStrictEqual([4, "Three of a kind"]);
+    expect(result).toEqual([4, "Three of a kind"]);
   });
   test("should return 3, Two Pairs", () => {
     //GIVEN
@@ -63,7 +63,7 @@ describe("handCheck function", () => {
     //WHEN
     const result = handCheck(hand);
     //THEN
-    expect(result).toStrictEqual([3, "Two Pairs"]);
+    expect(result).toEqual([3, "Two Pairs"]);
   });
   test("should return 2, One Pair", () => {
     //GIVEN
@@ -71,7 +71,7 @@ describe("handCheck function", () => {
     //WHEN
     const result = handCheck(hand);
     //THEN
-    expect(result).toStrictEqual([2, "One Pair"]);
+    expect(result).toEqual([2, "One Pair"]);
   });
   test("should return 1, No Strength", () => {
     //GIVEN
@@ -79,6 +79,6 @@ describe("handCheck function", () => {
     //WHEN
     const result = handCheck(hand);
     //THEN
-    expect(result).toStrictEqual([1, "No Strength"]);
+    expect(result).toEqual([1, "No Strength"]);
   });
 });
