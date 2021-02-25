@@ -33,7 +33,7 @@ import {
   betsPlaced,
   betsReset,
 } from "./actions";
-import deckCreator from "lib/deckCreator";
+import { deckCreator } from "lib/deckCreator";
 import compareHands from "./utils/compareHands";
 
 const createDeckEpic = (action$, state$) =>

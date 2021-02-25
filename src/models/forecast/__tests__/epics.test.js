@@ -1,55 +1,30 @@
-// import { getForecastEpic, getForecastSucceededEpic } from "../epics";
-// import { initialState } from "../reducer";
-// import { getForecast, forecastLoaded } from "../actions";
-// import * as services from "../services";
+import { getForecastEpic, getForecastSucceededEpic } from "../epics";
+import { initialState } from "../reducer";
+import { forecastLoaded, getForecast } from "../actions";
 
-// describe("Game epics", () => {
-//   describe("startGameEpic", () => {
-//     test("should emit stopGame action, when setTicTacToe is emitted and state has a winner", () => {
-//       // GIVEN
-//       const inputAction = setTicTacToe();
+describe("Game epics", () => {
+  describe("getForecastSucceededEpic", () => {
+    test("should emit deckCreated action", () => {
+      // GIVEN
 
-//       // WHEN
-//       const { epicEmissions, emitAction } = testEpic(checkGameFinishedEpic, {
-//         ...initialState,
-//         ticTacToe: {
-//           winner: "WinnerName",
-//         },
-//       });
-//       emitAction(inputAction);
+      const inputAction = getForecast();
+      const { epicEmissions, emitAction } = testEpic(
+        getForecastSucceededEpic,
+        {}
+      );
 
-//       // THEN
-//       expect(epicEmissions.length).toBe(1);
-//       expect(epicEmissions[0]).toEqual(stopGame());
-//     });
+      // WHEN
+      emitAction(inputAction);
 
-//     describe("joinGameEpic", () => {
-//       test("effect operator should have been called joinGameRequest, with state default name as a parameter", () => {
-//         // GIVEN
-//         const inputAction = joinGame();
-//         const joinGameRequestSpy = jest
-//           .spyOn(services, "joinGameRequest")
-//           .mockReturnValue({});
-
-//         // WHEN
-//         const { epicEmissions, emitAction } = testEpic(joinGameEpic, {
-//           ...initialState,
-//           players: {
-//             defaultName: "ADefaultName",
-//           },
-//         });
-
-//         emitAction(inputAction);
-//         epicEmissions[0].payload.effectCreator();
-
-//         // THEN
-//         expect(joinGameRequestSpy).toHaveBeenCalledWith("ADefaultName");
-//         expect(epicEmissions[0].payload.effectResponseAction).toEqual(joinGame);
-//         expect(epicEmissions[0].payload.additionalResponseActions).toEqual([
-//           startGame,
-//         ]);
-//         joinGameRequestSpy.mockRestore();
-//       });
-//     });
-//   });
-// });
+      // THEN
+      expect(epicEmissions.length).toBe(1);
+      expect(epicEmissions[0]).toEqual(
+        forecastLoaded({
+          name: "",
+          temp: "",
+          description: "",
+        })
+      );
+    });
+  });
+});

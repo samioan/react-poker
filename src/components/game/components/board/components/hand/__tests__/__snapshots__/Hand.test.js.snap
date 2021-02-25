@@ -12,8 +12,6 @@ exports[`Hand component renders correctly -- is hidden 1`] = `
       key="mock_card1"
       onClick={[Function]}
       rank={null}
-      suit={null}
-      suitSymbol={null}
       visible={false}
     />
     <Card
@@ -21,8 +19,6 @@ exports[`Hand component renders correctly -- is hidden 1`] = `
       key="mock_card2"
       onClick={[Function]}
       rank={null}
-      suit={null}
-      suitSymbol={null}
       visible={false}
     />
     <Card
@@ -30,8 +26,6 @@ exports[`Hand component renders correctly -- is hidden 1`] = `
       key="mock_card3"
       onClick={[Function]}
       rank={null}
-      suit={null}
-      suitSymbol={null}
       visible={false}
     />
     <Card
@@ -39,8 +33,6 @@ exports[`Hand component renders correctly -- is hidden 1`] = `
       key="mock_card4"
       onClick={[Function]}
       rank={null}
-      suit={null}
-      suitSymbol={null}
       visible={false}
     />
     <Card
@@ -48,8 +40,6 @@ exports[`Hand component renders correctly -- is hidden 1`] = `
       key="mock_card5"
       onClick={[Function]}
       rank={null}
-      suit={null}
-      suitSymbol={null}
       visible={false}
     />
   </div>
@@ -68,8 +58,6 @@ exports[`Hand component renders correctly -- is visible 1`] = `
       key="mock_card1"
       onClick={[Function]}
       rank={null}
-      suit={null}
-      suitSymbol={null}
       visible={true}
     />
     <Card
@@ -77,8 +65,6 @@ exports[`Hand component renders correctly -- is visible 1`] = `
       key="mock_card2"
       onClick={[Function]}
       rank={null}
-      suit={null}
-      suitSymbol={null}
       visible={true}
     />
     <Card
@@ -86,8 +72,6 @@ exports[`Hand component renders correctly -- is visible 1`] = `
       key="mock_card3"
       onClick={[Function]}
       rank={null}
-      suit={null}
-      suitSymbol={null}
       visible={true}
     />
     <Card
@@ -95,8 +79,6 @@ exports[`Hand component renders correctly -- is visible 1`] = `
       key="mock_card4"
       onClick={[Function]}
       rank={null}
-      suit={null}
-      suitSymbol={null}
       visible={true}
     />
     <Card
@@ -104,8 +86,6 @@ exports[`Hand component renders correctly -- is visible 1`] = `
       key="mock_card5"
       onClick={[Function]}
       rank={null}
-      suit={null}
-      suitSymbol={null}
       visible={true}
     />
   </div>
