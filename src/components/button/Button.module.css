@@ -1,24 +1,16 @@
 .button {
-  color: var(--textColor);
-  background: transparent;
-  border: 2px solid var(--borderColor);
   border-radius: 6px;
-  border: none;
-  color: var(--buttonColor);
   padding: 8px 16px;
-  text-align: center;
-  display: inline-block;
   font-size: 16px;
   font-weight: bold;
-  margin: 4px 2px;
-  -webkit-transition-duration: 0.4s; /* Safari */
+  min-width: 120px;
+  -webkit-transition-duration: 0.4s;
   transition-duration: 0.4s;
-  cursor: pointer;
-  text-decoration: none;
   text-transform: uppercase;
   background-color: var(--buttonColor);
   color: var(--extraButtonColor);
   border: 2px solid var(--borderColor);
+  cursor: pointer;
 }
 .button:hover {
   background-color: var(--logColor);

@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.header {
+    color: var(--textColor);
+    font-size: 32px;
+    margin-top:16px;
+    margin-bottom:0;
+}
+.text {
+    color: var(--buttonColor);
+    font-size: 16px;
+    margin-top:8px;
+    margin-bottom:0;
+}
+.buttonsContainer{
+    margin-top:16px;
+    display: flex;
+    gap: 16px;
+}

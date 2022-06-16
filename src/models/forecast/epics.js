@@ -1,9 +1,9 @@
-import { combineEpics, ofType } from "redux-observable";
-import { forecastLoaded, getForecast } from "./actions";
-import { effect } from "aa-minimal-core-lib/models/epics";
-import { getForecastService } from "services";
-import { temp, name, description } from "./selectors";
 import { map } from "rxjs/operators";
+import { getForecastService } from "./services";
+import { combineEpics, ofType } from "redux-observable";
+import { effect } from "aa-minimal-core-lib/models/epics";
+
+import { forecastLoaded, getForecast } from "./actions";
 
 const getForecastEpic = (action$) =>
   action$.pipe(
@@ -16,9 +16,9 @@ const getForecastSucceededEpic = (action$) =>
     ofType(getForecast.succeeded.type),
     map(({ payload }) => {
       return forecastLoaded({
-        name: payload.name,
-        temp: payload.main.temp,
-        description: payload.weather[0].description,
+        name: payload?.name,
+        temp: payload?.main?.temp,
+        description: payload?.weather[0]?.description,
       });
     })
   );

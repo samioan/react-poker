@@ -11,3 +11,4 @@ const getForecastService = () =>
   ).then((response) => response.json());
 
 export { getForecastService };
+export default getForecastService;

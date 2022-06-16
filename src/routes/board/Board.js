@@ -1,6 +1,8 @@
 import React from "react";
-import { Hand, Button, Stats, Log } from "./components";
 
+import { Button } from "components";
+
+import { Hand, Stats, Log } from "./components";
 import withBoardProps from "./withBoardProps";
 
 import "./board.css";
@@ -54,9 +56,9 @@ const Board = ({
     </div>
 
     <div className="buttons-row">
-      {showPlayButton && <Button id={"Play"} onClick={onClickPlayHandler} />}
+      {showPlayButton && <Button label="Play" onClick={onClickPlayHandler} />}
       {showNextPhaseButton && (
-        <Button id={"Next Turn"} onClick={onClickNextPhaseHandler} />
+        <Button label="Next Turn" onClick={onClickNextPhaseHandler} />
       )}
     </div>
 
@@ -64,9 +66,9 @@ const Board = ({
       <div className="board-row">
         {showActionButtons && (
           <>
-            <Button id={"Fold"} onClick={onClickFoldHandler} />
-            <Button id={"Check"} onClick={onClickCheckHandler} />
-            <Button id={"Raise"} onClick={onClickRaiseHandler} />
+            <Button label="Fold" onClick={onClickFoldHandler} />
+            <Button label="Check" onClick={onClickCheckHandler} />
+            <Button label="Raise" onClick={onClickRaiseHandler} />
           </>
         )}
       </div>

@@ -16,6 +16,7 @@
 body {
   font-family: "Chakra Petch", sans-serif;
   background-color: var(--bgColor);
+  margin: 0;
 }
 
 body:before {
