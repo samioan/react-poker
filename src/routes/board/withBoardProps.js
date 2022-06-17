@@ -9,8 +9,6 @@ import {
   replace,
   startGame,
   advancePhase,
-} from "models/game/actions";
-import {
   aiBet,
   aiHand,
   aiMoney,
@@ -20,8 +18,8 @@ import {
   playerHand,
   playerMoney,
   pot,
-} from "models/game/selectors";
-import { logger } from "models/log/selectors";
+} from "models/game";
+import { logger } from "models/log";
 import { withModelProps } from "aa-minimal-core-lib/components/model-props";
 
 const withBoardProps = (Component) => (props) => {
@@ -35,30 +33,51 @@ const withBoardProps = (Component) => (props) => {
     aiBet,
     pot,
     logger,
+    fold,
+    check,
+    raise,
   } = props;
+
+  const playerStats = {
+    money: playerMoney,
+    bid: playerBet,
+    strength: phase >= 1 ? handCheck(playerHand)[1] : null,
+  };
+  const aiStats = {
+    money: aiMoney,
+    bid: aiBet,
+  };
+  const gameStats = {
+    pot,
+  };
+  const logStats = {
+    logger,
+  };
+
+  const canReplaceCards = deck.length > 39 && phase === 2;
+  const showPlayButton = phase === 0 || phase === 4;
+  const showActionButtons = phase === 1 || phase === 3;
+  const showNextPhaseButton = phase >= 2 && phase < 3;
+  const showAiCards = phase === 4;
+
+  const actionButtons = [
+    { label: "Fold", onClick: fold },
+    { label: "Check", onClick: check },
+    { label: "Raise", onClick: raise },
+  ];
 
   const newProps = {
     ...props,
-    playerStats: {
-      money: playerMoney,
-      bid: playerBet,
-      strength: phase >= 1 ? handCheck(playerHand)[1] : null,
-    },
-    aiStats: {
-      money: aiMoney,
-      bid: aiBet,
-    },
-    gameStats: {
-      pot: pot,
-    },
-    logStats: {
-      logger,
-    },
-    canReplaceCards: deck.length > 39 && phase === 2,
-    showPlayButton: phase === 0 || phase === 4,
-    showActionButtons: phase === 1 || phase === 3,
-    showNextPhaseButton: phase >= 2 && phase < 3,
-    showAiCards: phase === 4,
+    playerStats,
+    aiStats,
+    gameStats,
+    logStats,
+    canReplaceCards,
+    showPlayButton,
+    showActionButtons,
+    showNextPhaseButton,
+    showAiCards,
+    actionButtons,
   };
 
   return <Component {...newProps} />;
@@ -77,12 +96,12 @@ export default compose(
     playerMoney,
     pot,
     logger,
-    onClickPlayHandler: startGame,
-    onClickFoldHandler: fold,
-    onClickCheckHandler: check,
-    onClickRaiseHandler: raise,
-    onClickNextPhaseHandler: advancePhase,
-    onClickReplaceHandler: replace,
+    startGame,
+    fold,
+    check,
+    raise,
+    advancePhase,
+    replace,
   }),
   withBoardProps
 );

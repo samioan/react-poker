@@ -1,17 +1,17 @@
-const getMessageByTemp = (temp) => {
-  if (temp >= 0 && temp < 14) {
+const getMessageByTemp = (temperature) => {
+  if (temperature >= 0 && temperature < 14) {
     return "A freezing cold day!";
   }
-  if (temp >= 15 && temp < 24) {
+  if (temperature >= 15 && temperature < 24) {
     return "A cold day!";
   }
-  if (temp >= 25 && temp < 29) {
+  if (temperature >= 25 && temperature < 29) {
     return "A nice day for poker!";
   }
-  if (temp >= 30 && temp < 34) {
+  if (temperature >= 30 && temperature < 34) {
     return "A warm day!";
   }
-  if (temp >= 35) {
+  if (temperature >= 35) {
     return "A pretty hot day!";
   }
   return "Have a good day!";

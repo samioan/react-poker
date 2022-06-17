@@ -5,7 +5,7 @@ import { Button } from "components";
 import { Hand, Stats, Log } from "./components";
 import withBoardProps from "./withBoardProps";
 
-import "./board.css";
+import classes from "./Board.module.css";
 
 const Board = ({
   aiHand,
@@ -18,64 +18,42 @@ const Board = ({
   showActionButtons,
   showNextPhaseButton,
   showAiCards,
-  onClickPlayHandler,
-  onClickReplaceHandler,
-  onClickFoldHandler,
-  onClickCheckHandler,
-  onClickRaiseHandler,
-  onClickNextPhaseHandler,
+  startGame,
+  fold,
+  check,
+  raise,
+  advancePhase,
+  replace,
   logStats,
+  actionButtons,
 }) => (
-  <div className="container">
-    <div className="top-player">
-      <div className="board-row">
-        <Hand hand={aiHand} visible={showAiCards} />
+  <div className={classes.container}>
+    <Hand hand={aiHand} visible={showAiCards} />
+
+    <Stats {...aiStats} />
+
+    <Stats {...gameStats} />
+
+    <Hand
+      hand={playerHand}
+      visible={true}
+      onClick={canReplaceCards ? replace : () => {}}
+    />
+
+    <Stats {...playerStats} />
+
+    {showPlayButton && <Button label="Play" onClick={startGame} />}
+    {showNextPhaseButton && <Button label="Next Turn" onClick={advancePhase} />}
+
+    {showActionButtons && (
+      <div className={classes.buttonsContainer}>
+        {actionButtons.map(({ label, onClick }) => (
+          <Button key={label} label={label} onClick={onClick} />
+        ))}
       </div>
-    </div>
+    )}
 
-    <div className="buttons-row">
-      <Stats {...aiStats} />
-    </div>
-
-    <div className="buttons-row">
-      <Stats {...gameStats} />
-    </div>
-
-    <div className="bottom-player">
-      <div className="board-row">
-        <Hand
-          hand={playerHand}
-          visible={true}
-          onClick={canReplaceCards ? onClickReplaceHandler : () => {}}
-        />
-      </div>
-    </div>
-
-    <div className="buttons-row">
-      <Stats {...playerStats} />
-    </div>
-
-    <div className="buttons-row">
-      {showPlayButton && <Button label="Play" onClick={onClickPlayHandler} />}
-      {showNextPhaseButton && (
-        <Button label="Next Turn" onClick={onClickNextPhaseHandler} />
-      )}
-    </div>
-
-    <div className="buttons-row">
-      <div className="board-row">
-        {showActionButtons && (
-          <>
-            <Button label="Fold" onClick={onClickFoldHandler} />
-            <Button label="Check" onClick={onClickCheckHandler} />
-            <Button label="Raise" onClick={onClickRaiseHandler} />
-          </>
-        )}
-      </div>
-    </div>
-    <div className="log-row">
-      <Log list={logStats.logger} />
-    </div>
+    <Log list={logStats.logger} />
   </div>
 );
 

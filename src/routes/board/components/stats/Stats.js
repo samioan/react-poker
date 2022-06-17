@@ -1,11 +1,13 @@
 import React from "react";
 
+import classes from "./Stats.module.css";
+
 const Stats = ({ money, bid, strength, pot }) => (
-  <div className="board-row">
-    {money > -1 && <h2 className="textArea">Money: {money}</h2>}
-    {bid > -1 && <h2 className="textArea">&nbsp; Bid: {bid} </h2>}
-    {strength && <h2 className="textArea">&nbsp; {strength} </h2>}
-    {pot > -1 && <h2 className="textArea">Pot: {pot} </h2>}
+  <div className={classes.container}>
+    {money > -1 && <h2 className={classes.text}>Money: {money}</h2>}
+    {bid > -1 && <h2 className={classes.text}>Bid: {bid} </h2>}
+    {strength && <h2 className={classes.text}>{strength} </h2>}
+    {pot > -1 && <h2 className={classes.text}>Pot: {pot} </h2>}
   </div>
 );
 

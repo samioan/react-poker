@@ -28,3 +28,20 @@
   text-align: center;
   font-size: 32px;
 }
+
+@media only screen and (max-width: 600px) {
+  .itemContainer {
+    padding: 16px;
+    gap: 16px;
+  }
+  .image {
+    height: 32px;
+    width: 32px;
+  }
+  .text {
+    font-size: 16px;
+  }
+  .forecastMessage {
+    font-size: 16px;
+  }
+}

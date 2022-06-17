@@ -3,37 +3,37 @@ import { compose } from "redux";
 
 import { withModelProps } from "aa-minimal-core-lib/components/model-props";
 
-import { getForecast, name, temp, description } from "models/forecast";
+import { getForecast, city, temperature, weather } from "models/forecast";
 
 import getMessageByTemp from "./utils/getMessageByTemp";
 import { cityIcon, tempIcon, weatherIcon } from "./images";
 
 const withForecastProps = (Component) => (props) => {
-  const { name, temp, description, getForecastOnLoad } = props;
+  const { city, temperature, weather, getForecastOnLoad } = props;
 
   useEffect(() => {
     getForecastOnLoad();
-  });
+  }, []);
 
   const forecastItems = [
     {
       key: "city",
       icon: cityIcon,
-      label: name.toUpperCase() || "",
+      label: city.toUpperCase(),
     },
     {
       key: "temp",
       icon: tempIcon,
-      label: <>{~~temp}&deg;C</> || 0,
+      label: <>{~~temperature}&deg;C</>,
     },
     {
       key: "weather",
       icon: weatherIcon,
-      label: description.toUpperCase() || "",
+      label: weather.toUpperCase(),
     },
   ];
 
-  const forecastMessage = getMessageByTemp(temp);
+  const forecastMessage = getMessageByTemp(temperature);
 
   const newProps = {
     ...props,
@@ -47,9 +47,9 @@ const withForecastProps = (Component) => (props) => {
 export { withForecastProps };
 export default compose(
   withModelProps({
-    name,
-    temp,
-    description,
+    city,
+    temperature,
+    weather,
     getForecastOnLoad: getForecast,
   }),
   withForecastProps

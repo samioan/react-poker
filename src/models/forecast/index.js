@@ -1,5 +1,5 @@
-import { getForecast, forecastLoaded } from "./actions";
+import { getForecast } from "./actions";
 
-import { name, temp, description } from "./selectors";
+import { city, temperature, weather } from "./selectors";
 
-export { getForecast, forecastLoaded, name, temp, description };
+export { getForecast, city, temperature, weather };

@@ -782,3 +782,9 @@
   left: 62px;
   bottom: 31px;
 }
+
+@media only screen and (max-width: 600px) {
+  .playingCards .card  {
+      font-size: 0.7em;
+  }
+}

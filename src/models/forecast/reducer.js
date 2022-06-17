@@ -1,17 +1,19 @@
-import { forecastLoaded, getForecast } from "./actions";
+import { getForecast } from "./actions";
 
 const initialState = {
-  name: "",
-  temp: "",
-  description: "",
+  city: "",
+  temperature: 0,
+  weather: "",
 };
 
 const forecastReducer = (state = initialState, action) => {
   switch (action.type) {
-    case forecastLoaded.type: {
+    case getForecast.succeeded.type: {
       return {
         ...state,
-        ...action.payload,
+        city: action.payload.name,
+        temperature: action.payload.main.temp,
+        weather: action.payload.weather[0].description,
       };
     }
 

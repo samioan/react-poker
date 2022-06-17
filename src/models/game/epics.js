@@ -36,7 +36,7 @@ import {
 import { deckCreator } from "lib/deckCreator";
 import compareHands from "./utils/compareHands";
 
-const createDeckEpic = (action$, state$) =>
+const createDeckEpic = (action$) =>
   action$.pipe(
     ofType(startGame.type),
     map(() => {
@@ -86,10 +86,10 @@ const placeBetsEpic = (action$, state$) =>
     })
   );
 
-const startGameEpic = (action$, state$) =>
+const startGameEpic = (action$) =>
   action$.pipe(ofType(betsPlaced.type), map(gameStarted));
 
-const foldEpic = (action$, state$) =>
+const foldEpic = (action$) =>
   action$.pipe(
     ofType(fold.type),
     mergeMap(() => {
