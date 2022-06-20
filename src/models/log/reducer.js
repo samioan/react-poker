@@ -1,33 +1,21 @@
-import {
-  addMessage,
-  addGameEndMessage,
-  addPlayerMoneyMessage,
-} from "./actions";
+import { addMessage, addStartMessage } from "./actions";
 
 const initialState = {
-  logger: [],
+  logMessages: [],
 };
 
 const logReducer = (state = initialState, action) => {
   switch (action.type) {
+    case addStartMessage.type: {
+      return {
+        ...state,
+        logMessages: [...action.payload],
+      };
+    }
     case addMessage.type: {
       return {
         ...state,
-        logger: [...state.logger, ...action.payload],
-      };
-    }
-
-    case addGameEndMessage.type: {
-      return {
-        ...state,
-        logger: [...state.logger, ...action.payload],
-      };
-    }
-
-    case addPlayerMoneyMessage.type: {
-      return {
-        ...state,
-        logger: [...state.logger, ...action.payload],
+        logMessages: [...state.logMessages, ...action.payload],
       };
     }
 

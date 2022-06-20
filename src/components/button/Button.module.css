@@ -16,6 +16,12 @@
   background-color: var(--logColor);
   color: var(--textColor);
 }
+.button:disabled {
+  cursor:default;
+  background-color: gray;
+  color: white;
+  border-color: gray;
+}
 
 @media only screen and (max-width: 600px) {
   .button {

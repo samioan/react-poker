@@ -12,19 +12,16 @@ const Board = ({
   playerHand,
   playerStats,
   aiStats,
-  gameStats,
+  pot,
   canReplaceCards,
   showPlayButton,
   showActionButtons,
   showNextPhaseButton,
   showAiCards,
   startGame,
-  fold,
-  check,
-  raise,
   advancePhase,
   replace,
-  logStats,
+  logMessages,
   actionButtons,
 }) => (
   <div className={classes.container}>
@@ -32,11 +29,11 @@ const Board = ({
 
     <Stats {...aiStats} />
 
-    <Stats {...gameStats} />
+    <Stats pot={pot} />
 
     <Hand
       hand={playerHand}
-      visible={true}
+      visible
       onClick={canReplaceCards ? replace : () => {}}
     />
 
@@ -47,13 +44,18 @@ const Board = ({
 
     {showActionButtons && (
       <div className={classes.buttonsContainer}>
-        {actionButtons.map(({ label, onClick }) => (
-          <Button key={label} label={label} onClick={onClick} />
+        {actionButtons.map(({ label, onClick, disabled }) => (
+          <Button
+            key={label}
+            label={label}
+            onClick={onClick}
+            disabled={disabled}
+          />
         ))}
       </div>
     )}
 
-    <Log list={logStats.logger} />
+    <Log list={logMessages} />
   </div>
 );
 

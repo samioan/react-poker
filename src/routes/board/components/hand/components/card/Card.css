@@ -20,7 +20,7 @@
   -webkit-border-radius: 0.3em;
   -khtml-border-radius: 0.3em;
   padding: 0.25em;
-  margin: 0 0.5em 0.5em 0;
+  margin-right: 0.5em;
   text-align: center;
   font-size: 2em; /* @change: adjust this value to make bigger or smaller cards */
   font-weight: normal;
@@ -30,6 +30,7 @@
   -moz-box-shadow: 0.2em 0.2em 0.5em #333;
   -webkit-box-shadow: 0.2em 0.2em 0.5em #333;
   box-shadow: 0.2em 0.2em 0.5em #333;
+  cursor: pointer;
 }
 
 .playingCards a.card {

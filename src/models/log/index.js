@@ -1,9 +1,5 @@
-import {
-  addMessage,
-  addGameEndMessage,
-  addPlayerMoneyMessage,
-} from "./actions";
+import { addMessage, addStartMessage } from "./actions";
 
-import { logger } from "./selectors";
+import { logMessages } from "./selectors";
 
-export { addMessage, addGameEndMessage, addPlayerMoneyMessage, logger };
+export { addMessage, addStartMessage, logMessages };

@@ -19,7 +19,7 @@ import {
   playerMoney,
   pot,
 } from "models/game";
-import { logger } from "models/log";
+import { logMessages } from "models/log";
 import { withModelProps } from "aa-minimal-core-lib/components/model-props";
 
 const withBoardProps = (Component) => (props) => {
@@ -32,7 +32,7 @@ const withBoardProps = (Component) => (props) => {
     aiMoney,
     aiBet,
     pot,
-    logger,
+    logMessages,
     fold,
     check,
     raise,
@@ -47,12 +47,6 @@ const withBoardProps = (Component) => (props) => {
     money: aiMoney,
     bid: aiBet,
   };
-  const gameStats = {
-    pot,
-  };
-  const logStats = {
-    logger,
-  };
 
   const canReplaceCards = deck.length > 39 && phase === 2;
   const showPlayButton = phase === 0 || phase === 4;
@@ -63,21 +57,21 @@ const withBoardProps = (Component) => (props) => {
   const actionButtons = [
     { label: "Fold", onClick: fold },
     { label: "Check", onClick: check },
-    { label: "Raise", onClick: raise },
+    { label: "Raise", onClick: raise, disabled: playerMoney <= 0 },
   ];
 
   const newProps = {
     ...props,
     playerStats,
     aiStats,
-    gameStats,
-    logStats,
     canReplaceCards,
     showPlayButton,
     showActionButtons,
     showNextPhaseButton,
     showAiCards,
     actionButtons,
+    logMessages,
+    pot,
   };
 
   return <Component {...newProps} />;
@@ -95,7 +89,7 @@ export default compose(
     playerHand,
     playerMoney,
     pot,
-    logger,
+    logMessages,
     startGame,
     fold,
     check,

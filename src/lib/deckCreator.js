@@ -1,4 +1,4 @@
-import getShuffledArray from "./getShuffledArray";
+import { shuffle } from "lodash";
 
 const deckCreator = () => {
   const suits = ["H", "S", "C", "D"];
@@ -20,7 +20,7 @@ const deckCreator = () => {
 
   const deck = [...ranks.map((x) => suits.map((y) => y + x))].flat();
 
-  return getShuffledArray(deck);
+  return shuffle(deck);
 };
 
 export { deckCreator };

@@ -1,13 +1,13 @@
-const deck = (state) => state.game.deck;
-const playerHand = (state) => state.game.playerHand;
-const aiHand = (state) => state.game.aiHand;
-const playerMoney = (state) => state.game.playerMoney;
-const aiMoney = (state) => state.game.aiMoney;
-const playerBet = (state) => state.game.playerBet;
-const aiBet = (state) => state.game.aiBet;
-const phase = (state) => state.game.phase;
-const pot = (state) => state.game.playerBet + state.game.aiBet;
-const changedPlayerHand = (state) => state.game.changedPlayerHand;
+const deck = ({ game }) => game.deck;
+const playerHand = ({ game }) => game.playerHand;
+const aiHand = ({ game }) => game.aiHand;
+const playerMoney = ({ game }) => game.playerMoney;
+const aiMoney = ({ game }) => game.aiMoney;
+const playerBet = ({ game }) => game.playerBet;
+const aiBet = ({ game }) => game.aiBet;
+const phase = ({ game }) => game.phase;
+const pot = ({ game }) => game.playerBet + game.aiBet;
+const changedPlayerHand = ({ game }) => game.changedPlayerHand;
 
 export {
   deck,

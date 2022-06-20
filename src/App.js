@@ -11,7 +11,7 @@ const routes = [
 const App = () => (
   <Router>
     {routes.map(({ path, component }) => (
-      <Switch>
+      <Switch key={path}>
         <Route exact path={path}>
           {component}
         </Route>
