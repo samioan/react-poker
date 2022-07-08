@@ -19,6 +19,7 @@ import {
   playerMoney,
   pot,
 } from "models/game";
+import { PHASES } from "reference-data";
 import { logMessages } from "models/log";
 import { withModelProps } from "aa-minimal-core-lib/components/model-props";
 
@@ -41,18 +42,21 @@ const withBoardProps = (Component) => (props) => {
   const playerStats = {
     money: playerMoney,
     bid: playerBet,
-    strength: phase >= 1 ? handCheck(playerHand)[1] : null,
+    strength:
+      phase !== PHASES.GAME_NOT_STARTED ? handCheck(playerHand)[1] : null,
   };
   const aiStats = {
     money: aiMoney,
     bid: aiBet,
   };
 
-  const canReplaceCards = deck.length > 39 && phase === 2;
-  const showPlayButton = phase === 0 || phase === 4;
-  const showActionButtons = phase === 1 || phase === 3;
-  const showNextPhaseButton = phase >= 2 && phase < 3;
-  const showAiCards = phase === 4;
+  const canReplaceCards = deck.length > 39 && phase === PHASES.REPLACE_CARDS;
+  const showPlayButton =
+    phase === PHASES.GAME_NOT_STARTED || phase === PHASES.GAME_ENDED;
+  const showActionButtons =
+    phase === PHASES.GAME_STARTED || phase === PHASES.FINAL_CHECK;
+  const showNextPhaseButton = phase === PHASES.REPLACE_CARDS;
+  const showAiCards = phase === PHASES.GAME_ENDED;
 
   const actionButtons = [
     { label: "Fold", onClick: fold },

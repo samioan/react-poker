@@ -1,6 +1,6 @@
 import { map } from "rxjs/operators";
 import { combineEpics, ofType } from "redux-observable";
-import { uuid } from "uuidv4";
+import { v4 as uuid } from "uuid";
 
 import {
   playerHand,
@@ -18,6 +18,7 @@ import {
 
 import { addMessage, addStartMessage } from "./actions";
 
+import { PHASES } from "reference-data";
 import { handCheck } from "lib/handCheck";
 import compareHands from "models/game/utils/compareHands";
 
@@ -92,12 +93,12 @@ const checkLogEpic = (action$, state$) =>
       })();
 
       switch (phase(state$.value)) {
-        case 2:
+        case PHASES.REPLACE_CARDS:
           return addMessage([
             `${uuid()}.PLAYER CHECKS`,
             `${uuid()}.You can now replace up to 3 cards`,
           ]);
-        case 4:
+        case PHASES.GAME_ENDED:
           return addMessage([
             gameMessage,
             `${uuid()}.You had ${handCheck(playerHand(state$.value))[1]}`,

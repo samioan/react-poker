@@ -2,7 +2,7 @@ import React from "react";
 
 import { Button } from "components";
 
-import { Hand, Stats, Log } from "./components";
+import { Hand, Stats, Log, ActionButtons } from "./components";
 import withBoardProps from "./withBoardProps";
 
 import classes from "./Board.module.css";
@@ -39,21 +39,14 @@ const Board = ({
 
     <Stats {...playerStats} />
 
-    {showPlayButton && <Button label="Play" onClick={startGame} />}
-    {showNextPhaseButton && <Button label="Next Turn" onClick={advancePhase} />}
-
-    {showActionButtons && (
-      <div className={classes.buttonsContainer}>
-        {actionButtons.map(({ label, onClick, disabled }) => (
-          <Button
-            key={label}
-            label={label}
-            onClick={onClick}
-            disabled={disabled}
-          />
-        ))}
-      </div>
-    )}
+    <ActionButtons
+      showPlayButton={showPlayButton}
+      showActionButtons={showActionButtons}
+      showNextPhaseButton={showNextPhaseButton}
+      startGame={startGame}
+      advancePhase={advancePhase}
+      actionButtons={actionButtons}
+    />
 
     <Log list={logMessages} />
   </div>

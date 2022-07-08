@@ -10,6 +10,8 @@ import {
   betsReset,
 } from "./actions";
 
+import { PHASES } from "reference-data";
+
 import deckCreator from "lib/deckCreator";
 
 const initialState = {
@@ -21,7 +23,7 @@ const initialState = {
   aiMoney: 1000,
   playerBet: 0,
   aiBet: 0,
-  phase: 0,
+  phase: PHASES.GAME_NOT_STARTED,
 };
 
 const gameReducer = (state = initialState, action) => {
@@ -37,13 +39,13 @@ const gameReducer = (state = initialState, action) => {
         aiBet: 100,
         playerMoney: state.playerMoney - 100,
         aiMoney: state.aiMoney - 100,
-        phase: 1,
+        phase: PHASES.GAME_STARTED,
       };
     }
     case fold.type: {
       return {
         ...state,
-        phase: 4,
+        phase: PHASES.GAME_ENDED,
         aiMoney: state.aiMoney + (state.playerBet + state.aiBet),
         playerBet: 0,
         aiBet: 0,

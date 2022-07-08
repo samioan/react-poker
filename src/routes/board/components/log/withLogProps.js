@@ -7,13 +7,16 @@ const withLogProps = (Component) => (props) => {
 
   const logText = (string) => string.split(".")[1];
 
-  const listEndRef = useRef(null);
+  const logRef = useRef(null);
 
   useEffect(() => {
-    listEndRef.current.scrollIntoView({ behavior: "smooth" });
+    logRef.current.scroll({
+      top: logRef.current.scrollHeight,
+      behavior: "smooth",
+    });
   }, [list]);
 
-  const newProps = { ...props, id, logText, listEndRef };
+  const newProps = { ...props, id, logText, logRef };
 
   return <Component {...newProps} />;
 };

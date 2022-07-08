@@ -10,11 +10,16 @@ const Header = () => (
     <p className={classes.text}>Poker game made in React.js</p>
     <p className={classes.text}>By Ioannis Siampalias</p>
     <div className={classes.buttonsContainer}>
-      <Button label="Github" href="https://github.com/samioan" />
+      <Button
+        label="Github"
+        href="https://github.com/samioan"
+        target="_blank"
+      />
 
       <Button
         label="Linkedin"
         href="https://www.linkedin.com/in/ioannis-siampalias/"
+        target="_blank"
       />
     </div>
   </div>

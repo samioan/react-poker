@@ -20,6 +20,7 @@ import {
   betsReset,
 } from "./actions";
 
+import { PHASES } from "reference-data";
 import compareHands from "./utils/compareHands";
 
 const replaceEpic = (action$, state$) =>
@@ -63,7 +64,7 @@ const checkEpic = (action$, state$) =>
 
       const actions = [advancePhase()];
 
-      if (phase(state$.value) === 3) {
+      if (phase(state$.value) === PHASES.FINAL_CHECK) {
         switch (comparisonResult) {
           case 1:
             actions.push(playerWon(), betsReset());
