@@ -1,23 +1,4 @@
-//Detects a card's number
-const cardNumber = (card) => card.slice(1, 3);
-
-//Detects a card's suite
-const cardSuitChar = (card) => card.charAt(0);
-
-//Detects a card's strength
-const cardStrength = (card) => parseInt(cardNumber(card), 10);
-
-//Turns all cards into numbers
-const cardsToNumbers = (hand) => hand.map((card) => cardStrength(card));
-
-//Check if a hand has cards of the same number
-const cardsDuplicates = (hand) => {
-  let counts = {};
-  cardsToNumbers(hand).forEach((x) => {
-    counts[x] = (counts[x] || 0) + 1;
-  });
-  return Object.values(counts);
-};
+import { cardSuitChar, cardsToNumbers, cardsDuplicates } from "./cardFunctions";
 
 //Check if we have a royal flush
 const isRoyalFlush = (hand) =>
@@ -60,7 +41,8 @@ const isStraight = (hand) => {
 const isThreeOfAKind = (hand) => cardsDuplicates(hand).includes(3);
 
 //Check if we have two pairs
-const isTwoPair = (hand) => cardsDuplicates(hand)[2] === 2;
+const isTwoPair = (hand) =>
+  cardsDuplicates(hand).includes(2) && cardsDuplicates(hand).length === 3;
 
 //Check if we have a pair
 const isPair = (hand) => cardsDuplicates(hand).includes(2);
@@ -75,34 +57,28 @@ const lowCard = (hand) => Math.min(...cardsToNumbers(hand));
 const handCheck = (hand) => {
   switch (true) {
     case isRoyalFlush(hand):
-      return 10;
+      return [10, "Royal Flush"];
     case isStraightFlush(hand):
-      return 9;
+      return [9, "Straight Flush"];
     case isFourOfAKind(hand):
-      return 8;
+      return [8, "Four of a kind"];
     case isFullHouse(hand):
-      return 7;
+      return [7, "Full House"];
     case isFlush(hand):
-      return 6;
+      return [6, "Flush"];
     case isStraight(hand):
-      return 5;
+      return [5, "Straight"];
     case isThreeOfAKind(hand):
-      return 4;
+      return [4, "Three of a kind"];
     case isTwoPair(hand):
-      return 3;
+      return [3, "Two Pairs"];
     case isPair(hand):
-      return 2;
+      return [2, "One Pair"];
     default:
-      return 1;
+      return [1, "No Strength"];
   }
 };
-
 export {
-  cardNumber,
-  cardSuitChar,
-  cardStrength,
-  cardsToNumbers,
-  cardsDuplicates,
   isRoyalFlush,
   isStraightFlush,
   isFourOfAKind,

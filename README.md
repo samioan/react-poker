@@ -1,3 +1,3 @@
-# Poker App
+# React Poker
 
-Poker app created with React.js.
+Poker game created with React.js.

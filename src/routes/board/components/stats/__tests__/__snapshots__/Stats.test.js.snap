@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Stats component renders correctly 1`] = `
+<div
+  className="board-row"
+>
+  <h2
+    className="textArea"
+  >
+    Money: 
+    10
+  </h2>
+  <h2
+    className="textArea"
+  >
+      Bid: 
+    10
+     
+  </h2>
+  <h2
+    className="textArea"
+  >
+      
+    mock_strength
+     
+  </h2>
+  <h2
+    className="textArea"
+  >
+    Pot: 
+    10
+     
+  </h2>
+</div>
+`;

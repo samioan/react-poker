@@ -1,9 +1,24 @@
 import React from "react";
-
+import { Board, Intro } from "routes";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./index.css";
-import "./cards.css";
-import Game from "./components/game/";
 
-const App = () => <Game />;
+const routes = [
+  { path: "/", component: <Intro /> },
+  { path: "/game", component: <Board /> },
+];
 
+const App = () => (
+  <Router>
+    {routes.map(({ path, component }) => (
+      <Switch key={path}>
+        <Route exact path={path}>
+          {component}
+        </Route>
+      </Switch>
+    ))}
+  </Router>
+);
+
+export { App };
 export default App;

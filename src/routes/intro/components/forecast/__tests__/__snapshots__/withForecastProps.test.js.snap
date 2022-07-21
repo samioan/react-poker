@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`withForecastProps HOC renders correctly 1`] = `
+<DummyComponent
+  getForecastOnLoad={[MockFunction]}
+  showMessage="A cold day!"
+  temp={15}
+/>
+`;

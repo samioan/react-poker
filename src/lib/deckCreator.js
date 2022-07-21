@@ -1,8 +1,8 @@
-const deckCreator = () => {
-  const deck = [];
+import { shuffle } from "lodash";
 
+const deckCreator = () => {
   const suits = ["H", "S", "C", "D"];
-  const values = [
+  const ranks = [
     "02",
     "03",
     "04",
@@ -18,22 +18,10 @@ const deckCreator = () => {
     "14",
   ];
 
-  for (let suit in suits) {
-    for (let value in values) {
-      deck.push(`${suits[suit]}${values[value]}`);
-    }
-  }
+  const deck = [...ranks.map((x) => suits.map((y) => y + x))].flat();
 
-  let m = deck.length,
-    i;
-
-  while (m) {
-    i = Math.floor(Math.random() * m--);
-
-    [deck[m], deck[i]] = [deck[i], deck[m]];
-  }
-
-  return deck;
+  return shuffle(deck);
 };
 
+export { deckCreator };
 export default deckCreator;

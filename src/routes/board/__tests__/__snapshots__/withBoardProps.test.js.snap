@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`withBoardProps HOC renders correctly 1`] = `
+<DummyComponent
+  aiBet={100}
+  aiMoney={1000}
+  aiStats={
+    Object {
+      "bid": 100,
+      "money": 1000,
+    }
+  }
+  canReplaceCards={false}
+  deck={
+    Array [
+      "D01",
+      "S02",
+      "C03",
+      "H04",
+      "C05",
+    ]
+  }
+  gameStats={
+    Object {
+      "pot": 200,
+    }
+  }
+  logStats={
+    Object {
+      "logger": Array [
+        "Mock message 1",
+        "Mock message 2",
+      ],
+    }
+  }
+  logger={
+    Array [
+      "Mock message 1",
+      "Mock message 2",
+    ]
+  }
+  phase={1}
+  playerBet={100}
+  playerHand={
+    Array [
+      "C01",
+      "C02",
+      "C03",
+      "C04",
+      "C05",
+    ]
+  }
+  playerMoney={1000}
+  playerStats={
+    Object {
+      "bid": 100,
+      "money": 1000,
+      "strength": "Straight Flush",
+    }
+  }
+  pot={200}
+  showActionButtons={true}
+  showAiCards={false}
+  showNextPhaseButton={false}
+  showPlayButton={false}
+/>
+`;
