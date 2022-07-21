@@ -6,20 +6,10 @@ import {
   deck,
   playerHand,
   aiHand,
-  playerBet,
-  aiBet,
-  aiMoney,
-  playerMoney,
   changedPlayerHand,
   phase,
 } from "./selectors";
 import {
-  startGame,
-  gameStarted,
-  fold,
-  playerFolded,
-  raise,
-  betRaised,
   replace,
   cardReplaced,
   check,
@@ -27,97 +17,11 @@ import {
   playerLost,
   playerTied,
   advancePhase,
-  nextTurn,
-  deckCreated,
-  cardsDealt,
-  betsPlaced,
   betsReset,
 } from "./actions";
-import { deckCreator } from "lib/deckCreator";
+
+import { PHASES } from "reference-data";
 import compareHands from "./utils/compareHands";
-
-const createDeckEpic = (action$, state$) =>
-  action$.pipe(
-    ofType(startGame.type),
-    map(() => {
-      const originalDeck = deckCreator();
-
-      return deckCreated({
-        deck: originalDeck,
-      });
-    })
-  );
-
-const dealCardsEpic = (action$, state$) =>
-  action$.pipe(
-    ofType(deckCreated.type),
-    map(() => {
-      const newPlayerHand = deck(state$.value).slice(0, 5);
-      const newAiHand = deck(state$.value).slice(5, 10);
-      const updatedDeck = deck(state$.value).slice(
-        10,
-        deck(state$.value).length
-      );
-
-      return cardsDealt({
-        deck: updatedDeck,
-        playerHand: newPlayerHand,
-        aiHand: newAiHand,
-        changedPlayerHand: Array(5).fill(null),
-      });
-    })
-  );
-
-const placeBetsEpic = (action$, state$) =>
-  action$.pipe(
-    ofType(cardsDealt.type),
-    map(() => {
-      const newAiMoney = aiMoney(state$.value);
-      const newPlayerMoney = playerMoney(state$.value);
-
-      const OPENING_BET = 100;
-
-      return betsPlaced({
-        playerBet: OPENING_BET,
-        aiBet: OPENING_BET,
-        playerMoney: newPlayerMoney - OPENING_BET,
-        aiMoney: newAiMoney - OPENING_BET,
-      });
-    })
-  );
-
-const startGameEpic = (action$, state$) =>
-  action$.pipe(ofType(betsPlaced.type), map(gameStarted));
-
-const foldEpic = (action$, state$) =>
-  action$.pipe(
-    ofType(fold.type),
-    mergeMap(() => {
-      return [playerFolded(), betsReset()];
-    })
-  );
-
-const raiseEpic = (action$, state$) =>
-  action$.pipe(
-    ofType(raise.type),
-    filter(() => playerMoney(state$.value) > 0),
-    map(() => {
-      const STANDARD_BET_RAISE = 100;
-
-      const newPlayerBet = playerBet(state$.value);
-      const newAiBet = aiBet(state$.value);
-
-      const newPlayerMoney = playerMoney(state$.value);
-      const newAiMoney = aiMoney(state$.value);
-
-      return betRaised({
-        playerMoney: newPlayerMoney - STANDARD_BET_RAISE,
-        aiMoney: newAiMoney - STANDARD_BET_RAISE,
-        playerBet: newPlayerBet + STANDARD_BET_RAISE,
-        aiBet: newAiBet + STANDARD_BET_RAISE,
-      });
-    })
-  );
 
 const replaceEpic = (action$, state$) =>
   action$.pipe(
@@ -149,64 +53,33 @@ const replaceEpic = (action$, state$) =>
     })
   );
 
-const phase1CheckEpic = (action$, state$) =>
+const checkEpic = (action$, state$) =>
   action$.pipe(
     ofType(check.type),
-    filter(() => phase(state$.value) === 1),
-    map(advancePhase)
-  );
-
-const phase3CheckEpic = (action$, state$) =>
-  action$.pipe(
-    ofType(check.type),
-    filter(() => phase(state$.value) === 3),
     mergeMap(() => {
       const comparisonResult = compareHands(
         playerHand(state$.value),
         aiHand(state$.value)
       );
+
       const actions = [advancePhase()];
 
-      switch (comparisonResult) {
-        case 1:
-          actions.push(playerWon(), betsReset());
-          break;
-        case 2:
-          actions.push(playerLost(), betsReset());
-          break;
-        default:
-          actions.push(playerTied(), betsReset());
+      if (phase(state$.value) === PHASES.FINAL_CHECK) {
+        switch (comparisonResult) {
+          case 1:
+            actions.push(playerWon(), betsReset());
+            break;
+          case 2:
+            actions.push(playerLost(), betsReset());
+            break;
+          default:
+            actions.push(playerTied(), betsReset());
+        }
       }
-
       return actions;
     })
   );
 
-const nextTurnEpic = (action$, state$) =>
-  action$.pipe(ofType(nextTurn.type), map(advancePhase));
+export default combineEpics(replaceEpic, checkEpic);
 
-export default combineEpics(
-  startGameEpic,
-  foldEpic,
-  raiseEpic,
-  replaceEpic,
-  phase1CheckEpic,
-  phase3CheckEpic,
-  nextTurnEpic,
-  createDeckEpic,
-  dealCardsEpic,
-  placeBetsEpic
-);
-
-export {
-  startGameEpic,
-  foldEpic,
-  raiseEpic,
-  replaceEpic,
-  phase1CheckEpic,
-  phase3CheckEpic,
-  nextTurnEpic,
-  createDeckEpic,
-  dealCardsEpic,
-  placeBetsEpic,
-};
+export { replaceEpic, checkEpic };

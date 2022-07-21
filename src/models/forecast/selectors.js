@@ -1,5 +1,5 @@
-const name = (state) => state.forecast.name;
-const temp = (state) => state.forecast.temp;
-const description = (state) => state.forecast.description;
+const city = ({ forecast }) => forecast.city;
+const temperature = ({ forecast }) => forecast.temperature;
+const weather = ({ forecast }) => forecast.weather;
 
-export { name, temp, description };
+export { city, temperature, weather };

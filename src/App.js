@@ -1,20 +1,22 @@
 import React from "react";
-import { Board, Intro } from "./components/game/components";
+import { Board, Intro } from "routes";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./index.css";
 
+const routes = [
+  { path: "/", component: <Intro /> },
+  { path: "/game", component: <Board /> },
+];
+
 const App = () => (
   <Router>
-    <Switch>
-      <Route exact path="/">
-        <Intro />
-      </Route>
-    </Switch>
-    <Switch>
-      <Route path="/game">
-        <Board />
-      </Route>
-    </Switch>
+    {routes.map(({ path, component }) => (
+      <Switch key={path}>
+        <Route exact path={path}>
+          {component}
+        </Route>
+      </Switch>
+    ))}
   </Router>
 );
 

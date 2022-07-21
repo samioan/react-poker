@@ -1,9 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300&display=swap");
 
-#root {
-  width: 100%;
-}
-
 /*Color Variables*/
 :root {
   --bgColor: #4f4340;
@@ -16,8 +12,8 @@
 body {
   font-family: "Chakra Petch", sans-serif;
   background-color: var(--bgColor);
+  margin: 0;
 }
-
 body:before {
   z-index: -1;
   position: fixed;
@@ -33,31 +29,15 @@ body:before {
   background-size: cover;
   opacity: 0.1;
 }
-.container {
-  display: flex;
-  height: 90vh;
-  flex-direction: column;
-  justify-content: space-between;
+
+*::-webkit-scrollbar {
+  width: 5px;
 }
-
-.buttons-row {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+*::-webkit-scrollbar-track {
+  background: transparent;
 }
-
-/* Board Component Styles */
-
-.textArea {
-  color: var(--textColor);
-  text-align: center;
-  font-size: 32px;
-  text-decoration: none;
-}
-
-.text {
-  color: var(--buttonColor);
-  text-align: center;
-  font-size: 16px;
-  text-decoration: none;
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 156, 156, 0.5);
+  border-radius: 20px;
+  border: transparent;
 }

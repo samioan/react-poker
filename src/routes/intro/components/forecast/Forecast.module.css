@@ -1,0 +1,47 @@
+.container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.itemContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 32px;
+  gap: 32px;
+}
+.image {
+  height: 64px;
+  width: 64px;
+}
+.text {
+  margin:0;
+  color: var(--buttonColor);
+  font-size: 32px;
+}
+.forecastMessage {
+  margin-top:0;
+  margin-bottom:16px;
+  color: var(--buttonColor);
+  text-align: center;
+  font-size: 32px;
+}
+
+@media only screen and (max-width: 600px) {
+  .itemContainer {
+    padding: 16px;
+    gap: 16px;
+  }
+  .image {
+    height: 32px;
+    width: 32px;
+  }
+  .text {
+    font-size: 16px;
+  }
+  .forecastMessage {
+    font-size: 16px;
+  }
+}

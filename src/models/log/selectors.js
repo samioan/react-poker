@@ -1,3 +1,3 @@
-const logger = (state) => state.log.logger;
+const logMessages = ({ log }) => log.logMessages;
 
-export { logger };
+export { logMessages };

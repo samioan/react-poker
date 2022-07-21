@@ -3,15 +3,16 @@ import {
   playerLost,
   playerTied,
   cardReplaced,
-  gameStarted,
-  playerFolded,
-  betRaised,
+  startGame,
+  fold,
+  raise,
   advancePhase,
-  deckCreated,
-  cardsDealt,
-  betsPlaced,
   betsReset,
 } from "./actions";
+
+import { PHASES } from "reference-data";
+
+import deckCreator from "lib/deckCreator";
 
 const initialState = {
   deck: [],
@@ -22,52 +23,43 @@ const initialState = {
   aiMoney: 1000,
   playerBet: 0,
   aiBet: 0,
-  phase: 0,
+  phase: PHASES.GAME_NOT_STARTED,
 };
 
 const gameReducer = (state = initialState, action) => {
   switch (action.type) {
-    case gameStarted.type: {
+    case startGame.type: {
       return {
         ...state,
-        phase: 1,
+        deck: deckCreator().slice(10, deckCreator().length),
+        playerHand: deckCreator().slice(0, 5),
+        aiHand: deckCreator().slice(5, 10),
+        changedPlayerHand: Array(5).fill(null),
+        playerBet: 100,
+        aiBet: 100,
+        playerMoney: state.playerMoney - 100,
+        aiMoney: state.aiMoney - 100,
+        phase: PHASES.GAME_STARTED,
       };
     }
-    case deckCreated.type: {
+    case fold.type: {
       return {
         ...state,
-        ...action.payload,
-      };
-    }
-    case cardsDealt.type: {
-      return {
-        ...state,
-        ...action.payload,
-      };
-    }
-
-    case betsPlaced.type: {
-      return {
-        ...state,
-        ...action.payload,
-      };
-    }
-
-    case playerFolded.type: {
-      return {
-        ...state,
-        phase: 4,
+        phase: PHASES.GAME_ENDED,
         aiMoney: state.aiMoney + (state.playerBet + state.aiBet),
+        playerBet: 0,
+        aiBet: 0,
       };
     }
-
-    case betRaised.type: {
+    case raise.type: {
       return {
         ...state,
-        ...action.payload,
+        playerMoney: state.playerMoney - 100,
+        aiMoney: state.aiMoney - 100,
+        playerBet: state.playerBet + 100,
+        aiBet: state.aiBet + 100,
       };
     }
-
     case cardReplaced.type: {
       return {
         ...state,
@@ -99,7 +91,6 @@ const gameReducer = (state = initialState, action) => {
         phase: state.phase + 1,
       };
     }
-
     case betsReset.type: {
       return {
         ...state,

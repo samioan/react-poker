@@ -1,10 +1,7 @@
 import {
   startGame,
-  gameStarted,
   fold,
-  playerFolded,
   raise,
-  betRaised,
   replace,
   cardReplaced,
   check,
@@ -13,10 +10,6 @@ import {
   playerLost,
   playerTied,
   advancePhase,
-  nextTurn,
-  deckCreated,
-  cardsDealt,
-  betsPlaced,
   betsReset,
 } from "./actions";
 
@@ -35,11 +28,8 @@ import {
 
 export {
   startGame,
-  gameStarted,
   fold,
-  playerFolded,
   raise,
-  betRaised,
   replace,
   cardReplaced,
   check,
@@ -48,10 +38,6 @@ export {
   playerLost,
   playerTied,
   advancePhase,
-  nextTurn,
-  deckCreated,
-  cardsDealt,
-  betsPlaced,
   betsReset,
   aiBet,
   aiHand,

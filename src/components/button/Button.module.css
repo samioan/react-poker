@@ -1,0 +1,31 @@
+.button {
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: bold;
+  min-width: 120px;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  text-transform: uppercase;
+  background-color: var(--buttonColor);
+  color: var(--extraButtonColor);
+  border: 2px solid var(--borderColor);
+  cursor: pointer;
+}
+.button:hover {
+  background-color: var(--logColor);
+  color: var(--textColor);
+}
+.button:disabled {
+  cursor:default;
+  background-color: gray;
+  color: white;
+  border-color: gray;
+}
+
+@media only screen and (max-width: 600px) {
+  .button {
+    font-size: 8px;
+    min-width: 60px;
+  }
+}
